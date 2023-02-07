@@ -1,5 +1,5 @@
 function App() {
-  return <div>App</div>;
+  return <div>App 초기화면</div>;
 }
 
 export default App;
