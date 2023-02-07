@@ -1,6 +1,10 @@
-import { createStore, combineReducers } from 'redux';
+import { configureStore } from '@reduxjs/toolkit';
+// 'slice' import 해서 사용하세요
 
-const rootReducer = combineReducers({});
-const store = createStore(rootReducer);
+const store = configureStore({
+  reducer: {
+    /* slice */
+  },
+});
 
 export default store;
