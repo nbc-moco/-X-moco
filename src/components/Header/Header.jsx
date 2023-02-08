@@ -21,14 +21,18 @@ const Header = () => {
   const navigateLoginPage = () => {
     navigate('/login');
   };
-  if (locationNow.pathname === '/login') return null;
+
+  const navigateMate = () => [navigate('/matedetail')];
+
+  if (locationNow.pathname === '/login' && locationNow.pathname === '/signup')
+    return null;
 
   return (
     <HeaderBody>
       <HeaderInfoBody>
         <HeaderLogo onClick={navigateHome}>모각코</HeaderLogo>
         <HeaderLoute>
-          <MateLoute>메이트 찾기</MateLoute>
+          <MateLoute onClick={navigateMate}>메이트 찾기</MateLoute>
           <LoginLoute onClick={navigateLoginPage}>로그인</LoginLoute>
         </HeaderLoute>
       </HeaderInfoBody>
