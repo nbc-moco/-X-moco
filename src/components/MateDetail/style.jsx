@@ -1,3 +1,1 @@
-import styled from '@emotion/styled';
-
-export const CommentWrap = styled.div``;
+// import styled from '@emotion/styled';
