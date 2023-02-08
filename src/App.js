@@ -1,5 +1,11 @@
+import Router from './shared/router';
+
 function App() {
-  return <div>App 초기화면</div>;
+  return (
+    <>
+      <Router />
+    </>
+  );
 }
 
 export default App;
