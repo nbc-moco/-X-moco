@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const HeaderBody = styled.div`
   width: 100%;
   height: 65px;
-  background-color: #0006;
+  background-color: #0005;
 
   display: flex;
   justify-content: center;
