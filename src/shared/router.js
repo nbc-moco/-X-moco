@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import MateList from '../pages/mate/MateList';
 import Header from '../components/Header/Header';
 import Login from '../pages/joinLogin/Login';
 import SignUp from '../pages/joinLogin/SignUp';
@@ -16,6 +17,7 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/matedetail" element={<MateDetail />} />
+        <Route path="/mate" element={<MateList />} />
       </Routes>
     </BrowserRouter>
   );

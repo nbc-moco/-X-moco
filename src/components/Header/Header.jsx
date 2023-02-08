@@ -22,7 +22,7 @@ const Header = () => {
     navigate('/login');
   };
 
-  const navigateMate = () => [navigate('/matedetail')];
+  const navigateMate = () => [navigate('/mate')];
 
   if (locationNow.pathname === '/login' && locationNow.pathname === '/signup')
     return null;
