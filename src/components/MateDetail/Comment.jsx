@@ -1,8 +1,8 @@
 import React from 'react';
-import { CommentHeader } from './style';
+import { CommentWrap } from './style';
 
 const Comment = () => {
-  return <CommentHeader></CommentHeader>;
+  return <CommentWrap></CommentWrap>;
 };
 
 export default Comment;
