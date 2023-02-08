@@ -1,7 +1,8 @@
 import React from 'react';
+import Comment from '../../components/MateDetail/Comment';
 
 const MateDetail = () => {
-  return <div>MateDetail</div>;
+  return <Comment />;
 };
 
 export default MateDetail;
