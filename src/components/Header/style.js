@@ -37,3 +37,8 @@ export const LoginLoute = styled.div`
   margin-right: 20px;
   cursor: pointer;
 `;
+
+export const NavigateMypage = styled.div`
+  margin-right: 25px;
+  cursor: pointer;
+`;

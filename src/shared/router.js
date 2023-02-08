@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import Header from '../components/Header/Header';
 import Login from '../pages/joinLogin/Login';
 import SignUp from '../pages/joinLogin/SignUp';
+import MyPage from '../pages/mypage/MyPage';
 import Home from './../pages/home/Home';
 import MateDetail from './../pages/mate/MateDetail';
 
@@ -15,6 +16,7 @@ const Router = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
+        <Route path="/mypage" element={<MyPage />} />
         <Route path="/matedetail" element={<MateDetail />} />
       </Routes>
     </BrowserRouter>
