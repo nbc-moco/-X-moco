@@ -13,7 +13,8 @@ export const SignUpForm = styled.div`
   width: 500px;
   height: 600px;
 
-  background-color: #0003;
+  background-color: #0000;
+  box-shadow: 2px 2px 10px 10px #0004;
   border-radius: 30px;
 `;
 
@@ -74,7 +75,11 @@ export const SignUpEmailInput = styled.input`
 
   font-size: 20px;
 
-  border: none;
+  border: 1px solid rgb(150, 150, 150);
+
+  :focus-visible {
+    outline: none;
+  }
   border-radius: 15px;
   padding-left: 8px;
 `;
@@ -100,7 +105,11 @@ export const SignUpPasswordInput = styled.input`
 
   font-size: 20px;
 
-  border: none;
+  border: 1px solid rgb(150, 150, 150);
+
+  :focus-visible {
+    outline: none;
+  }
   border-radius: 15px;
   padding-left: 8px;
 `;
@@ -127,7 +136,11 @@ export const CheckSignUpPasswordInput = styled.input`
 
   font-size: 20px;
 
-  border: none;
+  border: 1px solid rgb(150, 150, 150);
+
+  :focus-visible {
+    outline: none;
+  }
   border-radius: 15px;
   padding-left: 8px;
 `;
@@ -152,7 +165,11 @@ export const SignUpNickNameInput = styled.input`
 
   font-size: 20px;
 
-  border: none;
+  border: 1px solid rgb(150, 150, 150);
+
+  :focus-visible {
+    outline: none;
+  }
   border-radius: 15px;
 
   padding-left: 8px;
@@ -213,7 +230,7 @@ export const SignUpBtn = styled.div`
 `;
 
 export const LouteSignUpPageBtn = styled.div`
-  color: white;
+  color: #567189;
 
   font-size: 17px;
   font-weight: 700;

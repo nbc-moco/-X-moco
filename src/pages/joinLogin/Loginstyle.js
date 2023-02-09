@@ -15,7 +15,8 @@ export const LoginForm = styled.div`
 
   border-radius: 30px;
 
-  background-color: #0003;
+  background-color: #0000;
+  box-shadow: 2px 2px 10px 10px #0004;
 `;
 
 export const LoginTitleLogo = styled.div`
@@ -76,7 +77,12 @@ export const LoginEmailInput = styled.input`
   font-size: 20px;
 
   border-radius: 15px;
-  border: none;
+
+  border: 1px solid rgb(150, 150, 150);
+
+  :focus-visible {
+    outline: none;
+  }
 
   padding-left: 8px;
 `;
@@ -103,7 +109,11 @@ export const LoginPasswordInput = styled.input`
   font-size: 20px;
 
   border-radius: 15px;
-  border: none;
+  border: 1px solid rgb(150, 150, 150);
+
+  :focus-visible {
+    outline: none;
+  }
 
   padding-left: 8px;
 `;
@@ -191,7 +201,7 @@ export const ToggleEmailBtn = styled.div`
   width: 100%;
   height: 35px;
 
-  color: white;
+  color: #567189;
   cursor: pointer;
 
   display: flex;
@@ -206,7 +216,7 @@ export const ToggleEmailBack = styled.div`
   width: 100%;
   height: 35px;
 
-  color: white;
+  color: #567189;
   cursor: pointer;
 
   display: flex;
