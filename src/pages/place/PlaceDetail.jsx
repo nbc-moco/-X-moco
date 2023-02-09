@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
-import Tab from '../../components/HomeDetail/Tab';
 import styled from '@emotion/styled';
 import { Rate } from 'antd';
-import PlaceStarRate from '../../components/HomeDetail/PlaceStarRate';
-
+import PlaceStarRate from '../../components/homeDetail/PlaceStarRate';
+import DetailInfo from '../../components/homeDetail/DetailInfo';
 const { kakao } = window;
 
 export default function PlaceDetail() {
@@ -39,9 +38,8 @@ export default function PlaceDetail() {
               <PlaceDetailPicture />
             </PlaceDetailPictures>
           </PlaceDetailPicturesContainer>
-          <Tab />
-          <div id="my" style={{ width: '100%', height: '400px' }} />
         </OverviewContainer>
+        <DetailInfo />
       </WholeCotainer>
     </>
   );

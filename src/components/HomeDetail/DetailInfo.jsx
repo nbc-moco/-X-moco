@@ -2,7 +2,7 @@ import React from 'react';
 import useMoveScroll from '../../hooks/useMoveScroll';
 import { TabContainer, Tabs, TabTitle } from './style';
 
-export default function Tab() {
+export default function DetailInfo() {
   const TabsName = {
     0: useMoveScroll('장소 소개'),
     1: useMoveScroll('장소 위치'),
@@ -37,6 +37,7 @@ export default function Tab() {
       <div ref={TabsName[3].element} style={{ height: '100vh' }}>
         진행중인 모각코
       </div>
+      <div id="my" style={{ width: '100%', height: '400px' }} />
     </>
   );
 
