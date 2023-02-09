@@ -8,6 +8,7 @@ import MyPage from '../pages/mypage/MyPage';
 import Home from './../pages/home/Home';
 import MateDetail from './../pages/mate/MateDetail';
 import MateWrite from '../pages/mate/MateWrite';
+import PlaceDetail from '../pages/place/PlaceDetail';
 
 const Router = () => {
   // path 이름은 보통 소문자로 하니, 저희도 소문자로 통일하겠습니다
@@ -16,6 +17,7 @@ const Router = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/homedetail" element={<PlaceDetail />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
         <Route path="/mypage" element={<MyPage />} />
