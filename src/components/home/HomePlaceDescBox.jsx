@@ -65,9 +65,10 @@ const ShopTag = styled.div`
 `
 const PlaceTitle = styled.div`
     height: 19px;
-    padding-top: 10px;
     font-size: 16px;
     font-weight: 600;
+    position: absolute;
+    top: 35px;
 `
 const PlaceDesc = styled.div`
     width: 285px;

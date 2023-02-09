@@ -5,7 +5,7 @@ import HomeCategoryList from '../../components/home/HomeCategoryList';
 import HomePlace from '../../components/home/HomePlace';
 
 const Home = () => {
-  const [testList, setTestList] = useState([1, 2, 3, 4, 5]);
+  const [testList, setTestList] = useState([1, 2, 3, 4, 5, 6]);
   const [testcategoryList, setTestcategoryList] = useState([
     { name: '카테고리1' },
     { name: '카테고리2' },
@@ -18,7 +18,7 @@ const Home = () => {
     <div>
       <HomeBanner />
       <Box>
-        <InnerBox>......</InnerBox>
+        <InnerBox></InnerBox>
         <HomeCategoryList category={testcategoryList} />
       </Box>
       <HomePlace testList={testList} />
@@ -29,14 +29,18 @@ const Home = () => {
 export default Home;
 
 const Box = styled.div`
-  height: 232px;
+  height: 202px;
   width: 1200px;
-  background-color: yellow;
+  /* background-color: yellow; */
   margin: 0 auto;
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 30px;
 `;
 const InnerBox = styled.div`
-  background-color: aqua;
+  background-color: #D9D9D9;
   width: 447px;
   height: 32px;
 `;

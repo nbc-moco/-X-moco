@@ -18,6 +18,9 @@ const CategoryItemBox = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
+    border: 1px solid;
+    border-color: #B9B9B9;
+    margin: 0 8px;
 `
 const CategoryNameBox = styled.div`
     width: 88px;
