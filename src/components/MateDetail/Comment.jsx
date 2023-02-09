@@ -29,7 +29,7 @@ const CommentContainHeader = styled.p`
   line-height: 29px;
 `;
 const CommentWrap = styled.div`
-  padding: 30px 0 30px 0;
+  padding: 30px 0 30px 40px;
   background-color: aliceblue;
 `;
 

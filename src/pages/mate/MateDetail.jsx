@@ -29,7 +29,7 @@ const MateDetailWrap = styled.section`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin: 0px 565px 230px 565px;
+  margin: 0px 300px 230px 300px;
   min-height: 100vh;
   height: 100%;
 `;
