@@ -53,6 +53,11 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
+  // 프로필 기본 이미지
+  // const [profileImg, setProfileImg] = useState(
+  //   'https://imhannah.me/common/img/default_profile.png',
+  // );
+
   //  유효성 검사
   const validateInputs = () => {
     if (!email) {
@@ -101,24 +106,25 @@ const SignUp = () => {
     createUserWithEmailAndPassword(authService, email, password)
       .then((res) => {
         if (authService.currentUser)
-          updateProfile(authService.currentUser, {
-            displayName: nickName,
+          setDoc(doc(db, 'user', res.user.uid), {
+            uid: res.user.uid,
+            email: email,
+            password: password,
+            nickName: nickName,
+            bookmarkId: [],
           });
 
-        setDoc(doc(db, 'user', res.user.uid), {
-          uid: res.user.uid,
-          email: email,
-          password: password,
-          nickname: nickName,
-          bookmarkId: [],
-          profileImg:
-            'https://hola-post-image.s3.ap-northeast-2.amazonaws.com/default.PNG',
+        updateProfile(authService.currentUser, {
+          displayName: nickName,
+          photoURL: 'https://imhannah.me/common/img/default_profile.png',
         });
+
         console.log('회원가입성공');
         setEmail('');
         setPassword('');
         setCheckPassword('');
         setNickName('');
+        // setProfileImg('');
         navigate('/');
       })
       .catch((err) => {

@@ -17,19 +17,19 @@ const Header = () => {
   const [loginToggle, setLoginToggle] = useState(true);
 
   // 헤더 닉네임 토글
-  const [headerMyPage, setHeaderMyPage] = useState(false);
+  const [headerMyPage, setHeaderMyPage] = useState('');
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {
         setLoginToggle(false);
-        setHeaderMyPage(true);
+        setHeaderMyPage(authService.currentUser.displayName);
       } else if (!user) {
         setLoginToggle(true);
-        setHeaderMyPage(false);
+        setHeaderMyPage('');
       }
     });
-  }, [setHeaderMyPage]);
+  }, [headerMyPage]);
 
   const navigate = useNavigate();
 
@@ -64,11 +64,16 @@ const Header = () => {
         <HeaderLoute>
           <MateLoute onClick={navigateMate}>메이트 찾기</MateLoute>
           <NavigateMypage onClick={navigateMyPage}>
-            {headerMyPage ? (
-              <>{authService.currentUser?.displayName ?? ''}</>
-            ) : (
-              ''
-            )}
+            {/* {headerMyPage} */}
+            <img
+              src={
+                authService.currentUser?.photoURL
+                  ? authService.currentUser.photoURL
+                  : 'https://imhannah.me/common/img/default_profile.png'
+              }
+              style={{ width: 40, height: 40 }}
+              alt=""
+            />
           </NavigateMypage>
           <LoginLoute onClick={navigateLoginPage}>
             {loginToggle ? '로그인' : '로그아웃'}
