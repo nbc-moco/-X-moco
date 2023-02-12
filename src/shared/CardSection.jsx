@@ -1,53 +1,57 @@
 import styled from '@emotion/styled';
+import { BsBookmarkHeart } from 'react-icons/bs';
+import { GrFormView } from 'react-icons/gr';
+import { FaRegCommentDots } from 'react-icons/fa';
+import { BsPeopleFill } from 'react-icons/bs';
+import { BsPower } from 'react-icons/bs';
 
 const CardSection = () => {
   return (
-    <CardListSection>
-      <PostContainer>
-        <PostCard>
-          <BookmarkIconBox>
-            <BookmarkIcon />
-          </BookmarkIconBox>
+    <PostCard>
+      <BookmarkIconBox>
+        <Location>서울 중구</Location>
+        <BsBookmarkHeart cursor="pointer" size="20px" />
+      </BookmarkIconBox>
 
-          <LocationBox>
-            <LocationIcon />
-            <Location />
-          </LocationBox>
+      <PostBox>
+        <PostTitle>모각코 하실 분 찾습니당</PostTitle>
+        <PostDesc>
+          야식은 치킨, 치킨은 황올임
+          sksksksksksksksksksksksksksksdfdfdfdfdfdfdfdfdfdfdfdfdfdfddd
+        </PostDesc>
+        <TechStackIcon></TechStackIcon>
+      </PostBox>
 
-          <PostBox>
-            <PostTitle />
-            <PostDesc />
-            <TechStackIcon />
-          </PostBox>
+      <PartyStatusBox>
+        <RecruitingBox>
+          <BsPower color="green" size="15px" />
+          <Recruiting>모집 여부</Recruiting>
+        </RecruitingBox>
+        <HeadCountBox>
+          <BsPeopleFill size="15px" />
+          <HeadCount>3/4</HeadCount>
+        </HeadCountBox>
+      </PartyStatusBox>
 
-          <HorizontalLine />
+      <HorizontalLine />
 
-          <ProfileBox>
-            <ProfileImage />
-            <NickName />
-          </ProfileBox>
-        </PostCard>
-      </PostContainer>
-    </CardListSection>
+      <PostInfo>
+        <ProfileBox>
+          <ProfileImage></ProfileImage>
+          <NickName>스티븐머큐</NickName>
+        </ProfileBox>
+        <InfoBox>
+          <GrFormView size="24px" />
+          <PostView>12</PostView>
+          <FaRegCommentDots size="15px" />
+          <PostComments>3</PostComments>
+        </InfoBox>
+      </PostInfo>
+    </PostCard>
   );
 };
 
 export default CardSection;
-
-const CardListSection = styled.section`
-  max-width: 1200px;
-  margin: 0 auto;
-`;
-
-const PostContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1em;
-  > * {
-    flex-grow: 0;
-    flex-shrink: 0;
-  }
-`;
 
 const PostCard = styled.div`
   border: 1px solid black;
@@ -55,36 +59,23 @@ const PostCard = styled.div`
   padding: 16px;
   flex-grow: 0;
   flex-shrink: 0;
+  width: 280px;
+  height: 320px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const BookmarkIconBox = styled.div`
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   margin-bottom: 16px;
-`;
-
-const BookmarkIcon = styled.div`
-  border: 1px solid black;
-  width: 32px;
-  height: 32px;
-`;
-
-const LocationBox = styled.div`
-  display: flex;
-  margin-bottom: 12px;
-`;
-
-const LocationIcon = styled.div`
-  border: 1px solid black;
-  width: 16px;
-  height: 16px;
-  margin-right: 4.5px;
+  align-items: center;
 `;
 
 const Location = styled.div`
-  border: 1px solid black;
   width: 62px;
   height: 16px;
+  color: #4f4f4f;
 `;
 
 const PostBox = styled.div`
@@ -95,25 +86,52 @@ const PostBox = styled.div`
 `;
 
 const PostTitle = styled.div`
-  border: 1px solid black;
   width: 245px;
   height: 24px;
-  margin-bottom: 8px;
   cursor: pointer;
+  font-size: 17px;
 `;
 
 const PostDesc = styled.div`
-  border: 1px solid black;
-  width: 190px;
-  height: 16px;
-  margin-bottom: 26px;
+  overflow-wrap: break-word;
+  display: inline-block;
+  width: 240px;
+  margin-bottom: 20px;
+  color: #828282;
+  font-size: 14px;
+`;
+
+const PartyStatusBox = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  justify-content: flex-end;
+`;
+
+const HeadCountBox = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const HeadCount = styled.div`
+  font-size: 15px;
+`;
+
+const RecruitingBox = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const Recruiting = styled.div`
+  font-size: 15px;
 `;
 
 const TechStackIcon = styled.div`
-  border: 1px solid black;
   border-radius: 50%;
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
+  background-image: url('https://images.velog.io/images/hang_kem_0531/post/05903636-878d-4e75-bf8b-aaddfcecbcce/js-logo.png');
+  background-size: cover;
 `;
 
 const HorizontalLine = styled.div`
@@ -122,14 +140,20 @@ const HorizontalLine = styled.div`
   margin: auto;
 `;
 
-const ProfileBox = styled.div`
+const PostInfo = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-top: 18px;
 `;
 
+const ProfileBox = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
 const ProfileImage = styled.div`
-  border: 1px solid black;
+  background-color: grey;
   border-radius: 50%;
   width: 30px;
   height: 30px;
@@ -137,7 +161,26 @@ const ProfileImage = styled.div`
 `;
 
 const NickName = styled.div`
-  border: 1px solid black;
   width: 70px;
   height: 20px;
+  font-size: 15px;
+`;
+
+const InfoBox = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const PostView = styled.div`
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+  font-size: 15px;
+`;
+
+const PostComments = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 5px;
+  font-size: 15px;
 `;
