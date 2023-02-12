@@ -11,10 +11,7 @@ const MateDetail = () => {
         <MateDetailInfo />
         <MateDetailWriting />
       </MateDetailContainer>
-      <MapWrap>
-        <MapTitle>위치</MapTitle>
-        <MapDummy></MapDummy>
-      </MapWrap>
+
       <CommentWrap>
         <Comment />
       </CommentWrap>
@@ -36,23 +33,7 @@ const MateDetailWrap = styled.section`
 const MateDetailContainer = styled.div`
   width: 100%;
 `;
-const MapWrap = styled.div`
-  width: 100%;
-`;
-const MapTitle = styled.p`
-  width: 50px;
-  height: 30px;
-  margin-top: 70px;
-  font-size: 24px;
-  font-weight: 500;
-`;
 
-const MapDummy = styled.div`
-  width: 100%;
-  height: 400px;
-  margin-top: 30px;
-  background-color: #bfbaff;
-`;
 const CommentWrap = styled.div`
   width: 100%;
 `;
