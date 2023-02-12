@@ -5,6 +5,7 @@ const Comment = () => {
   return (
     <CommentContainer>
       <CommentContainHeader>댓글</CommentContainHeader>
+      {/* 댓글 내용 */}
       <CommentWrap>
         <CommentUserTitle>사용자</CommentUserTitle>
         <CommentUserWriting>스터디룸으로 모임하기 좋아요</CommentUserWriting>
