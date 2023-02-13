@@ -9,7 +9,7 @@ import {
 const MyPageComment = () => {
   return (
     <MyCommentBody>
-      <MyCommetTitle>내가 쓴 댓글</MyCommetTitle>
+      <MyCommetTitle>내가 쓴 댓글.</MyCommetTitle>
       <MyCommentList>
         <CardSection />
       </MyCommentList>
