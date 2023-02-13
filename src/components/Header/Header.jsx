@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 import { authService } from '../../common/firebase';
-import { clearUser, setUser } from '../../redux/modules/userSlice';
+import { clearUser, setUser } from '../../redux/config/user_action';
 import {
   HeaderBody,
   HeaderInfoBody,
@@ -30,11 +30,11 @@ const Header = () => {
       if (user) {
         setLoginToggle(false);
         setHeaderMyPage(true);
-        dispatch(setUser(user));
+        // dispatch(setUser(user));
       } else if (!user) {
         setLoginToggle(true);
         setHeaderMyPage(false);
-        dispatch(clearUser());
+        // dispatch(clearUser());
       }
     });
   }, []);

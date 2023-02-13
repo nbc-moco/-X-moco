@@ -110,7 +110,6 @@ const SignUp = () => {
             email: email,
             password: password,
             nickName: nickName,
-            bookmarkId: [],
             // photoURL: 'https://imhannah.me/common/img/default_profile.png',
           });
 
