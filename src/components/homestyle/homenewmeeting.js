@@ -5,6 +5,7 @@ const NewMeetingArea = styled.div`
     width: 1200px;
     height: 465px;
     margin: 0 auto;
+    background-color: #f2f2f2;
 `
 const NewMeetingBox = styled.div`
     margin: 0 10px;
