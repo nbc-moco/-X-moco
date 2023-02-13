@@ -49,7 +49,7 @@ const Banner = styled.div`
 `
 /* HomeGuideText */
 const GuideContainer = styled.div`
-    height: 266px;
+    height: 278px;
     width: 100%;
     display: flex;
     justify-content: center;
