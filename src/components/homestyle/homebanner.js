@@ -5,6 +5,7 @@ import Slider from "react-slick";
 const BannerContainer = styled.div`
     background-color: #D9D9D9;
     height: 300px;
+    width: 100%;
 `
 const SliderArea = styled.div`
     width: 1180px;
@@ -49,7 +50,7 @@ const Banner = styled.div`
 /* HomeGuideText */
 const GuideContainer = styled.div`
     height: 266px;
-    width: 1920px;
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
