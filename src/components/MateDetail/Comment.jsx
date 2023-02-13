@@ -43,8 +43,14 @@ const CommentContainHeader = styled.p`
   margin-bottom: 30px;
 `;
 const CommentWrap = styled.form`
-  padding: 30px 0 30px 40px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: 30px 40px 30px 40px;
   background-color: aliceblue;
+  box-sizing: border-box;
+  border: 1px solid #525252;
+  border-radius: 12px;
 `;
 
 const CommentUserName = styled.p`
@@ -57,4 +63,7 @@ const CommentUserInput = styled.input`
   margin: 8px 0 8px 0;
 `;
 
-const CommentButton = styled.button``;
+const CommentButton = styled.button`
+  width: 80px;
+  height: 30px;
+`;

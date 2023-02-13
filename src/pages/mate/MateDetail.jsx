@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import Comment from '../../components/mateDetail/Comment';
 import MateDetailWriting from '../../components/mateDetail/MateDetailWriting';
+import DetailRecruit from './../../components/mateDetail/DetailRecruit';
 
 const MateDetail = () => {
   return (
@@ -9,9 +10,13 @@ const MateDetail = () => {
       <MateDetailContainer>
         <MateDetailWriting />
       </MateDetailContainer>
+
       <CommentWrap>
+        {/* 더미데이터 */}
         <Comment />
+        {/* Editor 값 가져오기 */}
       </CommentWrap>
+      <DetailRecruit />
     </MateDetailWrap>
   );
 };
