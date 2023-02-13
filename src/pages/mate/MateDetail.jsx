@@ -1,8 +1,8 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Comment from '../../components/mateDetail/Comment';
-import MateDetailWriting from '../../components/mateDetail/MateDetailWriting';
-import MateDetailInfo from '../../components/mateDetail/MateDetailInfo';
+import Comment from '../../components/MateDetail/Comment';
+import MateDetailWriting from '../../components/MateDetail/MateDetailWriting';
+import MateDetailInfo from '../../components/MateDetail/MateDetailInfo';
 
 const MateDetail = () => {
   return (

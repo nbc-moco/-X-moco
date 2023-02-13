@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-// 'slice' import 해서 사용하세요
+import user from '../modules/userSlice';
 
 const store = configureStore({
   reducer: {
-    /* slice */
+    user,
   },
 });
 
