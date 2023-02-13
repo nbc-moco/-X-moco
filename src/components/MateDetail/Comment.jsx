@@ -1,20 +1,33 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
+import { usePostCreate } from './../../hooks/useCreatComment';
 
 const Comment = () => {
+  const onSubmitHandler = usePostCreate({
+    title: '',
+    content: '',
+    imgUrl: '',
+    imgDownloadUrl: null,
+  });
+
   return (
     <CommentContainer>
       <CommentContainHeader>댓글</CommentContainHeader>
       {/* 댓글 내용 */}
-      <CommentWrap
-      // onSubmit={}
-      >
+      <CommentWrap onSubmit={onSubmitHandler}>
         <CommentUserName>사용자 이름{/* {comment.userName} */}</CommentUserName>
-        <CommentUserWriting
+        <CommentUserInput
+          id="commentInput"
           placeholder="댓글을 남겨보세요"
-          //  onChange={}
+          // value={commentContent}
+          //  onChange={changeCommentContent}
         />
-        <CommentButton>등록하기</CommentButton>
+        <CommentButton
+        // onClick={}
+        // disabled={commentContent === '' ? true : false}
+        >
+          등록하기
+        </CommentButton>
       </CommentWrap>
     </CommentContainer>
   );
@@ -45,7 +58,7 @@ const CommentUserName = styled.p`
   background-color: #d9d9d9;
 `;
 
-const CommentUserWriting = styled.input`
+const CommentUserInput = styled.input`
   margin: 8px 0 8px 0;
 `;
 
