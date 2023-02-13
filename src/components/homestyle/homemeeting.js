@@ -6,6 +6,7 @@ const MeetingArea = styled.div`
     height: 1106px;
     margin: 0 auto;
 `
+/* TechStackMeeting */
 const TechStackTitleBox = styled.div`
     width: 247px;
     height: 32px;
@@ -28,6 +29,7 @@ const TechStackCardBox = styled.div`
     height: 321px;
     width: 1180px;
     display: flex;
+    gap: 0 20px;
 `
 /* TimeMeeting + LocationMeeting */
 const TimeAndLocationMeetingArea = styled.div`
@@ -35,6 +37,7 @@ const TimeAndLocationMeetingArea = styled.div`
     height: 555px;
     display: flex;
     gap: 0 72px;
+    margin-top: 70px;
 `
 /* TimeMeeting */
 const TimeMeetingArea = styled.div`

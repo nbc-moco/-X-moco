@@ -6,10 +6,13 @@ import {
   HeaderBody,
   HeaderInfoBody,
   HeaderLogo,
-  HeaderLoute,
-  MateLoute,
-  LoginLoute,
   NavigateMypage,
+  LogoAndMateBox,
+  MyCodingMate,
+  TeamAndLoginBox,
+  MakeTeam,
+  HeaderIcon,
+  LoginRoute,
 } from './style';
 
 const Header = () => {
@@ -60,8 +63,19 @@ const Header = () => {
   return (
     <HeaderBody>
       <HeaderInfoBody>
-        <HeaderLogo onClick={navigateHome}>모각코</HeaderLogo>
-        <HeaderLoute>
+        <LogoAndMateBox>
+        <HeaderLogo onClick={navigateHome}>MOCO</HeaderLogo>
+        <MyCodingMate>내 코딩모임</MyCodingMate>
+        </LogoAndMateBox>
+        <TeamAndLoginBox>
+        <MakeTeam>팀 개설하기</MakeTeam>
+        <HeaderIcon />
+        <HeaderIcon />
+        <LoginRoute onClick={navigateLoginPage}>
+          {loginToggle ? '로그인' : '로그아웃'}
+        </LoginRoute>
+        </TeamAndLoginBox>
+        {/* <HeaderLoute>
           <MateLoute onClick={navigateMate}>메이트 찾기</MateLoute>
           <NavigateMypage onClick={navigateMyPage}>
             {headerMyPage ? (
@@ -73,7 +87,7 @@ const Header = () => {
           <LoginLoute onClick={navigateLoginPage}>
             {loginToggle ? '로그인' : '로그아웃'}
           </LoginLoute>
-        </HeaderLoute>
+        </HeaderLoute> */}
       </HeaderInfoBody>
     </HeaderBody>
   );
