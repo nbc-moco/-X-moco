@@ -2,16 +2,13 @@ import React from 'react';
 import styled from '@emotion/styled';
 import Comment from '../../components/mateDetail/Comment';
 import MateDetailWriting from '../../components/mateDetail/MateDetailWriting';
-import MateDetailInfo from '../../components/mateDetail/MateDetailInfo';
 
 const MateDetail = () => {
   return (
     <MateDetailWrap>
       <MateDetailContainer>
-        <MateDetailInfo />
         <MateDetailWriting />
       </MateDetailContainer>
-
       <CommentWrap>
         <Comment />
       </CommentWrap>

@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { __addPost } from '../redux/modules/posts';
-import blankProfile from '../images/blankProfile.webp';
-import { auth } from '../firebase';
-import uuid from 'react-uuid';
+
+// import blankProfile from '../images/blankProfile.webp';
+// import { auth } from '../firebase';
+// import uuid from 'react-uuid';
 
 export const usePostCreate = (initialValue) => {
   const dispatch = useDispatch();
@@ -31,28 +31,28 @@ export const usePostCreate = (initialValue) => {
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
-    if (title === '' || content === '') return; // 아무것도 입력하지 않았을 때 dispatch 하지 않음
+    // if (title === '' || content === '') return; // 아무것도 입력하지 않았을 때 dispatch 하지 않음
 
-    user.length > 0 //로그인 해야만 디스패치 되도록 조건 처리
-      ? dispatch(
-          __addPost({
-            userName: auth.currentUser
-              ? auth.currentUser.displayName
-              : user[0].email.split('@')[0],
-            id: uuid(),
-            title,
-            content,
-            isDone: false,
-            userId: user[0].id,
-            imgUrl: imgDownloadUrl ?? blankProfile,
-            invitedId: user[0].invitedUid ?? '',
-          }),
-        )
-      : alert('로그인해주세요');
+    // user.length > 0 //로그인 해야만 디스패치 되도록 조건 처리
+    //   ? dispatch(
+    //       __addPost({
+    //         userName: auth.currentUser
+    //           ? auth.currentUser.displayName
+    //           : user[0].email.split('@')[0],
+    //         id: uuid(),
+    //         title,
+    //         content,
+    //         isDone: false,
+    //         userId: user[0].id,
+    //         imgUrl: imgDownloadUrl ?? blankProfile,
+    //         invitedId: user[0].invitedUid ?? '',
+    //       }),
+    //     )
+    //   : alert('로그인해주세요');
 
-    setTitle('');
-    setContent('');
-    navigate('/');
+    // setTitle('');
+    // setContent('');
+    // navigate('/');
   };
 
   useEffect(() => {

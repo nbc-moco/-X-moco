@@ -1,26 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { usePostCreate } from './../../hooks/useCreatComment';
 
 const Comment = () => {
-  const onSubmitHandler = usePostCreate({
-    title: '',
-    content: '',
-    imgUrl: '',
-    imgDownloadUrl: null,
-  });
+  const [userInput, setUserInput] = useState('');
 
   return (
     <CommentContainer>
       <CommentContainHeader>댓글</CommentContainHeader>
       {/* 댓글 내용 */}
-      <CommentWrap onSubmit={onSubmitHandler}>
+      <CommentWrap>
         <CommentUserName>사용자 이름{/* {comment.userName} */}</CommentUserName>
         <CommentUserInput
           id="commentInput"
+          type="text"
           placeholder="댓글을 남겨보세요"
-          // value={commentContent}
-          //  onChange={changeCommentContent}
+          onChange={setUserInput}
+          value={userInput}
         />
         <CommentButton
         // onClick={}
