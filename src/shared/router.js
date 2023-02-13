@@ -21,7 +21,7 @@ const Router = () => {
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/matedetail" element={<MateDetail />} />
         <Route path="/mate" element={<MateList />} />
-        <Route path="/mate/write" element={<MateWrite />} />
+        <Route path="/write" element={<MateWrite />} />
       </Routes>
     </BrowserRouter>
   );
