@@ -103,6 +103,10 @@ const MateWrite = () => {
             }}
           />
         </EditorBox>
+
+        <WriteButtonBox>
+          <WriteButton>모임 개설하기</WriteButton>
+        </WriteButtonBox>
       </EditingBox>
     </WritePageContainer>
   );
@@ -208,3 +212,18 @@ const LocationSelect = styled.div`
 const NoMeeting = styled.div``;
 
 const EditorBox = styled.div``;
+
+const WriteButtonBox = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+`;
+
+const WriteButton = styled.button`
+  width: 200px;
+  background-color: transparent;
+  border: 1px solid #b9b9b9;
+  padding: 20px;
+  font-size: 15px;
+  margin: auto;
+`;
