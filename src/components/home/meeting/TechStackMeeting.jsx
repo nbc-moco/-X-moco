@@ -1,21 +1,24 @@
-import { TechStackTitleBox, TechStackCardBox, TechStackMark, TechStackTitle } from "../../homestyle/homemeeting";
+import { MeetingCardBox, MeetingMoreBox, TechStackMeetingArea, MeetingTitleBox, TechStackMeetingTitle } from "../../homestyle/homemeeting";
 import CardSection from "../../../shared/CardSection";
+import { MdExpandMore } from "react-icons/md";
 
 const TechStackMeeting = ({ testList }) => {
     return (
-        <>
-            <TechStackTitleBox>
-                <TechStackTitle>
+        <TechStackMeetingArea>
+            <MeetingTitleBox>
+                <TechStackMeetingTitle>
                     기술 스택에 맞는 모임
-                </TechStackTitle>
-                <TechStackMark></TechStackMark>
-            </TechStackTitleBox>
-            <TechStackCardBox>
-            {testList.map((a, index) => (
-                <CardSection key={index} />
-            ))}
-            </TechStackCardBox>
-        </>
+                </TechStackMeetingTitle>
+                <MeetingMoreBox>
+                    더보기 <MdExpandMore size="16" />
+                </MeetingMoreBox>
+            </MeetingTitleBox>
+            <MeetingCardBox>
+                {testList.map((a, index) => (
+                    <CardSection key={index} />
+                ))}
+            </MeetingCardBox>
+        </TechStackMeetingArea>
     );
 };
 
