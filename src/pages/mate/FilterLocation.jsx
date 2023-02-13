@@ -1,7 +1,7 @@
 import Select from 'react-select';
 import { useState } from 'react';
 
-const FilterLocation = () => {
+const FilterLocation = ({isDisabled}) => {
   const options = [
     { value: '마포구', label: '마포구' },
     { value: '용산구', label: '용산구' },
@@ -19,7 +19,7 @@ const FilterLocation = () => {
       placeholder="지역"
       onChange={handleSelect}
       value={text}
-      // unstyled={true}
+      isDisabled={isDisabled}
     />
   );
 };

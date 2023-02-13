@@ -1,235 +1,210 @@
+import React, { useRef } from 'react';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // import the styles
 import styled from '@emotion/styled';
+import FilterTime from './FilterTime';
+import FilterNumOfMe from './FilterNumOfMember';
+import FilterLocation from './FilterLocation';
+import { Checkbox } from 'antd';
 import { useState } from 'react';
-import { EditorState } from 'draft-js';
-import { Editor } from 'react-draft-wysiwyg';
-import 'react-draft-wysiwyg/dist/react-draft-wysiwyg.css';
 
 const MateWrite = () => {
-  const [editorState, setEditorState] = useState(() =>
-    EditorState.createEmpty(),
-  );
-
-  // 드랍다운 메뉴 구현하기
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const onDropdownOpen = () => setIsDropdownOpen(!isDropdownOpen);
-
+  const [isNoMeeting, setIsNoMeeting] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  const quillRef = useRef(null);
+  const stacks = [
+    'JavsScript',
+    'Python',
+    'Java',
+    'Go',
+    'Typescript',
+    'Node.js',
+    'Spring',
+    'Rust',
+    'Next.js',
+    'Svelt',
+    'Vue',
+    'React',
+  ];
+  const onChange = (e) => {
+    setIsNoMeeting(!isNoMeeting);
+    setIsDisabled(!isDisabled);
+  };
   return (
-    <WriteContainer>
-      <FieldOptionsBox>
-        {/* 모집 구분 */}
-        <RecruitmentCategoryBox>
-          <RecruitmentCategoryTitle>모집 구분</RecruitmentCategoryTitle>
-          <RecuitmentCategoryBtn_Mogakco>모각코</RecuitmentCategoryBtn_Mogakco>
-          <RecuitmentCategoryBtn_Project>
-            프로젝트
-          </RecuitmentCategoryBtn_Project>
-        </RecruitmentCategoryBox>
+    <WritePageContainer>
+      <GuideTextsBox>
+        <PageTitle>
+          <h2>모각코 모임 개설</h2>
+        </PageTitle>
+        <PageInfo>
+          모임 개설을 위해 정보와 상세한 설명을 입력해주세요 🙌
+        </PageInfo>
+      </GuideTextsBox>
+      <EditingBox>
+        <PartyInfoBox>
+          <PartyTitleBox>
+            <h3>모임명</h3>
+            <PartyTitle maxLength={10} placeholder="12자 이내로 작성해주세요" />
+          </PartyTitleBox>
 
-        {/* 모집 인원 */}
-        <RecruitmentNumberBox>
-          <RecruitmentNumberTitle>모집 인원</RecruitmentNumberTitle>
-          <RecruitmentNumberBtn_1>1명</RecruitmentNumberBtn_1>
-          <RecruitmentNumberBtn_2>2명</RecruitmentNumberBtn_2>
-          <RecruitmentNumberBtn_3>3명 이상</RecruitmentNumberBtn_3>
-        </RecruitmentNumberBox>
+          <TechStackBox>
+            <h3>기술스택</h3>
+            <TechStacks>
+              {stacks.map((item) => (
+                <Tech onClick={() => console.log(item)}>{item}</Tech>
+              ))}
+            </TechStacks>
+          </TechStackBox>
 
-        {/* 사용 스택 */}
-        <StacksToUseBox>
-          <StacksToUseTitle>사용 스택</StacksToUseTitle>
-          <StacksToUseBtn_JS>JS</StacksToUseBtn_JS>
-          <StacksToUseBtn_React>React</StacksToUseBtn_React>
-          <StacksToUseBtn_Svelt>Svelt</StacksToUseBtn_Svelt>
-          <StacksToUseBtn_Nodejs>Nodejs</StacksToUseBtn_Nodejs>
-          <StacksToUseBtn_Nextjs>Nextjs</StacksToUseBtn_Nextjs>
-          <StacksToUseBtn_TS>TS</StacksToUseBtn_TS>
-        </StacksToUseBox>
+          <MeetingTimeandPeopleBox>
+            <MeetingTimeBox>
+              <h3 style={{ marginBottom: 20 }}>모임 시간대</h3>
+              <FilterTime />
+            </MeetingTimeBox>
+            <PeopleBox>
+              <h3 style={{ marginBottom: 20 }}>모집 인원</h3>
+              <FilterNumOfMe />
+            </PeopleBox>
+          </MeetingTimeandPeopleBox>
 
-        <MeetingLocationBox>
-          <MeetingLocationTitle>모임 장소</MeetingLocationTitle>
-        </MeetingLocationBox>
+          <LocationBox>
+            <LocationInfo>
+              <h3 style={{ display: 'inline' }}>모임 지역</h3>
+              <span style={{ color: 'GrayText' }}>
+                비대면 체크 시, 지역 설정을 할 수 없습니다
+              </span>
+            </LocationInfo>
+            <Location>
+              <LocationSelect>
+                <FilterLocation isDisabled={isDisabled} />
+              </LocationSelect>
+              <NoMeeting>
+                <Checkbox onChange={onChange}>비대면을 원해요</Checkbox>
+              </NoMeeting>
+            </Location>
+          </LocationBox>
+        </PartyInfoBox>
 
-        <CommunicationToolBox>
-          <CommunicationToolTitle>연락 방법</CommunicationToolTitle>
-          <CommunicationToolBtn_openkakao>
-            카카오 오픈 채팅
-          </CommunicationToolBtn_openkakao>
-          <CommunicationToolBtn_chatting>
-            실시간 채팅
-          </CommunicationToolBtn_chatting>
-          <CommunicationToolBtn_etc>기타</CommunicationToolBtn_etc>
-        </CommunicationToolBox>
-
-        <PartyNameBox>
-          <PartyNameTitle>모임명</PartyNameTitle>
-          <PartyNameInput />
-        </PartyNameBox>
-      </FieldOptionsBox>
-
-      <StatusBox>
-        <SatusTitle>모임 상태</SatusTitle>
-        <StatusBtn_Ing>모집 중</StatusBtn_Ing>
-        <StatusBtn_End>모집 완료</StatusBtn_End>
-      </StatusBox>
-      <EditorBox>
-        <EditorSection>
-          <Editor
-            editorState={editorState}
-            onEditorStateChange={setEditorState}
-            toolbar={{
-              options: ['inline', 'blockType'],
+        <EditorBox>
+          <h3 style={{ marginBottom: 20 }}>모임 설명</h3>
+          <ReactQuill
+            ref={quillRef}
+            modules={{
+              toolbar: [
+                [{ header: [1, 2, false] }],
+                ['bold', 'italic', 'underline'],
+                [
+                  { list: 'ordered' },
+                  { list: 'bullet' },
+                  { indent: '-1' },
+                  { indent: '+1' },
+                ],
+              ],
             }}
           />
-        </EditorSection>
-      </EditorBox>
-      <WriteBtn>작성 완료하기</WriteBtn>
-    </WriteContainer>
+        </EditorBox>
+      </EditingBox>
+    </WritePageContainer>
   );
 };
 
 export default MateWrite;
 
-const WriteContainer = styled.div`
-  padding: 30px;
+const WritePageContainer = styled.div`
+  max-width: 977px;
+  margin: auto;
+  border: 1px solid black;
+  padding: 45px;
+`;
+
+const GuideTextsBox = styled.div`
+  margin-bottom: 50px;
+`;
+
+const PageTitle = styled.div`
+  margin-bottom: 20px;
+`;
+
+const PageInfo = styled.div``;
+
+const EditingBox = styled.form``;
+
+const PartyInfoBox = styled.div`
+  margin-bottom: 40px;
+`;
+
+const PartyTitleBox = styled.div`
+  margin-bottom: 40px;
+`;
+
+const PartyTitle = styled.input`
+  border-style: none;
+  border-bottom: 0.5px solid #b9b9b9;
+  outline-style: none;
+  width: 877px;
+  margin-top: 20px;
+  font-size: 15px;
+  padding: 10px 0;
+`;
+
+const TechStackBox = styled.div`
+  margin-bottom: 40px;
+`;
+
+const TechStacks = styled.div`
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+`;
+
+const Tech = styled.div`
+  border-radius: 30px;
+  border: 1px solid #b9b9b9;
+  font-size: 15px;
+  text-align: center;
+  padding: 12px 0;
+  width: 130px;
+  cursor: pointer;
+`;
+
+const MeetingTimeandPeopleBox = styled.div`
+  display: flex;
+  gap: 170px;
+  margin-bottom: 40px;
+`;
+
+const MeetingTimeBox = styled.div`
+  width: 300px;
+`;
+
+const PeopleBox = styled.div`
+  width: 300px;
+`;
+
+const LocationBox = styled.div`
   display: flex;
   flex-direction: column;
 `;
-// 필드 옵션 박스
-const FieldOptionsBox = styled.div``;
 
-// 모집 구분
-const RecruitmentCategoryBox = styled.div`
-  border: 1px solid black;
-  margin-bottom: 70px;
+const LocationInfo = styled.div`
+  display: flex;
+  gap: 10px;
+  align-items: center;
 `;
 
-const RecruitmentCategoryTitle = styled.div`
-  margin-bottom: 30px;
-  font-size: 24px;
+const Location = styled.div`
+  display: flex;
+  margin-top: 20px;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
 `;
 
-const RecuitmentCategoryBtn_Mogakco = styled.button`
-  margin-right: 10px;
-`;
-const RecuitmentCategoryBtn_Project = styled.button`
-  margin-right: 10px;
-`;
-
-// 모집 인원
-const RecruitmentNumberBox = styled.div`
-  border: 1px solid black;
-  margin-bottom: 70px;
-`;
-const RecruitmentNumberTitle = styled.div`
-  margin-bottom: 30px;
-  font-size: 24px;
-`;
-const RecruitmentNumberBtn_1 = styled.button`
-  margin-right: 10px;
-`;
-const RecruitmentNumberBtn_2 = styled.button`
-  margin-right: 10px;
-`;
-const RecruitmentNumberBtn_3 = styled.button`
-  margin-right: 10px;
-`;
-
-// 사용 스택
-const StacksToUseBox = styled.div`
-  border: 1px solid black;
-  margin-bottom: 70px;
-`;
-const StacksToUseTitle = styled.div`
-  margin-bottom: 30px;
-  font-size: 24px;
-`;
-const StacksToUseBtn_JS = styled.button`
-  margin-right: 10px;
-`;
-const StacksToUseBtn_React = styled.button`
-  margin-right: 10px;
-`;
-const StacksToUseBtn_Svelt = styled.button`
-  margin-right: 10px;
-`;
-const StacksToUseBtn_Nodejs = styled.button`
-  margin-right: 10px;
-`;
-const StacksToUseBtn_Nextjs = styled.button`
-  margin-right: 10px;
-`;
-const StacksToUseBtn_TS = styled.button`
-  margin-right: 10px;
-`;
-
-// 모임 장소
-const MeetingLocationBox = styled.div`
-  border: 1px solid black;
-  margin-bottom: 70px;
-`;
-const MeetingLocationTitle = styled.div`
-  margin-bottom: 30px;
-  font-size: 24px;
-`;
-
-// 연락 방법
-const CommunicationToolBox = styled.div`
-  border: 1px solid black;
-  margin-bottom: 70px;
-`;
-const CommunicationToolTitle = styled.div`
-  margin-bottom: 30px;
-  font-size: 24px;
-`;
-const CommunicationToolBtn_openkakao = styled.button`
-  margin-right: 10px;
-`;
-const CommunicationToolBtn_chatting = styled.button`
-  margin-right: 10px;
-`;
-const CommunicationToolBtn_etc = styled.button`
-  margin-right: 10px;
-`;
-
-// 모임명
-const PartyNameBox = styled.div`
-  border: 1px solid black;
-  margin-bottom: 70px;
-`;
-const PartyNameTitle = styled.div`
-  margin-bottom: 30px;
-  font-size: 24px;
-`;
-const PartyNameInput = styled.input``;
-
-// 에디터 박스
-const EditorBox = styled.div``;
-const EditorSection = styled.div`
-  height: 500px;
-  border: 1px solid gray;
-  margin-bottom: 70px;
-`;
-
-// 모집 상태 박스
-const StatusBox = styled.div`
-  border: 1px solid black;
-  margin-bottom: 70px;
-`;
-const SatusTitle = styled.div`
-  margin-bottom: 30px;
-  font-size: 24px;
-`;
-const StatusBtn_Ing = styled.button`
-  margin-right: 10px;
-`;
-
-const StatusBtn_End = styled.button`
-  margin-right: 10px;
-`;
-
-// 작성 완료 버튼
-const WriteBtn = styled.button`
-  font-size: 20px;
+const LocationSelect = styled.div`
   width: 300px;
-  height: 60px;
-  margin: 0 auto;
 `;
+
+const NoMeeting = styled.div``;
+
+const EditorBox = styled.div``;
