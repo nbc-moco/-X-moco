@@ -3,6 +3,7 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
 import { getStorage } from 'firebase/storage';
 
+
 const firebaseConfig = {
   apiKey: 'AIzaSyCzN2tCMYsWXAox6D_olgaMVQM_DD5X0Tc',
   authDomain: 'moco-project-defe9.firebaseapp.com',

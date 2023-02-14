@@ -1,35 +1,104 @@
-import React, { useRef } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // import the styles
-import styled from '@emotion/styled';
-import FilterTime from './FilterTime';
-import FilterNumOfMe from './FilterNumOfMember';
-import FilterLocation from './FilterLocation';
-import { Checkbox } from 'antd';
+import React, { useEffect, useRef } from 'react';
 import { useState } from 'react';
+import styled from '@emotion/styled';
+import Select from 'react-select';
+import { Checkbox } from 'antd';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import { now } from '../../common/utils/date';
+import { uuidv4 } from '@firebase/util';
+import { locations } from '../../data/locations';
+import { people } from '../../data/people';
+import { stacks } from '../../data/stacks';
+import { times } from '../../data/times';
+import { opens } from '../../data/opens';
+import { db, authService } from '../../common/firebase';
+import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
 
 const MateWrite = () => {
-  const [isNoMeeting, setIsNoMeeting] = useState(false);
-  const [isDisabled, setIsDisabled] = useState(false);
+  // 파베 인증
+  const currentUser = authService.currentUser;
   const quillRef = useRef(null);
-  const stacks = [
-    'JavsScript',
-    'Python',
-    'Java',
-    'Go',
-    'Typescript',
-    'Node.js',
-    'Spring',
-    'Rust',
-    'Next.js',
-    'Svelt',
-    'Vue',
-    'React',
-  ];
-  const onChange = (e) => {
-    setIsNoMeeting(!isNoMeeting);
+  // 유저 닉네임 - 프로필 가져오기 상태
+  const [nickName, setNickName] = useState('');
+  const [profileImg, setGetProfileImg] = useState('');
+  // 글쓰기 페이지에서 유저가 입력한 데이터를 저장하는 상태
+  const [partyName, setPartyname] = useState('');
+  const [partyStack, setPartyStack] = useState([]);
+  const [partyTime, setPartyTime] = useState('');
+  const [partyNum, setPartyNum] = useState('');
+  const [partyLocation, setPartyLocation] = useState('');
+  const [isRemote, setIsRemote] = useState(false);
+  const [partyIsOpen, setPartyIsOpen] = useState(true);
+  const [partyPostTitile, setPartyPostTitle] = useState('');
+  const [partyDesc, setPartyDesc] = useState('');
+  const [isDisabled, setIsDisabled] = useState(false);
+
+  // 유저 닉네임 - 프로필 가져오기 함수
+  const getUserInfo = async () => {
+    const q = await query(
+      collection(db, 'user'),
+      where('uid', '==', currentUser.uid),
+    );
+    getDocs(q).then((querySnapshot) => {
+      const user = [];
+      querySnapshot.forEach((doc) => {
+        user.push({
+          nickName: doc.data().nickname,
+          profileImg: doc.data().profileImg,
+        });
+      });
+      setNickName(user[0].nickName);
+      setGetProfileImg(user[0].profileImg);
+    });
+  };
+
+  // 기술 스택 선택 핸들러 함수
+  const handlePartyStack = (stack) => {
+    if (partyStack.includes(stack)) {
+      setPartyStack(partyStack.filter((item) => item !== stack));
+    } else {
+      setPartyStack([...partyStack, stack]);
+    }
+  };
+
+  // 비대면 모임 체크박스 핸들러 함수
+  const handleisRemote = (e) => {
+    setIsRemote(!isRemote);
     setIsDisabled(!isDisabled);
   };
+
+  // 모집글 게시 함수
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      await addDoc(collection(db, 'post'), {
+        partyName,
+        partyStack,
+        partyTime,
+        partyNum,
+        partyLocation,
+        partyIsOpen,
+        isRemote,
+        partyPostTitile,
+        partyDesc,
+        nickName,
+        profileImg,
+        createdDate: now(),
+        postId: uuidv4(),
+        uid: currentUser.uid,
+      });
+      console.log('업로드 성공');
+    } catch (error) {
+      alert(error);
+    }
+  };
+
+  useEffect(() => {
+    if (!currentUser) return;
+    getUserInfo();
+  }, [currentUser]);
+
   return (
     <WritePageContainer>
       <GuideTextsBox>
@@ -40,18 +109,26 @@ const MateWrite = () => {
           모임 개설을 위해 정보와 상세한 설명을 입력해주세요 🙌
         </PageInfo>
       </GuideTextsBox>
-      <EditingBox>
+      <EditingBox onSubmit={handleSubmit}>
         <PartyInfoBox>
           <PartyTitleBox>
             <h3>모임명</h3>
-            <PartyTitle maxLength={10} placeholder="12자 이내로 작성해주세요" />
+            <PartyTitle
+              type="text"
+              value={partyName}
+              onChange={(e) => setPartyname(e.target.value)}
+              maxLength={10}
+              placeholder="12자 이내로 작성해주세요"
+            />
           </PartyTitleBox>
 
           <TechStackBox>
             <h3>기술스택</h3>
             <TechStacks>
-              {stacks.map((item) => (
-                <Tech onClick={() => console.log(item)}>{item}</Tech>
+              {stacks.map((stack, idx) => (
+                <Tech key={idx} onClick={() => handlePartyStack(stack)}>
+                  {stack}
+                </Tech>
               ))}
             </TechStacks>
           </TechStackBox>
@@ -59,35 +136,67 @@ const MateWrite = () => {
           <MeetingTimeandPeopleBox>
             <MeetingTimeBox>
               <h3 style={{ marginBottom: 20 }}>모임 시간대</h3>
-              <FilterTime />
+              <Select
+                options={times}
+                placeholder={!partyTime ? '모임 시간대' : partyTime}
+                onChange={(time) => setPartyTime(time.value)}
+                value={partyTime}
+              />
             </MeetingTimeBox>
             <PeopleBox>
               <h3 style={{ marginBottom: 20 }}>모집 인원</h3>
-              <FilterNumOfMe />
+              <Select
+                options={people}
+                placeholder={!partyNum ? '모집 인원' : partyNum}
+                onChange={(num) => setPartyNum(num.value)}
+                value={partyNum}
+              />
             </PeopleBox>
           </MeetingTimeandPeopleBox>
 
-          <LocationBox>
-            <LocationInfo>
-              <h3 style={{ display: 'inline' }}>모임 지역</h3>
-              <span style={{ color: 'GrayText' }}>
-                비대면 체크 시, 지역 설정을 할 수 없습니다
-              </span>
-            </LocationInfo>
-            <Location>
-              <LocationSelect>
-                <FilterLocation isDisabled={isDisabled} />
-              </LocationSelect>
-              <NoMeeting>
-                <Checkbox onChange={onChange}>비대면을 원해요</Checkbox>
-              </NoMeeting>
-            </Location>
-          </LocationBox>
+          <MeetingTimeandPeopleBox>
+            <MeetingTimeBox>
+              <h3 style={{ marginBottom: 20 }}>모집 여부</h3>
+              <Select
+                options={opens}
+                placeholder={partyIsOpen === true ? '모집 중' : '모집 완료'}
+                onChange={(open) => setPartyIsOpen(open.value)}
+                value={partyIsOpen}
+              />
+            </MeetingTimeBox>
+            <PeopleBox>
+              <h3 style={{ display: 'inline' }}>모집 지역</h3>
+              <Checkbox
+                style={{ marginBottom: 20, marginLeft: 10 }}
+                onChange={handleisRemote}
+              >
+                비대면을 원해요
+              </Checkbox>
+              <Select
+                options={locations}
+                placeholder={!partyLocation ? '모집 지역' : partyLocation}
+                onChange={(loc) => setPartyLocation(loc.value)}
+                value={partyLocation}
+                isDisabled={isDisabled}
+              />
+            </PeopleBox>
+          </MeetingTimeandPeopleBox>
         </PartyInfoBox>
 
         <EditorBox>
+          <PostTitleBox>
+            <h3 style={{ marginBottom: 20 }}>모집글 제목</h3>
+            <PostTitle
+              type="text"
+              value={partyPostTitile}
+              onChange={(e) => setPartyPostTitle(e.target.value)}
+              placeholder="글 제목을 작성하세요"
+            ></PostTitle>
+          </PostTitleBox>
           <h3 style={{ marginBottom: 20 }}>모임 설명</h3>
           <ReactQuill
+            value={partyDesc}
+            onChange={setPartyDesc}
             ref={quillRef}
             modules={{
               toolbar: [
@@ -103,6 +212,10 @@ const MateWrite = () => {
             }}
           />
         </EditorBox>
+
+        <WriteButtonBox>
+          <WriteButton type="submit">모집글 올리기</WriteButton>
+        </WriteButtonBox>
       </EditingBox>
     </WritePageContainer>
   );
@@ -179,32 +292,35 @@ const MeetingTimeBox = styled.div`
 `;
 
 const PeopleBox = styled.div`
+  align-items: center;
   width: 300px;
 `;
 
-const LocationBox = styled.div`
-  display: flex;
-  flex-direction: column;
+const PostTitleBox = styled.div`
+  margin-bottom: 40px;
 `;
-
-const LocationInfo = styled.div`
-  display: flex;
-  gap: 10px;
-  align-items: center;
+const PostTitle = styled.input`
+  border-style: none;
+  border-bottom: 0.5px solid #b9b9b9;
+  outline-style: none;
+  font-size: 15px;
+  padding: 10px 0;
+  width: 877px;
 `;
-
-const Location = styled.div`
-  display: flex;
-  margin-top: 20px;
-  flex-direction: row;
-  align-items: center;
-  gap: 20px;
-`;
-
-const LocationSelect = styled.div`
-  width: 300px;
-`;
-
-const NoMeeting = styled.div``;
 
 const EditorBox = styled.div``;
+
+const WriteButtonBox = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+`;
+
+const WriteButton = styled.button`
+  width: 200px;
+  background-color: transparent;
+  border: 1px solid #b9b9b9;
+  padding: 20px;
+  font-size: 15px;
+  margin: auto;
+`;
