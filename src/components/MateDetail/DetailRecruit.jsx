@@ -20,11 +20,14 @@ const RecruitWrap = styled.div`
   height: 426px;
   border: 1px solid #d9d9d9;
   background-color: rgba(217, 217, 217, 0.1);
+  margin: 90px 0 0 0;
   padding: 30px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: space-between;
+  position: fixed;
+  right: 50px;
 `;
 const RecruitArea = styled.div``;
 const RecruitDate = styled.div``;

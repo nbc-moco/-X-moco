@@ -10,7 +10,6 @@ const MateDetail = () => {
       <MateDetailContainer>
         <MateDetailWriting />
       </MateDetailContainer>
-
       <CommentWrap>
         {/* 더미데이터 */}
         <Comment />
@@ -28,7 +27,7 @@ const MateDetailWrap = styled.section`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin: 0px 300px 230px 300px;
+  margin: 0px 400px 230px 150px;
   min-height: 100vh;
   height: 100%;
 `;

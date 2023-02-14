@@ -1,8 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
+import { addDoc, collection, updateDoc } from 'firebase/firestore';
+import { db } from '../../common/firebase';
 
 const Comment = () => {
   const [userInput, setUserInput] = useState('');
+  const usersCollectionRef = collection(db, 'user', 'comment');
+
+  const creatReview = async () => {
+    const loginUser = auth.currentUser;
+
+    if (loginUser) {
+      const addRev = await addDoc(usersCollectionRef, {
+        //파이어베이스에 저장
+        uid: loginUser.uid,
+        // comment: comment,
+        modify: true,
+        displayName: loginUser?.displayName,
+      });
+    } else {
+      alert('로그인을 하세요');
+    }
+    // console.log(addRev);
+  };
 
   return (
     <CommentContainer>
