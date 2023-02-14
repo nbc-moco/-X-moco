@@ -1,4 +1,4 @@
-import { MeetingArea, TimeAndLocationMeetingArea } from "../../homestyle/homemeeting";
+import { MeetingArea, TechAndTimeMeetingArea } from "../../homestyle/homemeeting";
 import LocationMeeting from "./LocationMeeting";
 import TechStackMeeting from "./TechStackMeeting";
 import TimeMeeting from "./TimeMeeting";
@@ -6,11 +6,11 @@ import TimeMeeting from "./TimeMeeting";
 const HomeMeetingList = ({ testList }) => {
     return (
        <MeetingArea>
-       <TechStackMeeting testList={testList} />
-       <TimeAndLocationMeetingArea>
+       <TechAndTimeMeetingArea>
+        <TechStackMeeting testList={testList} />
         <TimeMeeting testList={testList} />
-        <LocationMeeting testList={testList} />
-       </TimeAndLocationMeetingArea>
+       </TechAndTimeMeetingArea>
+       <LocationMeeting testList={testList} />
        </MeetingArea>
     );
 };

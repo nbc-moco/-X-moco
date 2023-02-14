@@ -1,17 +1,21 @@
-import { MeetingCard, MeetingCardBox, MeetingMark, TimeMeetingArea, TimeMeetingTitle, MeetingTitleBox } from "../../homestyle/homemeeting";
+import { TimeMeetingArea, MeetingTitleBox, MeetingCardBox, TimeMeetingTitle, MeetingMoreBox } from "../../homestyle/homemeeting";
+import CardSection from "../../../shared/CardSection";
+import { MdExpandMore } from "react-icons/md";
 
 const TimeMeeting = ({ testList }) => {
     return (
         <TimeMeetingArea>
             <MeetingTitleBox>
                 <TimeMeetingTitle>
-                    시간대에 맞는 모임
+                    시간대가 맞는 모임
                 </TimeMeetingTitle>
-                <MeetingMark />
+                <MeetingMoreBox>
+                    더보기 <MdExpandMore size="16" />
+                </MeetingMoreBox>
             </MeetingTitleBox>
             <MeetingCardBox>
                 {testList.map((a, index) => (
-                    <MeetingCard key={index} />
+                    <CardSection key={index} />
                 ))}
             </MeetingCardBox>
         </TimeMeetingArea>
