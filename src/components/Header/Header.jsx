@@ -67,6 +67,7 @@ const Header = () => {
         <HeaderLogo onClick={navigateHome}>MOCO</HeaderLogo>
         <MyCodingMate>내 코딩모임</MyCodingMate>
         </LogoAndMateBox>
+        <form><input /></form>
         <TeamAndLoginBox>
         <MakeTeam>팀 개설하기</MakeTeam>
         <HeaderIcon />
