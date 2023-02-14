@@ -1,48 +1,119 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { addDoc, collection, updateDoc } from 'firebase/firestore';
-import { db } from '../../common/firebase';
+import { collection, addDoc, updateDoc, onSnapshot } from 'firebase/firestore';
+import { db, authService } from '../../common/firebase';
+// import { uuidv4 } from '@firebase/util';
 
 const Comment = () => {
-  const [userInput, setUserInput] = useState('');
-  const usersCollectionRef = collection(db, 'user', 'comment');
+  // 유저 정보
+  const [nickname, setNickname] = useState('');
+  const [profileImg, setGetProfileImg] = useState('');
+  // comment 컬렉션 데이터 저장
+  const [comment, setComment] = useState('');
+  // const [createdDate, setCreatedDate] = useState('');
+  const [editValue, setEditValue] = useState(comment.comment);
+  const [userInput, setUserInput] = useState(false);
 
-  const creatReview = async () => {
-    const loginUser = auth.currentUser;
-
-    if (loginUser) {
-      const addRev = await addDoc(usersCollectionRef, {
-        //파이어베이스에 저장
-        uid: loginUser.uid,
-        // comment: comment,
-        modify: true,
-        displayName: loginUser?.displayName,
-      });
-    } else {
-      alert('로그인을 하세요');
-    }
-    // console.log(addRev);
+  const handleChange = (e) => {
+    e.preventDefault();
+    setComment(e.target.value);
   };
 
+  // 수정
+  const editHandler = (comment) => {
+    setComment(comment);
+    setUserInput(true);
+  };
+  const completeHandler = async (user, comment) => {
+    setEditBox(false);
+    await updateDoc(doc(db, 'comments', user.id), { comment: comment });
+    setToggleBtn(false);
+  };
   return (
     <CommentContainer>
       <CommentContainHeader>댓글</CommentContainHeader>
       {/* 댓글 내용 */}
       <CommentWrap>
-        <CommentUserName>사용자 이름{/* {comment.userName} */}</CommentUserName>
-        <CommentUserInput
-          id="commentInput"
-          type="text"
-          placeholder="댓글을 남겨보세요"
-          onChange={setUserInput}
-          value={userInput}
-        />
-        <CommentButton
-        // onClick={}
-        // disabled={commentContent === '' ? true : false}
+        <CommentUserName>{comment.nickname}</CommentUserName>
+        {!userInput ? (
+          <CommentText>{comment.comment}</CommentText>
+        ) : (
+          <CommentUserInput
+            type="text"
+            value={userInput}
+            onChange={handleChange}
+          />
+        )}
+        <CommentUserDate>{comment.createddate}</CommentUserDate>
+        {!editBox ? (
+          <CommentUpdateButton
+            onClick={() => {
+              editHandler(comment.comment);
+            }}
+          >
+            수정하기
+          </CommentUpdateButton>
+        ) : (
+          <CommentUpdateButton
+            onClick={() => {
+              completeHandler(user, editValue, user.userId);
+            }}
+          >
+            수정완료
+          </CommentUpdateButton>
+        )}
+        ;
+        <CommentDeleteBtn
+          onClick={() => {
+            deleteHandler(user.id);
+          }}
         >
-          등록하기
-        </CommentButton>
+          삭제
+        </CommentDeleteBtn>
+        {/* {toggleBtn ? (
+            <>
+              {areYouUser ? (
+                <UpdateDeleteBody>
+                  {!editBox ? (
+                    <CommentUpdateBtn
+                      onClick={() => {
+                        editHandler(user.comment);
+                      }}
+                    >
+                      <BsPencil />
+                      수정
+                    </CommentUpdateBtn>
+                  ) : (
+                    <CommentUpdateBtn
+                      onClick={() =>
+                        completeHandler(user, editValue, user.userId)
+                      }
+                    >
+                      완료
+                    </CommentUpdateBtn>
+                  )}
+
+                  <CommentDeleteBtn
+                    onClick={() => {
+                      deleteHandler(user.id);
+                    }}
+                  >
+                    <BsFillTrashFill />
+                    삭제
+                  </CommentDeleteBtn>
+                </UpdateDeleteBody>
+              ) : (
+                <UpdateDeleteBody>
+                  <CommentPoliceBtn onClick={() => ClickPolice(user.id)}>
+                    <BsFlag />
+                    신고
+                  </CommentPoliceBtn>
+                </UpdateDeleteBody>
+              )}
+            </>
+          ) : (
+            <NoneDiv></NoneDiv>
+          )} */}
       </CommentWrap>
     </CommentContainer>
   );
@@ -68,8 +139,7 @@ const CommentWrap = styled.form`
   flex-direction: column;
   padding: 30px 40px 30px 40px;
   background-color: aliceblue;
-  box-sizing: border-box;
-  border: 1px solid #525252;
+
   border-radius: 12px;
 `;
 
@@ -78,12 +148,17 @@ const CommentUserName = styled.p`
   height: 20px;
   background-color: #d9d9d9;
 `;
-
+const CommentText = styled.p``;
 const CommentUserInput = styled.input`
   margin: 8px 0 8px 0;
 `;
 
-const CommentButton = styled.button`
+const CommentUserDate = styled.p`
+  font-size: 12px;
+  font-weight: 400;
+`;
+
+const CommentUpdateButton = styled.button`
   width: 80px;
   height: 30px;
 `;
