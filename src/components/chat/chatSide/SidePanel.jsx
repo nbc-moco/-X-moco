@@ -1,8 +1,5 @@
 import React from 'react';
 import { FaCrown } from 'react-icons/fa';
-import ChatRooms from './ChatRooms';
-import DirectMessages from './DirectMessages';
-import Favorited from './Favorited';
 import UserPanel from './UserPanel';
 
 const SidePanel = () => {
@@ -26,11 +23,6 @@ const SidePanel = () => {
 
       <UserPanel />
       <div style={{ marginTop: '35px' }}>팀원</div>
-      {/* <Favorited />
-
-      <ChatRooms />
-
-      <DirectMessages /> */}
     </div>
   );
 };

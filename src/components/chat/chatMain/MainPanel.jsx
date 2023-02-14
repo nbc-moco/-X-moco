@@ -1,12 +1,5 @@
-import {
-  child,
-  getDatabase,
-  onChildAdded,
-  onValue,
-  ref,
-} from 'firebase/database';
+import { getDatabase, onValue, ref } from 'firebase/database';
 import React, { useEffect, useState } from 'react';
-import { authService } from '../../../common/firebase';
 import MessageBox from './MessageBox';
 import MessageForm from './MessageForm';
 import MessageHeader from './MessageHeader';

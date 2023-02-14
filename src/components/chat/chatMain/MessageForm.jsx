@@ -19,6 +19,13 @@ const MessageForm = () => {
     setContent(e.target.value);
   };
 
+  // Enter키 실행
+  const EnterKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit();
+    }
+  };
+
   // 메세지 생성
   const user = authService.currentUser;
 
@@ -43,10 +50,9 @@ const MessageForm = () => {
   const handleSubmit = async () => {
     setLoading(true);
     // TODO: 추후에 Room ID로 변경
-    const chatRoom = authService.currentUser;
+    // const chatRoom = authService.currentUser;
     const db = getDatabase();
     try {
-      // await set(push(child(messagesRef, chatRoom.id)), createMessage());
       await set(ref(db, 'messages'), createMessage());
 
       setLoading(false);
@@ -58,17 +64,21 @@ const MessageForm = () => {
     }
   };
 
-  const handleUploadImage = () => {};
+  // const handleUploadImage = () => {};
 
-  const handleOpenImageRef = () => {
-    inputOpenImageRef.current.click();
-  };
+  // const handleOpenImageRef = () => {
+  //   inputOpenImageRef.current.click();
+  // };
 
   return (
     <div>
       <div>
         <div>
-          <input value={content} onChange={handleChange} />
+          <input
+            value={content}
+            onChange={handleChange}
+            onKeyPress={EnterKeyPress}
+          />
         </div>
         <ProgressBar now={60} />
       </div>
