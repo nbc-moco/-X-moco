@@ -4,22 +4,18 @@ import styled from '@emotion/styled';
 const MateDetailWriting = () => {
   return (
     <>
-      <GroupHeader>모임 정보</GroupHeader>
+      <GroupHeader>모임 설명</GroupHeader>
       <GroupBox>
         <GroupPerson>
-          <GroupPersonCondition>10명 이상</GroupPersonCondition>
-          <GroupPersonCondition>서울시 마포구</GroupPersonCondition>
-          <GroupPersonCondition>스택</GroupPersonCondition>
+          <GroupPersonCondition>
+            스터디 & 네트워킹 목표 및 진행방식
+          </GroupPersonCondition>
+          <GroupPersonCondition>
+            그때 상황에 따라 온라인/오프라인 모임을 갖는다.
+          </GroupPersonCondition>
+          <GroupPersonCondition>온라인 소통을 자주합니다.</GroupPersonCondition>
         </GroupPerson>
       </GroupBox>
-      <GroupWriteBox>
-        <GroupWriteHeader>빈티지 가구 + 홈무드 스터디룸</GroupWriteHeader>
-        <GroupWrite>
-          홈무드 스터디룸으로 모임하기 좋아요 홈무드 스터디룸으로 모임하기
-          좋아요 홈무드 스터디룸으로 모임하기 좋아요 홈무드 스터디룸으로
-          모임하기 좋아요
-        </GroupWrite>
-      </GroupWriteBox>
     </>
   );
 };
