@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react';
 import { db } from '../../../common/firebase';
-import { collection, onSnapshot } from 'firebase/firestore';
-import { CommentListBody } from './style';
-import Comment from '../Comment';
+import { collection, onSnapshot, query } from 'firebase/firestore';
+import Comment from '../Comment/Comment';
 
-const CommentList = ({ comment }) => {
+const CommentList = () => {
   // 데이터 실시간 변경 확인
   const [comments, setComments] = useState([]);
   useEffect(() => {
-    const getPost = onSnapshot((snapshot) => {
+    console.log('실행확인');
+    const postCollectionRef = collection(db, 'comment');
+    const q = query(postCollectionRef);
+    const getPost = onSnapshot(q, (snapshot) => {
       const testComment = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
@@ -17,15 +19,14 @@ const CommentList = ({ comment }) => {
     });
     return getPost;
   }, []);
+  console.log(comments);
 
   return (
-    <CommentListBody>
-      {comments
-        .filter((user) => user.uid === comment.uid)
-        .map((user) => {
-          return <Comment key={comment.uid} user={user.nickname} />;
-        })}
-    </CommentListBody>
+    <>
+      {comments.map((user) => {
+        return <Comment key={user.uid} user={user} />;
+      })}
+    </>
   );
 };
 export default CommentList;
