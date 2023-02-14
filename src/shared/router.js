@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MateList from '../pages/mate/MateList';
-import Header from '../components/Header/Header';
+import Header from '../components/header/Header';
 import Login from '../pages/joinLogin/Login';
 import SignUp from '../pages/joinLogin/SignUp';
 import MyPage from '../pages/mypage/MyPage';

@@ -21,7 +21,6 @@ const FilterNumOfMember = () => {
       placeholder="제한 인원"
       onChange={handleSelect}
       value={text}
-      // unstyled={true}
     />
   );
 };
