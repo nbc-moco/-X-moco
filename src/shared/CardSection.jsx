@@ -6,7 +6,6 @@ import { BsPeopleFill } from 'react-icons/bs';
 import { BsPower } from 'react-icons/bs';
 
 const CardSection = ({ item }) => {
-  console.log(item);
   return (
     <PostCard>
       <BookmarkIconBox>

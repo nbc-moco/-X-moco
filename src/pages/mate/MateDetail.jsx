@@ -1,17 +1,15 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import MateDetailWriting from '../../components/mateDetail/MateDetailWriting';
+// import MateDetailWriting from '../../components/mateDetail/MateDetailWrite/MateDetailWriting';
 import DetailRecruit from './../../components/mateDetail/DetailRecruit';
 // import Comment from './../../components/mateDetail/Comment/Comment';
-import CommentList from './../../components/mateDetail/CommentList/CommentList';
 import AddComment from './../../components/mateDetail/AddComment/AddComment';
+import CommentList from './../../components/mateDetail/CommentList/CommentList';
 
 const MateDetail = () => {
   return (
     <MateDetailWrap>
-      <MateDetailContainer>
-        <MateDetailWriting />
-      </MateDetailContainer>
+      <MateDetailContainer>{/* <MateDetailWriting /> */}</MateDetailContainer>
       <CommentWrap>
         {/* 더미데이터 */}
         <CommentList />
