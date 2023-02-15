@@ -64,16 +64,22 @@ const Header = () => {
     <HeaderBody>
       <HeaderInfoBody>
         <LogoAndMateBox>
-        <HeaderLogo onClick={navigateHome}>MOCO</HeaderLogo>
-        <MyCodingMate>내 코딩모임</MyCodingMate>
+          <HeaderLogo onClick={navigateHome}>MOCO</HeaderLogo>
+          <MyCodingMate>내 코딩모임</MyCodingMate>
         </LogoAndMateBox>
         <TeamAndLoginBox>
-        <MakeTeam>팀 개설하기</MakeTeam>
-        <HeaderIcon />
-        <HeaderIcon />
-        <LoginRoute onClick={navigateLoginPage}>
-          {loginToggle ? '로그인' : '로그아웃'}
-        </LoginRoute>
+          <MakeTeam
+            onClick={() => {
+              navigate('/write');
+            }}
+          >
+            팀 개설하기
+          </MakeTeam>
+          <HeaderIcon />
+          <HeaderIcon />
+          <LoginRoute onClick={navigateLoginPage}>
+            {loginToggle ? '로그인' : '로그아웃'}
+          </LoginRoute>
         </TeamAndLoginBox>
         {/* <HeaderLoute>
           <MateLoute onClick={navigateMate}>메이트 찾기</MateLoute>
