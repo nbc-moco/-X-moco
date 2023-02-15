@@ -1,14 +1,36 @@
 import styled from '@emotion/styled';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Pagination } from 'antd';
 import CardSection from '../../shared/CardSection';
 import FilterTech from '../../shared/FilterTech';
 import FilterLocation from '../../shared/FilterLocation';
 import FilterTime from '../../shared/FilterTime';
 import FilterNumOfMember from '../../shared/FilterNumOfMember';
+import { db } from '../../common/firebase';
+import { query, onSnapshot, collection } from 'firebase/firestore';
 
 const MateList = () => {
+  const [cardAll, setCardAll] = useState([]);
   const testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
+
+  const getPostData = async () => {
+    const postCollectionRef = collection(db, 'post');
+
+    const q = query(postCollectionRef);
+    // collection
+    const getPost = onSnapshot(q, (snapshot) => {
+      const data = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setCardAll(data);
+    });
+  };
+
+  console.log(cardAll);
+  useEffect(() => {
+    getPostData();
+  }, []);
 
   return (
     <>
@@ -29,8 +51,8 @@ const MateList = () => {
       {/* 카드 리스트 */}
       <CardListContainer>
         <CardList>
-          {testArray.map((item) => (
-            <CardSection />
+          {cardAll.map((item) => (
+            <CardSection item={item} />
           ))}
         </CardList>
       </CardListContainer>
