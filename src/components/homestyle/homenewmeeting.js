@@ -1,42 +1,49 @@
 import styled from "@emotion/styled";
 
 /* HomeNewMeetingList */
-const NewMeetingArea = styled.div`
-    width: 1200px;
-    height: 465px;
-    margin: 0 auto;
-`
-const NewMeetingBox = styled.div`
-    margin: 0 10px;
-`
-const NewMeetingTitleBox = styled.div`
-    width: 246px;
-    height: 32px;
+export const NewMeetingArea = styled.div`
+    width: 100%;
+    height: 491px;
     display: flex;
-    margin-bottom: 34px;
+    justify-content: center;
+    align-items: center;
+    background-color: #f2f2f2;
 `
-const NewMeetingTitle = styled.div`
-    width: 204px;
+export const NewMeetingListBox = styled.div`
+    width: 100%;
+    height: 369px;
+`
+export const NewMeetingTitleBox = styled.div`
+    height: 32px;
+    width: 1180px;
+    display: flex;
+    margin: 0 auto 20px;
+`
+export const NewMeetingTitle = styled.div`
     height: 29px;
     font-size: 20px;
     font-weight: 600;
-    margin-right: 10px;
 `
-const NewMeetingMark = styled.div`
-    width: 32px;
-    height: 32px;
-    border: 1px solid;
+export const NewMeetingCardWrap = styled.div`
+    width: 1296px;
+    height: 320px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
-const NewMeetingCardBox = styled.div`
-    width: 1200px;
-    height: 240px;
+export const NewMeetingCardBox = styled.div`
+    height: 320px;
+    width: 1180px;
     display: flex;
     gap: 0 20px;
+    margin: 0 auto;
 `
-const NewMeetingCard = styled.div`
-    width: 280px;
-    height: 240px;
+export const NewMeetingArrow = styled.div`
+    width: 48px;
+    height: 48px;
     border: 1px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
-
-export { NewMeetingArea, NewMeetingBox, NewMeetingTitleBox, NewMeetingTitle, NewMeetingMark, NewMeetingCardBox, NewMeetingCard };

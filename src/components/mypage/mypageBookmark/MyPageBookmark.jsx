@@ -9,7 +9,7 @@ import {
 const MyPageBookmark = () => {
   return (
     <MyBookmarkBody>
-      <MyBookmarkTitle>북마크</MyBookmarkTitle>
+      <MyBookmarkTitle>스크랩</MyBookmarkTitle>
       <MyBookmarkList>
         <CardSection />
       </MyBookmarkList>

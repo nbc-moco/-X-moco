@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 export const MyProfileBody = styled.div`
   width: 100%;
-  height: 500px;
+  height: 600px;
 
   display: flex;
   justify-content: center;
@@ -14,7 +14,7 @@ export const MyProfileBody = styled.div`
 export const ProfileSection = styled.div`
   width: 270px;
 
-  margin-top: 40px;
+  margin-top: 15px;
 `;
 
 export const ProfileHeaderIcon = styled.div`
@@ -40,7 +40,8 @@ export const ProfileImage = styled.img`
 export const ProfileEditBody = styled.div`
   width: 100%;
 
-  margin-top: 40px;
+  margin-top: 20px;
+  margin-bottom: 15px;
 `;
 
 export const EditNickNameInput = styled.input`
@@ -80,6 +81,17 @@ export const ProfileNickName = styled.div`
   outline: none;
 `;
 
+export const ProfileMyEmailBox = styled.div`
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+
+  margin-top: 5px;
+`;
+
+export const ProfileMyEmail = styled.div``;
+
 export const ProfileNickNameBtn = styled.div`
   width: 50px;
   height: 40px;
@@ -116,16 +128,71 @@ export const NickNameCompleteBtn = styled.div`
   align-items: center;
 `;
 
-export const ProfileRemoveBtnBody = styled.div`
+export const ProfileMiddleSection = styled.div`
+  width: 100%;
+  height: 200px;
+
+  margin-top: 20px;
+
   display: flex;
   justify-content: center;
 `;
 
-export const ProfileRemoveBtn = styled.div`
-  width: 100px;
+export const MiddleBody = styled.div`
+  width: 80%;
+  height: 100%;
+`;
+
+export const ProfileStackBody = styled.div`
+  width: 100%;
+  height: 25px;
+
+  font-size: 1.1rem;
+  font-weight: 600;
+
+  margin-top: 15px;
+
+  display: flex;
+`;
+
+export const StackbodyTitle = styled.div`
+  width: 48%;
+
+  color: #0004;
+`;
+
+export const StackbodyText = styled.div``;
+
+export const ProfileTechBody = styled.div`
+  width: 100%;
+
+  margin-top: 10px;
+`;
+
+export const TechBodyTitle = styled.div`
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #0004;
+
+  margin-bottom: 10px;
+`;
+
+export const TechBodyImage = styled.div``;
+
+export const ProfileFooterBody = styled.div`
+  width: 100%;
+
+  display: flex;
+  justify-content: center;
+
+  gap: 20px;
+  margin-top: 25px;
+`;
+
+export const ProfileCompleteBtn = styled.div`
+  width: 110px;
   height: 40px;
 
-  margin-top: 30px;
   margin-bottom: 20px;
 
   color: #0004;
@@ -141,16 +208,7 @@ export const ProfileRemoveBtn = styled.div`
   align-items: center;
 `;
 
-export const ProfileFooterBody = styled.div`
-  width: 100%;
-
-  display: flex;
-  justify-content: center;
-
-  margin-top: 25px;
-`;
-
-export const ProfileCompleteBtn = styled.div`
+export const ProfileStackBtn = styled.div`
   width: 110px;
   height: 40px;
 

@@ -1,27 +1,36 @@
+import CardSection from '../../../../shared/CardSection';
 import {
   NewMeetingArea,
-  NewMeetingBox,
-  NewMeetingCard,
+  NewMeetingArrow,
   NewMeetingCardBox,
-  NewMeetingMark,
+  NewMeetingCardWrap,
+  NewMeetingListBox,
   NewMeetingTitle,
   NewMeetingTitleBox,
 } from '../../../homestyle/homenewmeeting';
+import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
 
 const HomeNewMeetingList = ({ testList }) => {
   return (
     <NewMeetingArea>
-      <NewMeetingBox>
+      <NewMeetingListBox>
         <NewMeetingTitleBox>
-          <NewMeetingTitle>새로 생긴 모임 리스트</NewMeetingTitle>
-          <NewMeetingMark />
+          <NewMeetingTitle>새로 생긴 모임</NewMeetingTitle>
         </NewMeetingTitleBox>
+        <NewMeetingCardWrap>
+          <NewMeetingArrow>
+            <AiOutlineArrowLeft size="36" />
+          </NewMeetingArrow>
         <NewMeetingCardBox>
           {testList.map((a, index) => (
-            <NewMeetingCard key={index} />
+            <CardSection key={index} />
           ))}
         </NewMeetingCardBox>
-      </NewMeetingBox>
+        <NewMeetingArrow>
+        <AiOutlineArrowRight size="36" />
+        </NewMeetingArrow>
+        </NewMeetingCardWrap>
+      </NewMeetingListBox>
     </NewMeetingArea>
   );
 };

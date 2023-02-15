@@ -7,7 +7,7 @@ import {
 } from 'firebase/storage';
 import React, { useEffect, useRef, useState } from 'react';
 import { RiFolderUserFill } from 'react-icons/ri';
-import { authService, storage } from '../../../common/firebase';
+import { authService, db, storage } from '../../../common/firebase';
 import {
   MyProfileBody,
   ProfileSection,
@@ -18,14 +18,32 @@ import {
   EditNickNameInput,
   ProfileNickNameBody,
   ProfileNickName,
+  ProfileMyEmailBox,
+  ProfileMyEmail,
   ProfileNickNameBtn,
   NickNameCompleteBtn,
-  ProfileRemoveBtnBody,
-  ProfileRemoveBtn,
+  ProfileMiddleSection,
+  MiddleBody,
+  ProfileStackBody,
+  StackbodyTitle,
+  StackbodyText,
+  ProfileTechBody,
+  TechBodyTitle,
+  TechBodyImage,
   ProfileFooterBody,
   ProfileCompleteBtn,
+  ProfileStackBtn,
 } from './ProfileStyle';
 import { v4 } from 'uuid';
+import {
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  updateDoc,
+  where,
+} from '@firebase/firestore';
 
 const Profile = () => {
   // 닉네임 수정 input 여부
@@ -45,16 +63,35 @@ const Profile = () => {
   // 이미지 선택
   const inputImageRef = useRef();
 
+  // 유저 정보 가져오기
+  const [profileUserInfo, setProfileUserInfo] = useState([]);
+
+  const getUserStackInfo = () => {
+    const q = query(
+      collection(db, 'user'),
+      where('uid', '==', authService.currentUser.uid),
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const newInfo = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setProfileUserInfo(newInfo);
+    });
+    return unsubscribe;
+  };
+
   // 유저 확인
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {
         setCurrentUser(authService.currentUser.uid);
         setNickName(authService.currentUser.displayName);
-        setPhotoURL(authService.currentUser.photoURL);
+        // setPhotoURL(authService.currentUser.photoURL);
+        getUserStackInfo();
       }
     });
-  }, [currentUser, nickName, photoURL]);
+  }, [currentUser, nickName]);
 
   // 수정, 완료 토글
   const [clickEditBtn, setClickBtn] = useState(true);
@@ -73,7 +110,10 @@ const Profile = () => {
     });
     alert('닉네임 수정 완료');
     setClickBtn(true);
-    window.location.replace('/mypage');
+
+    setTimeout(() => {
+      window.location.replace('/mypage');
+    }, 500);
   };
 
   // 이미지 선탣
@@ -89,37 +129,12 @@ const Profile = () => {
     reader.onloadend = (e) => {
       const imgUrl = e.currentTarget.result;
       localStorage.setItem('imgUrl', imgUrl);
+      updateDoc(doc(db, 'user', authService.currentUser.uid), {
+        profileImg: imgUrl,
+      });
       setNewPhotoURL(imgUrl);
     };
-  };
-
-  // 완료 버튼
-  const completeProfileBtn = async () => {
-    const imgRef = ref(storage, authService.currentUser.uid + v4());
-
-    const url = localStorage.getItem('imgUrl');
-
-    const response = await uploadString(imgRef, url, 'data_url');
-    const downloadUrl = getDownloadURL(response.ref)
-      .then((res) => {
-        updateProfile(authService.currentUser, {
-          photoURL: res,
-        });
-        alert('프로필 업데이트 완료');
-        window.location.replace('/mypage');
-      })
-      .catch(() => {
-        alert('이미지 전송 실패');
-      });
-  };
-
-  // 이미지 제거
-  const deleteProfileImg = async () => {
-    // await updateProfile(authService.currentUser, {
-    //   photoURL: 'https://imhannah.me/common/img/default_profile.png',
-    // });
-    // alert('프로필 제거 완료');
-    // window.location.replace('/mypage');
+    alert('프로필 이미지 수정 완료');
   };
 
   return (
@@ -134,8 +149,11 @@ const Profile = () => {
 
         <ProfileImageBody>
           <ProfileImage
-            src={newPhotoURL ? newPhotoURL : photoURL}
-            // src={authService.currentUser?.photoURL}
+            src={
+              profileUserInfo[0]?.profileImg
+                ? profileUserInfo[0].profileImg
+                : 'https://imhannah.me/common/img/default_profile.png'
+            }
             width="150"
             height="150"
             alt=""
@@ -159,7 +177,6 @@ const Profile = () => {
             ) : (
               <ProfileNickName>{nickName}</ProfileNickName>
             )}
-
             {clickEditBtn ? (
               <ProfileNickNameBtn onClick={edditNickName}>
                 수정
@@ -170,20 +187,43 @@ const Profile = () => {
               </NickNameCompleteBtn>
             )}
           </ProfileNickNameBody>
-
-          <ProfileRemoveBtnBody>
-            <ProfileRemoveBtn onClick={deleteProfileImg}>
-              이미지 제거
-            </ProfileRemoveBtn>
-          </ProfileRemoveBtnBody>
+          <ProfileMyEmailBox>
+            <ProfileMyEmail>{authService.currentUser?.email}</ProfileMyEmail>
+          </ProfileMyEmailBox>
         </ProfileEditBody>
 
         <hr />
 
+        <ProfileMiddleSection>
+          <MiddleBody>
+            <ProfileStackBody>
+              <StackbodyTitle>온/오프라인</StackbodyTitle>
+              <StackbodyText>오프라인</StackbodyText>
+            </ProfileStackBody>
+            <ProfileStackBody>
+              <StackbodyTitle>모임 장소</StackbodyTitle>
+              <StackbodyText>서울시 영등포구</StackbodyText>
+            </ProfileStackBody>
+            <ProfileStackBody>
+              <StackbodyTitle>모임 시간</StackbodyTitle>
+              <StackbodyText>평일 오후</StackbodyText>
+            </ProfileStackBody>
+            <ProfileTechBody>
+              <TechBodyTitle>기술 스택</TechBodyTitle>
+              <TechBodyImage>
+                <img
+                  src="https://logo-download.com/wp-content/data/images/png/React-logo.png"
+                  alt=""
+                  width={50}
+                  height={30}
+                />
+              </TechBodyImage>
+            </ProfileTechBody>
+          </MiddleBody>
+        </ProfileMiddleSection>
+
         <ProfileFooterBody>
-          <ProfileCompleteBtn onClick={completeProfileBtn}>
-            이미지 업로드
-          </ProfileCompleteBtn>
+          <ProfileStackBtn>맞춤정보</ProfileStackBtn>
         </ProfileFooterBody>
       </ProfileSection>
     </MyProfileBody>

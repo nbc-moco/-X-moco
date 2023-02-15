@@ -1,17 +1,21 @@
+import { collection, onSnapshot, query, where } from '@firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
-import { authService } from '../../common/firebase';
+import { authService, db } from '../../common/firebase';
 import { clearUser, setUser } from '../../redux/config/user_action';
 import {
   HeaderBody,
   HeaderInfoBody,
   HeaderLogo,
-  HeaderLoute,
-  MateLoute,
-  LoginLoute,
   NavigateMypage,
+  LogoAndMateBox,
+  MyCodingMate,
+  TeamAndLoginBox,
+  MakeTeam,
+  HeaderIcon,
+  LoginRoute,
 } from './style';
 
 const Header = () => {
@@ -21,20 +25,38 @@ const Header = () => {
   // 헤더  토글
   const [headerMyPage, setHeaderMyPage] = useState(false);
 
-  // 유저 정보 스토어에 저장
-  let dispatch = useDispatch();
-  // const isLoading = useSelector((state) => state.user.isLoading);
+  // 헤더 프로필 이미지
+  const [headerProfile, setHeaderProfile] = useState('');
+
+  // 유저 정보 가져오기
+  const [profileUserInfo, setProfileUserInfo] = useState([]);
+
+  const getUserStackInfo = () => {
+    const q = query(
+      collection(db, 'user'),
+      where('uid', '==', authService.currentUser.uid),
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const newInfo = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setProfileUserInfo(newInfo);
+    });
+    console.log('유저 정보', profileUserInfo);
+    return unsubscribe;
+  };
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {
         setLoginToggle(false);
         setHeaderMyPage(true);
-        // dispatch(setUser(user));
+        setHeaderProfile(authService.currentUser.photoURL);
+        getUserStackInfo();
       } else if (!user) {
         setLoginToggle(true);
         setHeaderMyPage(false);
-        // dispatch(clearUser());
       }
     });
   }, []);
@@ -68,28 +90,36 @@ const Header = () => {
   return (
     <HeaderBody>
       <HeaderInfoBody>
-        <HeaderLogo onClick={navigateHome}>모각코</HeaderLogo>
-        <HeaderLoute>
-          <MateLoute onClick={navigateMate}>메이트 찾기</MateLoute>
-          <NavigateMypage onClick={navigateMyPage}>
+        <LogoAndMateBox>
+          <HeaderLogo onClick={navigateHome}>MOCO</HeaderLogo>
+          <MyCodingMate>내 코딩모임</MyCodingMate>
+        </LogoAndMateBox>
+        <TeamAndLoginBox>
+          <MakeTeam>팀 개설하기</MakeTeam>
+          <HeaderIcon />
+
+          <NavigateMypage>
             {headerMyPage ? (
               <img
                 src={
-                  authService.currentUser?.photoURL
-                    ? authService.currentUser.photoURL
+                  profileUserInfo[0]?.profileImg
+                    ? profileUserInfo[0].profileImg
                     : 'https://imhannah.me/common/img/default_profile.png'
                 }
-                style={{ width: 40, height: 40 }}
+                style={{ width: 45, height: 45 }}
                 alt=""
               />
             ) : (
               ''
             )}
           </NavigateMypage>
-          <LoginLoute onClick={navigateLoginPage}>
+
+          <LoginRoute onClick={navigateLoginPage}>
             {loginToggle ? '로그인' : '로그아웃'}
-          </LoginLoute>
-        </HeaderLoute>
+          </LoginRoute>
+        </TeamAndLoginBox>
+
+        {/* <MateLoute onClick={navigateMate}>메이트 찾기</MateLoute> */}
       </HeaderInfoBody>
     </HeaderBody>
   );
