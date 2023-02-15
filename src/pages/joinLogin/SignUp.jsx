@@ -108,9 +108,6 @@ const SignUp = () => {
           setDoc(doc(db, 'user', res.user.uid), {
             uid: res.user.uid,
             email: email,
-            password: password,
-            nickName: nickName,
-            // photoURL: 'https://imhannah.me/common/img/default_profile.png',
           });
 
         updateProfile(authService.currentUser, {
@@ -124,7 +121,6 @@ const SignUp = () => {
         setPassword('');
         setCheckPassword('');
         setNickName('');
-        // setProfileImg('');
         navigate('/');
       })
       .catch((err) => {

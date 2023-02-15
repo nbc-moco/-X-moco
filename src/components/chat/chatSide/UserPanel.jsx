@@ -23,12 +23,7 @@ const UserPanel = () => {
     <div style={{ display: 'flex', alignItems: 'center' }}>
       <div>
         <img
-          src={
-            // authService.currentUser?.photoURL
-            //   ? authService.currentUser.photoURL
-            //   : 'https://imhannah.me/common/img/default_profile.png'
-            myUserPhoto
-          }
+          src={myUserPhoto}
           alt=""
           width="40"
           height="40"
