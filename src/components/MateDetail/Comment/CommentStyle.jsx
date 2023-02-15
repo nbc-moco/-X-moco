@@ -48,7 +48,7 @@ export const ListTextSection = styled.div`
 
 export const CommentText = styled.div`
   font-size: 1rem;
-  font-weight: 600;
+  font-weight: 400;
   margin-left: 1%;
 `;
 

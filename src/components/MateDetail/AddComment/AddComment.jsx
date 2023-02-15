@@ -21,7 +21,7 @@ import {
 import { authService, db } from '../../../common/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { confirmAlert } from 'react-confirm-alert';
-import AlertUI from '../../GlobalComponents/AlertUI/AlertUI';
+// import AlertUI from '../../GlobalComponents/AlertUI/AlertUI';
 
 const AddComment = ({ user }) => {
   const [commentText, setCommentText] = useState('');
@@ -63,7 +63,7 @@ const AddComment = ({ user }) => {
     if (!authService.currentUser) {
       confirmAlert({
         customUI: ({ onClose }) => {
-          return <AlertUI title={'로그인을 해주세요.'} onClose={onClose} />;
+          //  return <AlertUI title={'로그인을 해주세요.'} onClose={onClose} />;
         },
       });
       setCommentText('');
@@ -73,7 +73,7 @@ const AddComment = ({ user }) => {
     } else if (commentText === '') {
       confirmAlert({
         customUI: ({ onClose }) => {
-          return <AlertUI title={'댓글을 입력해주세요.'} onClose={onClose} />;
+          //  return <AlertUI title={'댓글을 입력해주세요.'} onClose={onClose} />;
         },
       });
     }
@@ -94,7 +94,7 @@ const AddComment = ({ user }) => {
               </AddInputDiv>
             </AddCommentText>
             <AddCommentBtnDiv>
-              <AddCommentBtn onClick={AddCommentButton}>댓글등록</AddCommentBtn>
+              <AddCommentBtn onClick={AddCommentButton}>등록하기</AddCommentBtn>
             </AddCommentBtnDiv>
           </AddCommentListTwo>
         </AddCommentListWrap>

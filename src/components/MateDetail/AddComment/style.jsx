@@ -1,6 +1,4 @@
 import styled from '@emotion/styled';
-// import { BsFillBookmarkFill } from 'react-icons/bs';
-import { colors } from '../../../common/colors';
 
 export const AddCommentListAll = styled.div`
   display: flex;
@@ -9,10 +7,12 @@ export const AddCommentListAll = styled.div`
 export const AddCommentListWrap = styled.div`
   display: flex;
   flex-direction: row;
-  border: 2px solid ${colors.PURPLE};
+  border: 2px solid #525252;
   border-radius: 10px;
   width: 100%;
-  padding: 20px;
+  height: 100%;
+  padding: 20px 25px 25px 40px;
+  margin-top: 50px;
   box-sizing: border-box;
 `;
 
@@ -57,19 +57,21 @@ export const AddCommentBtnDiv = styled.div`
 `;
 
 export const AddCommentBtn = styled.button`
-  width: 90px;
-  height: 40px;
+  width: 80px;
+  height: 30px;
   cursor: pointer;
   background-color: #fff;
-  color: ${colors.PURPLE};
-  border: 2px solid ${colors.PURPLE};
+  color: #9e08d4;
+  border: 2px solid #fff;
   border-radius: 5px;
   font-size: 0.9rem;
   font-weight: 600;
   :hover {
-    background-color: ${colors.PURPLE};
+    background-color: #fff;
     color: #fff;
     border-radius: 5px;
     border: none;
   }
 `;
+
+export const AddInputContent = styled.input``;

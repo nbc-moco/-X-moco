@@ -4,6 +4,7 @@ import MateDetailWriting from '../../components/mateDetail/MateDetailWriting';
 import DetailRecruit from './../../components/mateDetail/DetailRecruit';
 // import Comment from './../../components/mateDetail/Comment/Comment';
 import CommentList from './../../components/mateDetail/CommentList/CommentList';
+import AddComment from './../../components/mateDetail/AddComment/AddComment';
 
 const MateDetail = () => {
   return (
@@ -14,6 +15,7 @@ const MateDetail = () => {
       <CommentWrap>
         {/* 더미데이터 */}
         <CommentList />
+        <AddComment />
         {/* Editor 값 가져오기 */}
       </CommentWrap>
       <DetailRecruit />
@@ -29,7 +31,7 @@ const MateDetailWrap = styled.section`
   align-items: center;
   flex-direction: column;
   margin: 0px 400px 230px 150px;
-  min-height: 100vh;
+  // min-height: 100vh;
   height: 100%;
 `;
 const MateDetailContainer = styled.div`

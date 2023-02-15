@@ -1,45 +1,42 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-// import {
-//   addDoc,
-//   collection,
-//   doc,
-//   deleteDoc,
-//   getDocs,
-//   updateDoc,
-//   onSnapshot,
-//   query,
-// } from 'firebase/firestore';
-// import { useState, useEffect } from 'react';
-// import { db, auth } from '../../apis/firebase';
+import {
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  deleteDoc,
+} from 'firebase/firestore';
+import { db } from '../../common/firebase';
 
 const MateDetailWriting = () => {
-  // const [newReview, setNewReview] = useState('');
-  // const [editBox, setEditBox] = useState(false);
-  // const [editValue, setEditValue] = useState(reviews.review);
-  // const loginUser = auth.currentUser;
-  // const usersCollectionRef = collection(db, 'reviews');
+  // post 추가하고 삭제하는거 진행을 도와줄 state
+  const [post, setPost] = useState([]);
+  // db의 post 컬렉션을 가져옴
+  const usersCollectionRef = collection(db, 'post');
 
-  // const handleDelete = async (id, i) => {
-  //   if (auth.currentUser.uid === reviews[i].uid) {
-  //     const reviewDoc = doc(db, 'reviews', id);
-  //     await deleteDoc(reviewDoc);
-  //   } else {
-  //     alert('작성자가 다릅니다.');
-  //     //작성가 다르거나 비로그인 유저에게 버튼이 보이지 않는다면 필요없어짐.
-  //   }
-  // };
+  // 시작될때 한번만 실행
+  useEffect(() => {
+    // 비동기로 데이터 받을준비
+    const getPost = async () => {
+      // getDoc으로 컬렉션안에 데이터 가져오기
+      const data = await getDoc(usersCollectionRef);
+      console.log(data);
+    };
+
+    getPost();
+  }, []);
 
   return (
     <GroupWrap>
-      <GroupHeader>[충무로역] 모각코 하실 분 찾습니다</GroupHeader>
+      <GroupHeader>{post.partyPostTitle}</GroupHeader>
       <GroupUserInfo>
         <GroupImg />
-        <GroupUserId>스티븐 머큐</GroupUserId>
+        <GroupUserId>{post.partyName}</GroupUserId>
       </GroupUserInfo>
       <UserHr />
       <GroupBox>
-        <GroupPerson>모임 설명~ 에디터 값 불러오기~</GroupPerson>
+        <GroupPerson>{post.postId}</GroupPerson>
       </GroupBox>
     </GroupWrap>
   );
