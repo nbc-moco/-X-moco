@@ -14,6 +14,7 @@ import { times } from '../../data/times';
 import { opens } from '../../data/opens';
 import { db, authService } from '../../common/firebase';
 import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { Navigate } from 'react-router-dom';
 
 const MateWrite = () => {
   // 파베 인증
@@ -33,7 +34,8 @@ const MateWrite = () => {
   const [partyPostTitile, setPartyPostTitle] = useState('');
   const [partyDesc, setPartyDesc] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
-  // 기술 스택 선택 여부 상태
+  // 작성글 버튼 클릭 상태
+  const [isClicked, setIsClicked] = useState(false);
 
   // 유저 닉네임 - 프로필 가져오기 함수
   const getUserInfo = async () => {
@@ -223,7 +225,17 @@ const MateWrite = () => {
         </EditorBox>
 
         <WriteButtonBox>
-          <WriteButton type="submit">모집글 올리기</WriteButton>
+          <WriteButton
+            onClick={() => {
+              setIsClicked(!isClicked);
+            }}
+            style={{
+              backgroundColor: isClicked ? '#f7f7f7' : 'white',
+            }}
+            type="submit"
+          >
+            모집글 올리기
+          </WriteButton>
         </WriteButtonBox>
       </EditingBox>
     </WritePageContainer>
