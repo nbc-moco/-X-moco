@@ -1,8 +1,10 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Comment from '../../components/MateDetail/Comment';
-import MateDetailWriting from '../../components/MateDetail/MateDetailWriting';
-
+// import MateDetailWriting from '../../components/mateDetail/MateDetailWrite/MateDetailWriting';
+import DetailRecruit from './../../components/MateDetail/DetailRecruit';
+// import Comment from './../../components/mateDetail/Comment/Comment';
+import AddComment from './../../components/MateDetail/AddComment/AddComment';
+import CommentList from './../../components/MateDetail/CommentList/CommentList';
 const MateDetail = () => {
   return (
     <MateDetailWrap>
@@ -17,9 +19,7 @@ const MateDetail = () => {
     </MateDetailWrap>
   );
 };
-
 export default MateDetail;
-
 const MateDetailWrap = styled.section`
   display: flex;
   justify-content: center;
@@ -32,7 +32,6 @@ const MateDetailWrap = styled.section`
 const MateDetailContainer = styled.div`
   width: 100%;
 `;
-
 const CommentWrap = styled.div`
   width: 100%;
 `;
