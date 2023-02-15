@@ -2,7 +2,7 @@ import { deleteDoc, doc } from 'firebase/firestore';
 import styled from '@emotion/styled';
 import { db } from '../../../common/firebase';
 
-const CustomConfirmUI = (props) => {
+const CustomUi = (props) => {
   return (
     <ConfirmBody>
       <ConfirmBox>
@@ -28,7 +28,7 @@ const CustomConfirmUI = (props) => {
     </ConfirmBody>
   );
 };
-export default CustomConfirmUI;
+export default CustomUi;
 
 const ConfirmBody = styled.div`
   display: flex;

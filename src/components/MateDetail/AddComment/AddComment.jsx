@@ -1,4 +1,4 @@
-import React, { useEffect, useState, ChangeEvent, MouseEvent } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   AddCommentListWrap,
   AddCommentListAll,
@@ -6,12 +6,9 @@ import {
   AddInputContent,
   AddCommentText,
   AddCommentBtn,
-  AddIconBtn,
-  AddCommentPlusGit,
   AddCommentDiv,
   AddInputDiv,
   AddCommentBtnDiv,
-  BookMark,
 } from './style';
 import {
   collection,
@@ -22,25 +19,44 @@ import {
   addDoc,
 } from 'firebase/firestore';
 import { authService, db } from '../../../common/firebase';
-import CommentList from '../CommentList/CommentList';
 import { onAuthStateChanged } from 'firebase/auth';
 import { confirmAlert } from 'react-confirm-alert';
 import AlertUI from '../../GlobalComponents/AlertUI/AlertUI';
 
-const AddComment = ({ comment }) => {
+const AddComment = ({ user }) => {
   const [commentText, setCommentText] = useState('');
+  const [createdDate, setcreatedDate] = useState('');
+  // const [changeColor, setChangeColor] = useState<string>(
+  //   'rgba(32, 82, 149, 0.6)',
+  // );
 
-  const AddCommentTextChange = () => {
-    setCommentText(comment.target.value);
+  const AddCommentTextChange = (e) => {
+    setCommentText(e.target.value);
   };
+
+  const [currentUserName, setCurrentUserName] = useState('');
+  const [currentUserUid, setCurrentUserUid] = useState('');
+
+  useEffect(() => {
+    onAuthStateChanged(authService, (user) => {
+      if (user) {
+        setCurrentUserName(authService.currentUser?.displayName);
+        setCurrentUserUid(authService.currentUser?.uid);
+      } else if (!user) {
+        console.log('로그인 안됨.');
+      }
+    });
+  }, [currentUserName, currentUserUid]);
 
   // 데이터 올리기
   const NewDate = new Date().toLocaleDateString('kr');
 
-  const AddCommentButton = async () => {
-    comment.preventDefault();
+  const AddCommentButton = async (e) => {
+    e.preventDefault();
     const newComment = {
       comment: commentText,
+      userName: user.nickname,
+      userId: user.uid,
       createdAt: new Date(),
       date: NewDate,
     };
@@ -50,11 +66,9 @@ const AddComment = ({ comment }) => {
           return <AlertUI title={'로그인을 해주세요.'} onClose={onClose} />;
         },
       });
-
       setCommentText('');
     } else if (commentText !== '') {
       await addDoc(collection(db, 'comments'), newComment);
-
       setCommentText('');
     } else if (commentText === '') {
       confirmAlert({

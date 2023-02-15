@@ -2,30 +2,30 @@ import React, { useState } from 'react';
 import { confirmAlert } from 'react-confirm-alert';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db, authService } from '../../../common/firebase';
-import CustomConfirmUI from './CustomUi';
 // import { uuidv4 } from '@firebase/util';
+import CustomUi from './CustomUi';
+import { GrMoreVertical } from 'react-icons/gr';
 import {
   CommentContainer,
-  CommentContainHeader,
-  CommentWrap,
-  CommentUserName,
-  CommentText,
-  CommentUserInput,
-  CommentUserDate,
-  CommentUpdateButton,
   CommentDeleteBtn,
+  CommentContainHeader,
+  CommentIconBody,
+  CommentUserName,
+  CommentUserInput,
+  CommentPoliceBtn,
+  CommentText,
+  CommentTextIcon,
+  CommentUpdateBtn,
+  ListContainer,
+  ListTextSection,
+  NoneDiv,
+  UpdateDeleteBody,
 } from './CommentStyle';
 
 const Comment = ({ user }) => {
-  // 유저 정보
-  // const [nickname, setNickname] = useState('');
-  // const [profileImg, setGetProfileImg] = useState('');
   // comment 컬렉션 데이터 저장
-  const [comment, setComment] = useState('');
-  // const [createdDate, setCreatedDate] = useState('');
   const [editBox, setEditBox] = useState(false);
   const [editValue, setEditValue] = useState(user.comment);
-  const [userInput, setUserInput] = useState(false);
   const [toggleBtn, setToggleBtn] = useState(false);
   const [areYouUser, setAreYouUser] = useState(false);
 
@@ -33,7 +33,8 @@ const Comment = ({ user }) => {
     setEditValue(e.target.value);
   };
 
-  // 버튼을 누를 시 userid와 currentuid비교
+  // 토글 버튼을 누를 시 userid와 currentuid비교
+  // 수정 삭제 버튼 오픈
   const ToggleDropDown = (userId) => {
     const currentUid = authService?.currentUser?.uid;
 
@@ -50,22 +51,24 @@ const Comment = ({ user }) => {
     }
   };
 
-  // 수정&수정완료&삭제
+  // 댓글 수정
   const editHandler = (comment) => {
     setEditValue(comment);
     setEditBox(true);
   };
 
+  // 댓글 수정완료
   const completeHandler = async (user, comment) => {
     setEditBox(false);
     await updateDoc(doc(db, 'comments', user.id), { comment: comment });
     setToggleBtn(false);
   };
 
+  // 댓글 삭제
   const deleteHandler = (id) => {
     confirmAlert({
       customUI: ({ onClose }) => {
-        return <CustomConfirmUI onClose={onClose} id={id} />;
+        return <CustomUi onClose={onClose} id={id} />;
       },
     });
   };
@@ -74,44 +77,64 @@ const Comment = ({ user }) => {
     <CommentContainer>
       <CommentContainHeader>댓글</CommentContainHeader>
       {/* 댓글 내용 */}
-      <CommentWrap>
-        <CommentUserName>{user.nickname}</CommentUserName>
-        {!editBox ? (
-          <CommentText>{user.comment}</CommentText>
-        ) : (
-          <CommentUserInput
-            type="text"
-            value={editValue}
-            onChange={(e) => handleChange(e)}
-          />
-        )}
-        <CommentUserDate>{user.createddate}</CommentUserDate>
-        {!editBox ? (
-          <CommentUpdateButton
-            onClick={() => {
-              editHandler(user.comment);
-            }}
-          >
-            수정하기
-          </CommentUpdateButton>
-        ) : (
-          <CommentUpdateButton
-            onClick={() => {
-              completeHandler(user, editValue, user.uid);
-            }}
-          >
-            수정완료
-          </CommentUpdateButton>
-        )}
+      <ListContainer>
+        <ListTextSection>
+          <CommentUserName>{user.nickname}</CommentUserName>
 
-        <CommentDeleteBtn
-          onClick={() => {
-            deleteHandler(user.id);
-          }}
-        >
-          삭제
-        </CommentDeleteBtn>
-      </CommentWrap>
+          {!editBox ? (
+            <CommentText>{user.comment}</CommentText>
+          ) : (
+            <CommentUserInput
+              type="text"
+              value={editValue}
+              onChange={(e) => handleChange(e)}
+            />
+          )}
+          <CommentTextIcon>
+            <CommentIconBody>
+              <GrMoreVertical onClick={() => ToggleDropDown(user.uid)} />
+            </CommentIconBody>
+
+            {toggleBtn ? (
+              <>
+                {areYouUser ? (
+                  <UpdateDeleteBody>
+                    {!editBox ? (
+                      <CommentUpdateBtn
+                        onClick={() => {
+                          editHandler(user.comment);
+                        }}
+                      >
+                        수정
+                      </CommentUpdateBtn>
+                    ) : (
+                      <CommentUpdateBtn
+                        onClick={() =>
+                          completeHandler(user, editValue, user.uid)
+                        }
+                      >
+                        수정완료
+                      </CommentUpdateBtn>
+                    )}
+
+                    <CommentDeleteBtn
+                      onClick={() => {
+                        deleteHandler(user.id);
+                      }}
+                    >
+                      삭제
+                    </CommentDeleteBtn>
+                  </UpdateDeleteBody>
+                ) : (
+                  <UpdateDeleteBody></UpdateDeleteBody>
+                )}
+              </>
+            ) : (
+              <NoneDiv></NoneDiv>
+            )}
+          </CommentTextIcon>
+        </ListTextSection>
+      </ListContainer>
     </CommentContainer>
   );
 };
