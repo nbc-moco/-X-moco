@@ -2,10 +2,10 @@ import styled from '@emotion/styled';
 import { useState, useEffect } from 'react';
 import { Pagination } from 'antd';
 import CardSection from '../../shared/CardSection';
-import FilterLocation from './FilterLocation';
-import FilterNumOfMember from './FilterNumOfMember';
-import FilterTech from './FilterTech';
-import FilterTime from './FilterTime';
+import FilterTech from '../../shared/FilterTech';
+import FilterLocation from '../../shared/FilterLocation';
+import FilterTime from '../../shared/FilterTime';
+import FilterNumOfMember from '../../shared/FilterNumOfMember';
 import { db } from '../../common/firebase';
 import { query, onSnapshot, collection } from 'firebase/firestore';
 

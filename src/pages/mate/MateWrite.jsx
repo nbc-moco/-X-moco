@@ -22,6 +22,7 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
+import { Navigate } from 'react-router-dom';
 
 const MateWrite = () => {
   // 파베 인증
@@ -41,6 +42,8 @@ const MateWrite = () => {
   const [partyPostTitile, setPartyPostTitle] = useState('');
   const [partyDesc, setPartyDesc] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
+  // 작성글 버튼 클릭 상태
+  const [isClicked, setIsClicked] = useState(false);
   const [isDeleted, setIsDeleted] = useState(false);
 
   const [postId, setPostId] = useState('5PCFPb2hSQt9Sq8nFL5c');
@@ -176,7 +179,15 @@ const MateWrite = () => {
             <h3>기술스택</h3>
             <TechStacks>
               {stacks.map((stack, idx) => (
-                <Tech key={idx} onClick={() => handlePartyStack(stack)}>
+                <Tech
+                  style={{
+                    backgroundColor: partyStack.includes(stack)
+                      ? '#f7f7f7'
+                      : 'white',
+                  }}
+                  key={idx}
+                  onClick={() => handlePartyStack(stack)}
+                >
                   {stack}
                 </Tech>
               ))}
@@ -264,7 +275,17 @@ const MateWrite = () => {
         </EditorBox>
 
         <WriteButtonBox>
-          <WriteButton type="submit">모집글 올리기</WriteButton>
+          <WriteButton
+            onClick={() => {
+              setIsClicked(!isClicked);
+            }}
+            style={{
+              backgroundColor: isClicked ? '#f7f7f7' : 'white',
+            }}
+            type="submit"
+          >
+            모집글 올리기
+          </WriteButton>
         </WriteButtonBox>
         <button onClick={handleDelete}>삭제</button>
       </EditingBox>
