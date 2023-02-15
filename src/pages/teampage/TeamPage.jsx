@@ -1,6 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import MemberSide from '../../components/teamPage/MemberSide';
+import MemberChat from '../../components/teamPage/MemberChat';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { db } from '../../common/firebase';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function TeamPage() {
   return (
@@ -44,14 +49,9 @@ export default function TeamPage() {
                   </ContentPlace>
                 </ContenRuleAndPlace>
               </ContentContainer>
-              <ContentChatContainer>
-                <ContentChat>
-                  <ContentTitle>안녕</ContentTitle>
-                  <ContentChatArea></ContentChatArea>
-                </ContentChat>
-              </ContentChatContainer>
             </ContentContainerR>
           </DashBoardContainer>
+          <MemberChat />
         </WholeContainer>
       </JustContainer>
     </>
@@ -203,27 +203,9 @@ const PlaceCardText = styled.p`
   position: relative;
 `;
 
-const ContentChat = styled.div`
-  margin-left: 10px;
-  display: flex;
-  flex-direction: column;
-`;
-
 const ContentContainerR = styled.div`
   display: flex;
   width: 100%;
   position: relative;
   overflow-x: hidden;
-`;
-
-const ContentChatContainer = styled.div`
-  flex: 2;
-  margin: 10px;
-`;
-
-const ContentChatArea = styled.div`
-  width: 100%;
-  height: 560px;
-  background-color: black;
-  border-radius: 20px;
 `;
