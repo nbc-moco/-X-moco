@@ -10,7 +10,7 @@ import { db } from '../../common/firebase';
 import { query, onSnapshot, collection } from 'firebase/firestore';
 
 const MateList = () => {
-  const [cardAll, setCardAll] = useState('');
+  const [cardAll, setCardAll] = useState([]);
   const testArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16];
 
   const getPostData = async () => {
@@ -52,7 +52,7 @@ const MateList = () => {
       <CardListContainer>
         <CardList>
           {cardAll.map((item) => (
-            <CardSection />
+            <CardSection item={item} />
           ))}
         </CardList>
       </CardListContainer>
