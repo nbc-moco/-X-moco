@@ -33,6 +33,7 @@ const MateWrite = () => {
   const [partyPostTitile, setPartyPostTitle] = useState('');
   const [partyDesc, setPartyDesc] = useState('');
   const [isDisabled, setIsDisabled] = useState(false);
+  // 기술 스택 선택 여부 상태
 
   // 유저 닉네임 - 프로필 가져오기 함수
   const getUserInfo = async () => {
@@ -126,7 +127,15 @@ const MateWrite = () => {
             <h3>기술스택</h3>
             <TechStacks>
               {stacks.map((stack, idx) => (
-                <Tech key={idx} onClick={() => handlePartyStack(stack)}>
+                <Tech
+                  style={{
+                    backgroundColor: partyStack.includes(stack)
+                      ? '#f7f7f7'
+                      : 'white',
+                  }}
+                  key={idx}
+                  onClick={() => handlePartyStack(stack)}
+                >
                   {stack}
                 </Tech>
               ))}
