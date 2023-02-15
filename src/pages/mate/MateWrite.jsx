@@ -13,7 +13,15 @@ import { stacks } from '../../data/stacks';
 import { times } from '../../data/times';
 import { opens } from '../../data/opens';
 import { db, authService } from '../../common/firebase';
-import { addDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import {
+  addDoc,
+  collection,
+  doc,
+  getDocs,
+  query,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 import { Navigate } from 'react-router-dom';
 
 const MateWrite = () => {
@@ -36,6 +44,9 @@ const MateWrite = () => {
   const [isDisabled, setIsDisabled] = useState(false);
   // 작성글 버튼 클릭 상태
   const [isClicked, setIsClicked] = useState(false);
+  const [isDeleted, setIsDeleted] = useState(false);
+
+  const [postId, setPostId] = useState('5PCFPb2hSQt9Sq8nFL5c');
 
   // 유저 닉네임 - 프로필 가져오기 함수
   const getUserInfo = async () => {
@@ -90,16 +101,55 @@ const MateWrite = () => {
         createdDate: now(),
         postId: uuidv4(),
         uid: currentUser.uid,
+        isDeleted: false,
       });
       console.log('업로드 성공');
     } catch (error) {
-      alert(error);
+      console.log(error);
     }
   };
+
+  // ! 모집글 수정 함수
+  const handleEditPost = async () => {
+    try {
+      await updateDoc(doc(db, 'post', postId), {
+        partyName,
+        partyStack,
+        partyTime,
+        partyNum,
+        partyLocation,
+        partyIsOpen,
+        isRemote,
+        partyPostTitile,
+        partyDesc,
+      });
+      console.log('수정 성공');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // ! 모집글 삭제 함수 (표면상 삭제이지만, 팀페이지에서 글의 정보를 가져가 사용하기 때문에 비활성화 처리합니다)
+  // 팀페이지에서는 모달로.
+  const handleDelete = async () => {
+    try {
+      await updateDoc(doc(db, 'post', postId), {
+        isDeleted: true,
+      });
+      console.log('삭제 성공');
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // 모집글 수정 함수
+
+  // 모집
 
   useEffect(() => {
     if (!currentUser) return;
     getUserInfo();
+    console.log(currentUser)
   }, [currentUser]);
 
   return (
@@ -237,6 +287,7 @@ const MateWrite = () => {
             모집글 올리기
           </WriteButton>
         </WriteButtonBox>
+        <button onClick={handleDelete}>삭제</button>
       </EditingBox>
     </WritePageContainer>
   );
