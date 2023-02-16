@@ -2,54 +2,100 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import MemberSide from '../../components/teamPage/MemberSide';
 import MemberChat from '../../components/teamPage/chat/MemberChat';
-import { collection, query, where, getDocs } from 'firebase/firestore';
+import { collection, query, onSnapshot } from 'firebase/firestore';
 import { db } from '../../common/firebase';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 
 export default function TeamPage() {
+  const { id } = useParams();
+  const [postList, setPostList] = useState([]);
+
+  useEffect(() => {
+    const postCollectionRef = collection(db, 'post');
+    const q = query(postCollectionRef);
+    const getPost = onSnapshot(q, (snapshot) => {
+      const testPost = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setPostList(testPost);
+      console.log('test', testPost);
+      console.log('dkdk', postList);
+    });
+    return getPost;
+  }, []);
+
+  // 인풋
+  const [inputIntroduce, setInputIntroduce] = useState('');
+
   return (
     <>
       <JustContainer>
         <WholeContainer>
           <MemberSide />
           <DashBoardContainer>
-            <DashboardHeaderWrap>
-              <DashboardTitle>논현동 불주먹 모임(파이썬 부신다)</DashboardTitle>
-              <ProjectBasicStatus>
-                <ProjectPlace>
-                  <ProjectPlaceTitlte>모임 장소</ProjectPlaceTitlte>
-                  <ProjectPlaceName>서울 논현동</ProjectPlaceName>
-                </ProjectPlace>
-                <ProjectPlace>
-                  <ProjectPlaceTitlte>모임 시간</ProjectPlaceTitlte>
-                  <ProjectPlaceName>월, 수 / PM 19:00~21:00</ProjectPlaceName>
-                </ProjectPlace>
-              </ProjectBasicStatus>
-            </DashboardHeaderWrap>
-            <ContentContainerR>
-              <ContentContainer>
-                <ContenRuleAndPlace>
-                  <ContentTitle>안녕</ContentTitle>
-                  <ContentRule></ContentRule>
-                  <ContentTitle>안녕</ContentTitle>
-                  <ContentPlace>
-                    <ContentPlaceCard>
-                      <PlaceCardTitle>좋은 장소</PlaceCardTitle>
-                      <PlaceCardText>개쩜</PlaceCardText>
-                    </ContentPlaceCard>
-                    <ContentPlaceCard>
-                      <PlaceCardTitle>좋은 장소</PlaceCardTitle>
-                      <PlaceCardText>개쩜</PlaceCardText>
-                    </ContentPlaceCard>
-                    <ContentPlaceCard>
-                      <PlaceCardTitle>좋은 장소</PlaceCardTitle>
-                      <PlaceCardText>개쩜</PlaceCardText>
-                    </ContentPlaceCard>
-                  </ContentPlace>
-                </ContenRuleAndPlace>
-              </ContentContainer>
-            </ContentContainerR>
+            {postList
+              .filter((item) => item.id === id)
+              .map((item) => {
+                return (
+                  <>
+                    <DashboardHeaderWrap>
+                      <DashboardTitle>{item.partyName}</DashboardTitle>
+                      <ProjectBasicStatus>
+                        <ProjectPlace>
+                          <ProjectPlaceTitlte>모임 장소</ProjectPlaceTitlte>
+                          <ProjectPlaceName>
+                            {item.partyLocation ? item.partyLocation : '비대면'}
+                          </ProjectPlaceName>
+                        </ProjectPlace>
+                        <ProjectPlace>
+                          <ProjectPlaceTitlte>모임 시간</ProjectPlaceTitlte>
+                          <ProjectPlaceName>
+                            {item.partyTime ? item.partyTime : '무관'}
+                          </ProjectPlaceName>
+                        </ProjectPlace>
+                      </ProjectBasicStatus>
+                    </DashboardHeaderWrap>
+                    <ContentContainerR>
+                      <ContentContainer>
+                        <ContenRuleAndPlace>
+                          <ContentTitle>📌 모임 공지</ContentTitle>
+                          <ContentRule
+                            type="text"
+                            placeholder="아직 모임 공지가 없어요!"
+                            value={inputIntroduce}
+                            onChange={(e) => {
+                              setInputIntroduce(e.target.value);
+                            }}
+                          ></ContentRule>
+                          <ContentTitle>안녕</ContentTitle>
+                          <ContentPlace>
+                            <ContentPlaceCard>
+                              <PlaceCardTitle>좋은 장소</PlaceCardTitle>
+                              <PlaceCardText>개쩜</PlaceCardText>
+                            </ContentPlaceCard>
+                            <ContentPlaceCard>
+                              <PlaceCardTitle>좋은 장소</PlaceCardTitle>
+                              <PlaceCardText>개쩜</PlaceCardText>
+                            </ContentPlaceCard>
+                            <ContentPlaceCard>
+                              <PlaceCardTitle>좋은 장소</PlaceCardTitle>
+                              <PlaceCardText>개쩜</PlaceCardText>
+                            </ContentPlaceCard>
+                          </ContentPlace>
+                        </ContenRuleAndPlace>
+                      </ContentContainer>
+                      <ContentChatContainer>
+                        <ContentChat>
+                          <ContentTitle>안녕</ContentTitle>
+                          <ContentChatArea></ContentChatArea>
+                        </ContentChat>
+                      </ContentChatContainer>
+                    </ContentContainerR>
+                  </>
+                );
+              })}
           </DashBoardContainer>
           <MemberChat />
         </WholeContainer>
@@ -147,17 +193,22 @@ const ContenRuleAndPlace = styled.div`
   flex-direction: column;
 `;
 
-const ContentRule = styled.div`
-  background-color: #31abbd;
+const ContentRule = styled.input`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 250px;
+  height: 200px;
   padding: 30px;
   border-radius: 20px;
   align-self: stretch;
   overflow: hidden;
   position: relative;
+  padding-left: 8px;
+  font-size: 15px;
+  border: 1px solid rgb(150, 150, 150);
+  :focus-visible {
+    outline: none;
+  }
 `;
 
 const ContentTitle = styled.a`
@@ -208,4 +259,22 @@ const ContentContainerR = styled.div`
   width: 100%;
   position: relative;
   overflow-x: hidden;
+`;
+
+const ContentChat = styled.div`
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const ContentChatContainer = styled.div`
+  flex: 2;
+  margin: 10px;
+`;
+
+const ContentChatArea = styled.div`
+  width: 100%;
+  height: 560px;
+  background-color: black;
+  border-radius: 20px;
 `;
