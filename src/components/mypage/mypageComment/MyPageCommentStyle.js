@@ -10,3 +10,13 @@ export const MyCommetTitle = styled.div`
 export const MyCommentList = styled.div`
   margin-top: 25px;
 `;
+
+// MyComment 부분
+
+export const MyCommentsBox = styled.div``;
+
+export const MyCommentOfComment = styled.div``;
+
+export const MyCommentDate = styled.div``;
+
+export const MyCommentCommentTitle = styled.div``;
