@@ -215,5 +215,5 @@ const FilterPlaceContainer = styled.div`
 
 const IntroSubmitBtn = styled.button`
   width: 100px;
-  height: 100px;
+  height: 30px;
 `;
