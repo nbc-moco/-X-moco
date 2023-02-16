@@ -209,7 +209,7 @@ export const ProfileCompleteBtn = styled.div`
 `;
 
 export const ProfileStackBtn = styled.div`
-  width: 110px;
+  width: 120px;
   height: 40px;
 
   margin-bottom: 20px;
