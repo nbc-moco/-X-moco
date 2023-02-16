@@ -12,10 +12,8 @@ const MateDetail = () => {
         <MateDetailWriting />
       </MateDetailContainer>
       <CommentWrap>
-        {/* 더미데이터 */}
         <CommentList />
         <AddComment />
-        {/* Editor 값 가져오기 */}
       </CommentWrap>
       <DetailRecruit />
     </MateDetailWrap>

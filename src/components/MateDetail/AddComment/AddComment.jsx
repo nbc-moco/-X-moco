@@ -17,8 +17,10 @@ import {
   deleteDoc,
   setDoc,
   addDoc,
+  getDocs,
   query,
   where,
+  orderBy,
 } from 'firebase/firestore';
 import { authService, db } from '../../../common/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
@@ -57,11 +59,13 @@ const AddComment = () => {
 
   // 유저 닉네임 - 프로필 가져오기 함수
   const getUserInfo = async () => {
-    const q = await query(
+    const q = query(
       collection(db, 'user'),
       where('uid', '==', currentUser.uid),
+      // 댓글 내림차순
+      orderBy('createdAt', 'desc'),
     );
-    getDoc(q).then((querySnapshot) => {
+    await getDocs(q).then((querySnapshot) => {
       const user = [];
       querySnapshot.forEach((doc) => {
         user.push({
@@ -90,6 +94,7 @@ const AddComment = () => {
       userId: currentUserUid,
       createdAt: new Date(),
       date: NewDate,
+      mateDetailId: '',
     };
 
     console.log(nickName.displayName);
