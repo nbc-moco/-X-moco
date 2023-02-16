@@ -6,8 +6,8 @@ import { times } from '../../data/times';
 import { locations } from '../../data/locations';
 import { useState } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
-import { db } from '../../common/firebase';
-import { getAuth } from 'firebase/auth';
+import { authService, db } from '../../common/firebase';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { Checkbox } from 'antd';
 import { useNavigate } from 'react-router-dom';
 
@@ -51,12 +51,16 @@ export default function OnboardingPage() {
   };
 
   useEffect(() => {
-    const auth2 = getAuth();
-    const getUserName = async () => {
-      setCurrentUserName(auth2.currentUser.displayName);
-      console.log('user', currentUserName);
-    };
-    getUserName();
+    onAuthStateChanged(authService, (user) => {
+      if (user) {
+        const auth2 = getAuth();
+        const getUserName = async () => {
+          setCurrentUserName(auth2.currentUser.displayName);
+          console.log('user', currentUserName);
+        };
+        getUserName();
+      }
+    });
   }, []);
 
   // 네비게이트

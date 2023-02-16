@@ -3,32 +3,33 @@ import styled from '@emotion/styled';
 import MemberSide from '../../components/teamPage/MemberSide';
 import MemberChat from '../../components/teamPage/chat/MemberChat';
 import { collection, query, onSnapshot } from 'firebase/firestore';
-import { db } from '../../common/firebase';
+import { authService, db } from '../../common/firebase';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
+import ContentRule from './ContentRule';
+import ContentBoard from './ContentBoard';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function TeamPage() {
   const { id } = useParams();
   const [postList, setPostList] = useState([]);
 
   useEffect(() => {
-    const postCollectionRef = collection(db, 'post');
-    const q = query(postCollectionRef);
-    const getPost = onSnapshot(q, (snapshot) => {
-      const testPost = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setPostList(testPost);
-
-      console.log('test', testPost);
-      console.log('dkdk', postList);
+    onAuthStateChanged(authService, (user) => {
+      if (user) {
+        const postCollectionRef = collection(db, 'post');
+        const q = query(postCollectionRef);
+        const getPost = onSnapshot(q, (snapshot) => {
+          const testPost = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setPostList(testPost);
+        });
+        return getPost;
+      }
     });
-    return getPost;
   }, []);
-
-  // 인풋
-  const [inputIntroduce, setInputIntroduce] = useState('');
 
   return (
     <>
@@ -61,36 +62,19 @@ export default function TeamPage() {
                     <ContentContainerR>
                       <ContentContainer>
                         <ContenRuleAndPlace>
+                          <ContentTitle>📍 모임 장소</ContentTitle>
+                          <ContentCard>
+                            <PlaceCardTitle>좋은 장소</PlaceCardTitle>
+                            <PlaceCardText>개쩜</PlaceCardText>
+                          </ContentCard>
                           <ContentTitle>📌 모임 공지</ContentTitle>
-                          <ContentRule
-                            type="text"
-                            placeholder="아직 모임 공지가 없어요!"
-                            value={inputIntroduce}
-                            onChange={(e) => {
-                              setInputIntroduce(e.target.value);
-                            }}
-                          ></ContentRule>
-                          <ContentTitle>안녕</ContentTitle>
-                          <ContentPlace>
-                            <ContentPlaceCard>
-                              <PlaceCardTitle>좋은 장소</PlaceCardTitle>
-                              <PlaceCardText>개쩜</PlaceCardText>
-                            </ContentPlaceCard>
-                            <ContentPlaceCard>
-                              <PlaceCardTitle>좋은 장소</PlaceCardTitle>
-                              <PlaceCardText>개쩜</PlaceCardText>
-                            </ContentPlaceCard>
-                            <ContentPlaceCard>
-                              <PlaceCardTitle>좋은 장소</PlaceCardTitle>
-                              <PlaceCardText>개쩜</PlaceCardText>
-                            </ContentPlaceCard>
-                          </ContentPlace>
+                          <ContentRule />
                         </ContenRuleAndPlace>
                       </ContentContainer>
                       <ContentChatContainer>
                         <ContentChat>
                           <ContentTitle>안녕</ContentTitle>
-                          <ContentChatArea></ContentChatArea>
+                          <ContentBoard />
                         </ContentChat>
                       </ContentChatContainer>
                     </ContentContainerR>
@@ -185,7 +169,7 @@ const ProjectPlaceName = styled.span`
 `;
 
 const ContentContainer = styled.div`
-  flex: 3;
+  flex: 2.5;
   margin: 10px;
 `;
 
@@ -194,7 +178,7 @@ const ContenRuleAndPlace = styled.div`
   flex-direction: column;
 `;
 
-const ContentRule = styled.input`
+const ContentRuleee = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -219,21 +203,13 @@ const ContentTitle = styled.a`
   margin-top: 20px;
 `;
 
-const ContentPlace = styled.div`
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 20px;
-  grid-row-gap: 20px;
-`;
-
-const ContentPlaceCard = styled.div`
+const ContentCard = styled.div`
   position: relative;
   background-color: var(--video-bg);
   border-radius: 20px;
   overflow: hidden;
   transition: 0.4s;
-  height: 250px;
+  height: 200px;
   background-color: black;
 `;
 
@@ -275,7 +251,7 @@ const ContentChatContainer = styled.div`
 
 const ContentChatArea = styled.div`
   width: 100%;
-  height: 560px;
+  height: 63vh;
   background-color: black;
   border-radius: 20px;
 `;

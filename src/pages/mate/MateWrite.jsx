@@ -18,11 +18,11 @@ import {
   collection,
   doc,
   getDocs,
+  onSnapshot,
   query,
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { Navigate } from 'react-router-dom';
 
 const MateWrite = () => {
   // 파베 인증
@@ -102,6 +102,7 @@ const MateWrite = () => {
         postId: uuidv4(),
         uid: currentUser.uid,
         isDeleted: false,
+        createdAt: Date.now(),
       });
       console.log('업로드 성공');
     } catch (error) {
@@ -149,7 +150,7 @@ const MateWrite = () => {
   useEffect(() => {
     if (!currentUser) return;
     getUserInfo();
-    console.log(currentUser)
+    console.log(currentUser);
   }, [currentUser]);
 
   return (
