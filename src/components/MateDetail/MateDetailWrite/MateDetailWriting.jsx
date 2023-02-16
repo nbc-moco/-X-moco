@@ -1,4 +1,6 @@
+import { getDoc, where } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
+import { storage } from '../../../common/firebase';
 import {
   GroupWrap,
   GroupHeader,
@@ -33,6 +35,7 @@ const MateDetailWriting = () => {
       </GroupBox>
     </GroupWrap>
   );
+  console.log();
 };
 
 export default MateDetailWriting;
