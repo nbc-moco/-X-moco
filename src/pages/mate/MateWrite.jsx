@@ -102,6 +102,7 @@ const MateWrite = () => {
         postId: uuidv4(),
         uid: currentUser.uid,
         isDeleted: false,
+        createdAt: Date.now(),
       });
       console.log('업로드 성공');
     } catch (error) {

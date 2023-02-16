@@ -93,7 +93,7 @@ const Header = () => {
           <MyCodingMate>내 코딩모임</MyCodingMate>
         </LogoAndMateBox>
         <TeamAndLoginBox>
-          <MakeTeam>팀 개설하기</MakeTeam>
+          <MakeTeam onClick={() => navigate('/write')}>팀 개설하기</MakeTeam>
           <HeaderIcon />
 
           <NavigateMypage>
