@@ -1,14 +1,24 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import Select from 'react-select';
+import { useEffect } from 'react';
 import { times } from '../../data/times';
 import { locations } from '../../data/locations';
 import { useState } from 'react';
 import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../common/firebase';
 import { getAuth } from 'firebase/auth';
+import { Checkbox } from 'antd';
 
 export default function OnboardingPage() {
+  const [isRemote, setIsRemote] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(false);
+  // 인풋값
+  const [userStack, setUserStack] = useState([]);
+  const [userTime, setUserTime] = useState('');
+  const [userLocation, setUserLocation] = useState('');
+  const [currentUserName, setCurrentUserName] = useState('');
+
   const stacks = [
     'JavsScript',
     'Python',
@@ -23,13 +33,6 @@ export default function OnboardingPage() {
     'Vue',
     'React',
   ];
-  const setPreferPlace = ['카페', '스터디룸', '스튜디오', '개인장소'];
-
-  // 인풋값
-  const [userStack, setUserStack] = useState([]);
-  const [userPlace, setUserPlace] = useState([]);
-  const [userTime, setUserTime] = useState('');
-  const [userLocation, setUserLocation] = useState('');
 
   // 기술 스택 선택 핸들러 함수
   const handleStack = (stack) => {
@@ -40,19 +43,21 @@ export default function OnboardingPage() {
     }
   };
 
-  // 선호 장소 선택 핸들러 함수
-  const handlePlaceStack = (placeitem) => {
-    if (userPlace.includes(placeitem)) {
-      setUserPlace(userPlace.filter((item) => item !== placeitem));
-    } else {
-      setUserPlace([...userPlace, placeitem]);
-    }
+  // 비대면 모임 체크박스 핸들러 함수
+  const handleisRemote = (e) => {
+    setIsRemote(!isRemote);
+    setIsDisabled(!isDisabled);
   };
 
-  // 자기소개 인풋
-  const [inputIntroduce, setInputIntroduce] = useState('');
+  useEffect(() => {
+    const auth2 = getAuth();
+    const getUserName = async () => {
+      setCurrentUserName(auth2.currentUser.displayName);
+      console.log('user', currentUserName);
+    };
+    getUserName();
+  }, []);
 
-  // create
   const updateIntroduce = async () => {
     const auth = getAuth();
     const user = auth.currentUser.uid;
@@ -63,8 +68,6 @@ export default function OnboardingPage() {
         u_time: userTime,
         u_location: userLocation,
         u_isRemote: false,
-        u_preferPlace: userPlace,
-        u_introduceself: inputIntroduce,
       },
     };
     try {
@@ -82,13 +85,22 @@ export default function OnboardingPage() {
       <JustContainer>
         <WholeContainer>
           <PhraseTitle>
-            맞춤 모임 추천을 위해 정다인 님의 정보를 알려주세요 🙌
+            맞춤 모임 추천을 위해 {currentUserName ? currentUserName : '익명'}
+            님의 정보를 알려주세요 🙌
           </PhraseTitle>
           <AreaContainer>
             <h3>기술 스택</h3>
             <SetStacks>
               {stacks.map((techitem, idx) => (
-                <Stacks key={idx} onClick={() => handleStack(techitem)}>
+                <Stacks
+                  style={{
+                    backgroundColor: userStack.includes(techitem)
+                      ? '#f7f7f7'
+                      : 'white',
+                  }}
+                  key={idx}
+                  onClick={() => handleStack(techitem)}
+                >
                   {techitem}
                 </Stacks>
               ))}
@@ -107,37 +119,20 @@ export default function OnboardingPage() {
           </AreaContainer>
           <AreaContainer>
             <h3>선호 지역 설정</h3>
-            <FilterContainer>
-              <Select
-                options={locations}
-                placeholder={!userLocation ? '모집 지역' : userLocation}
-                onChange={(loc) => setUserLocation(loc.value)}
-                value={userLocation}
-              />
-            </FilterContainer>
-          </AreaContainer>
-          <AreaContainer>
-            <h3>선호 장소 설정</h3>
-            <SetStacks>
-              {setPreferPlace.map((placeitem, idx) => (
-                <Stacks key={idx} onClick={() => handlePlaceStack(placeitem)}>
-                  {placeitem}
-                </Stacks>
-              ))}
-            </SetStacks>
-          </AreaContainer>
-          <AreaContainer>
-            <h3>자기소개</h3>
-            <IntroduceContainer>
-              <IntroduceInput
-                type="text"
-                placeholder="자기소개를 간단하게 입력해주세요 :)"
-                value={inputIntroduce}
-                onChange={(e) => {
-                  setInputIntroduce(e.target.value);
-                }}
-              />
-            </IntroduceContainer>
+            <FilterPlaceContainer>
+              <FilterContainerOnly>
+                <Select
+                  options={locations}
+                  placeholder={!userLocation ? '모집 지역' : userLocation}
+                  onChange={(loc) => setUserLocation(loc.value)}
+                  value={userLocation}
+                  isDisabled={isDisabled}
+                />
+              </FilterContainerOnly>
+              <Checkbox style={{ marginLeft: 20 }} onChange={handleisRemote}>
+                비대면을 원해요
+              </Checkbox>
+            </FilterPlaceContainer>
           </AreaContainer>
           <IntroSubmitBtn
             onClick={updateIntroduce}
@@ -207,22 +202,15 @@ const FilterContainer = styled.div`
   margin-bottom: 100px;
 `;
 
-const IntroduceContainer = styled.div`
-  margin-top: 20px;
-  width: 100%;
-  margin-bottom: 100px;
+const FilterContainerOnly = styled.div`
+  width: 400px;
 `;
 
-const IntroduceInput = styled.input`
-  width: 100%;
-  height: 200px;
-  font-size: 15px;
-  border: 1px solid rgb(150, 150, 150);
-  border-radius: 5px;
-  padding-left: 8px;
-  :focus-visible {
-    outline: none;
-  }
+const FilterPlaceContainer = styled.div`
+  margin-top: 20px;
+  margin-bottom: 100px;
+  align-items: center;
+  display: flex;
 `;
 
 const IntroSubmitBtn = styled.button`
