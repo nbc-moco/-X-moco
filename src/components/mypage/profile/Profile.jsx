@@ -31,20 +31,17 @@ import {
   TechBodyTitle,
   TechBodyImage,
   ProfileFooterBody,
-  ProfileCompleteBtn,
   ProfileStackBtn,
 } from './ProfileStyle';
 import {
   collection,
   doc,
   onSnapshot,
-  orderBy,
   query,
   updateDoc,
   where,
 } from '@firebase/firestore';
 import { useNavigate } from 'react-router';
-import { useQuery } from 'react-query';
 
 const Profile = () => {
   // 네이게이트
