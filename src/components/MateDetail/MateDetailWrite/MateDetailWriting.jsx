@@ -15,7 +15,8 @@ import {
 const MateDetailWriting = () => {
   const [post, setpost] = useState([]);
   useEffect(() => {
-    const q = query(collection(db, 'post'), 'post/docs');
+    const postCollectionRef = collection(db, 'post');
+    const q = query(postCollectionRef);
     const getPost = onSnapshot(q, (snapshot) => {
       const postData = snapshot.docs.map((doc) => ({
         id: doc.id,
