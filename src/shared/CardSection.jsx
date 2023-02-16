@@ -9,13 +9,13 @@ const CardSection = ({ item }) => {
   return (
     <PostCard>
       <BookmarkIconBox>
-        <Location>{/* {item.partyLocation} */}</Location>
+        <Location>{item.partyLocation}</Location>
         <BsBookmarkHeart cursor="pointer" size="20px" />
       </BookmarkIconBox>
 
       <PostBox>
-        <PostTitle>{/* {item.partyPostTitile} */}</PostTitle>
-        <PostDesc>{/* {item.partyDesc} */}</PostDesc>
+        <PostTitle>{item.partyPostTitile}</PostTitle>
+        <PostDesc>{item.partyDesc}</PostDesc>
         <TechStackIcon></TechStackIcon>
       </PostBox>
 
