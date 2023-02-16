@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from '@emotion/styled';
 import Select from 'react-select';
 import { useEffect } from 'react';
@@ -9,6 +9,7 @@ import { doc, updateDoc } from 'firebase/firestore';
 import { db } from '../../common/firebase';
 import { getAuth } from 'firebase/auth';
 import { Checkbox } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
 export default function OnboardingPage() {
   const [isRemote, setIsRemote] = useState(false);
@@ -58,6 +59,9 @@ export default function OnboardingPage() {
     getUserName();
   }, []);
 
+  // 네비게이트
+  const navigate = useNavigate();
+
   const updateIntroduce = async () => {
     const auth = getAuth();
     const user = auth.currentUser.uid;
@@ -67,7 +71,7 @@ export default function OnboardingPage() {
         u_stack: userStack,
         u_time: userTime,
         u_location: userLocation,
-        u_isRemote: false,
+        u_isRemote: isRemote,
       },
     };
     try {
@@ -78,6 +82,31 @@ export default function OnboardingPage() {
     } finally {
       console.log('end');
     }
+    navigate('/');
+  };
+
+  // 온보딩 수정하기
+  const editIntroduce = async () => {
+    const auth = getAuth();
+    const user = auth.currentUser.uid;
+    const userDoc = doc(db, 'user', String(user));
+    const newField = {
+      moreInfo: {
+        u_stack: userStack,
+        u_time: userTime,
+        u_location: userLocation,
+        u_isRemote: isRemote,
+      },
+    };
+    try {
+      await updateDoc(userDoc, newField);
+      console.log('user', user);
+    } catch (e) {
+      console.log(e);
+    } finally {
+      console.log('end');
+    }
+    navigate('/mypage');
   };
 
   return (
@@ -134,10 +163,16 @@ export default function OnboardingPage() {
               </Checkbox>
             </FilterPlaceContainer>
           </AreaContainer>
-          <IntroSubmitBtn
-            onClick={updateIntroduce}
-            type="submit"
-          ></IntroSubmitBtn>
+          <IntroSubmitBtnBox>
+            <>
+              <IntroSubmitBtn onClick={updateIntroduce} type="submit">
+                제출하기
+              </IntroSubmitBtn>
+            </>
+            <>
+              <IntroEditBtn onClick={editIntroduce}>수정하기</IntroEditBtn>
+            </>
+          </IntroSubmitBtnBox>
         </WholeContainer>
       </JustContainer>
     </>
@@ -213,7 +248,36 @@ const FilterPlaceContainer = styled.div`
   display: flex;
 `;
 
+const IntroSubmitBtnBox = styled.div`
+  margin-left: 40%;
+`;
+
 const IntroSubmitBtn = styled.button`
-  width: 100px;
-  height: 100px;
+  width: 180px;
+  height: 50px;
+
+  font-size: 1.3rem;
+
+  background: #0002;
+  border: none;
+  border-radius: 10px;
+
+  display: block;
+
+  margin-top: 20px;
+`;
+
+const IntroEditBtn = styled.div`
+  width: 180px;
+  height: 50px;
+
+  font-size: 1.1rem;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-top: 20px;
+
+  cursor: pointer;
 `;

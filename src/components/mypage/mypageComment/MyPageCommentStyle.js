@@ -13,10 +13,43 @@ export const MyCommentList = styled.div`
 
 // MyComment 부분
 
-export const MyCommentsBox = styled.div``;
+export const MyCommentsBox = styled.div`
+  width: 100%;
+  height: 130px;
 
-export const MyCommentOfComment = styled.div``;
+  border-radius: 10px 10px 0px 0px;
+  border-bottom: 1px solid #0005;
 
-export const MyCommentDate = styled.div``;
+  padding: 10px;
 
-export const MyCommentCommentTitle = styled.div``;
+  cursor: pointer;
+
+  :hover {
+    background-color: #fdfcfc;
+  }
+`;
+
+export const MyCommentOfComment = styled.div`
+  width: 100%;
+  height: 50px;
+
+  font-size: 1.5rem;
+  font-weight: 500;
+`;
+
+export const MyCommentDate = styled.div`
+  width: 100%;
+  height: 30px;
+
+  color: #0006;
+`;
+
+export const MyCommentCommentTitle = styled.div`
+  width: 100%;
+  height: 30px;
+
+  font-size: 1.2rem;
+  font-weight: 400;
+
+  color: #0009;
+`;

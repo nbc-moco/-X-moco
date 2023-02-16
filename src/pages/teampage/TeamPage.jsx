@@ -20,6 +20,7 @@ export default function TeamPage() {
         ...doc.data(),
       }));
       setPostList(testPost);
+
       console.log('test', testPost);
       console.log('dkdk', postList);
     });

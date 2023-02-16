@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from 'firebase/auth';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { collection, onSnapshot, query } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react';
 import { authService, db } from '../../../common/firebase';
 import MyComment from './MyComment';
@@ -25,7 +25,6 @@ const MyPageComment = () => {
         ...doc.data(),
       }));
       setMyComment(newInfo);
-      console.log('댓글', newInfo);
     });
 
     return unsubscribe;

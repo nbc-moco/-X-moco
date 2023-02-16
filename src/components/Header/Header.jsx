@@ -57,7 +57,6 @@ const Header = () => {
         ...doc.data(),
       }));
       setProfileUserInfo(newInfo);
-      console.log(newInfo);
     });
     return unsubscribe;
   };
@@ -148,7 +147,7 @@ const Header = () => {
                       alt=""
                     />
                     <HeaderImageText>
-                      안녕하세요, {headerNickName}님!
+                      안녕하세요, {headerNickName}님🥰
                     </HeaderImageText>
                   </HeaderImageBox>
                   <HeaderDropDownListSection>

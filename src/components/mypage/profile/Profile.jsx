@@ -239,7 +239,9 @@ const Profile = () => {
         </ProfileMiddleSection>
 
         <ProfileFooterBody>
-          <ProfileStackBtn onClick={EditStackBtn}>맞춤정보</ProfileStackBtn>
+          <ProfileStackBtn onClick={EditStackBtn}>
+            맞춤정보 수정
+          </ProfileStackBtn>
         </ProfileFooterBody>
       </ProfileSection>
     </MyProfileBody>
