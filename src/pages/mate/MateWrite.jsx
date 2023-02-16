@@ -13,16 +13,7 @@ import { stacks } from '../../data/stacks';
 import { times } from '../../data/times';
 import { opens } from '../../data/opens';
 import { db, authService } from '../../common/firebase';
-import {
-  addDoc,
-  collection,
-  doc,
-  getDocs,
-  onSnapshot,
-  query,
-  updateDoc,
-  where,
-} from 'firebase/firestore';
+import { addDoc, collection, doc, updateDoc } from 'firebase/firestore';
 
 const MateWrite = () => {
   // 파베 인증

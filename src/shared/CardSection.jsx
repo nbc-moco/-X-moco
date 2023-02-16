@@ -4,6 +4,7 @@ import { GrFormView } from 'react-icons/gr';
 import { FaRegCommentDots } from 'react-icons/fa';
 import { BsPeopleFill } from 'react-icons/bs';
 import { BsPower } from 'react-icons/bs';
+import { Divider, Space, Tag } from 'antd';
 
 const CardSection = ({ item }) => {
   return (
@@ -17,7 +18,13 @@ const CardSection = ({ item }) => {
       <PostBox>
         <PostTitle>{item.partyPostTitile}</PostTitle>
         <PostDesc>{item.partyDesc}</PostDesc>
-        <TechStackIcon></TechStackIcon>
+        <TechStackIcon>
+          {item.partyStack.map((item) => (
+            <Tag style={{ fontSize: 12 }} color="purple">
+              {item}
+            </Tag>
+          ))}
+        </TechStackIcon>
       </PostBox>
 
       <PartyStatusBox>
@@ -32,7 +39,7 @@ const CardSection = ({ item }) => {
         </RecruitingBox>
         <HeadCountBox>
           <BsPeopleFill size="15px" />
-          <HeadCount>{item.partyNum}</HeadCount>
+          <HeadCount>{`: 1 / ${item.partyNum}`}</HeadCount>
         </HeadCountBox>
       </PartyStatusBox>
 
@@ -130,11 +137,11 @@ const Recruiting = styled.div`
 `;
 
 const TechStackIcon = styled.div`
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  background-image: url('https://images.velog.io/images/hang_kem_0531/post/05903636-878d-4e75-bf8b-aaddfcecbcce/js-logo.png');
-  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 240px;
+  margin: 43px 0;
 `;
 
 const HorizontalLine = styled.div`
