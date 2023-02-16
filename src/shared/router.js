@@ -8,7 +8,6 @@ import MyPage from '../pages/mypage/MyPage';
 import Home from './../pages/home/Home';
 import MateDetail from './../pages/mate/MateDetail';
 import MateWrite from '../pages/mate/MateWrite';
-import TestTeam from '../pages/testTeamPage/TestTeam';
 import OnboardingPage from '../pages/onboarding/OnboardingPage';
 import TeamPage from '../pages/teampage/TeamPage';
 
@@ -21,7 +20,6 @@ const Router = () => {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<SignUp />} />
-        <Route path="/test" element={<TestTeam />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/matedetail" element={<MateDetail />} />
         <Route path="/onboarding" element={<OnboardingPage />} />

@@ -44,8 +44,13 @@ import {
   updateDoc,
   where,
 } from '@firebase/firestore';
+import { useNavigate } from 'react-router';
+import { useQuery } from 'react-query';
 
 const Profile = () => {
+  // 네이게이트
+  const navigate = useNavigate();
+
   // 닉네임 수정 input 여부
   const [editNickNameBtn, setEditNickName] = useState(false);
 
@@ -57,7 +62,6 @@ const Profile = () => {
   const [currentUser, setCurrentUser] = useState('');
 
   // 포토 URL
-  const [photoURL, setPhotoURL] = useState('');
   const [newPhotoURL, setNewPhotoURL] = useState('');
 
   // 이미지 선택
@@ -65,6 +69,11 @@ const Profile = () => {
 
   // 유저 정보 가져오기
   const [profileUserInfo, setProfileUserInfo] = useState([]);
+
+  // 스택 정보 기져오기
+  const [stackIsRemote, setStaclIsRemote] = useState('');
+  const [stackPlace, setStackPlace] = useState('');
+  const [stackTime, setStackTime] = useState('');
 
   const getUserStackInfo = () => {
     const q = query(
@@ -77,9 +86,19 @@ const Profile = () => {
         ...doc.data(),
       }));
       setProfileUserInfo(newInfo);
+
+      setStaclIsRemote(newInfo[0]?.moreInfo.u_isRemote);
+      setStackPlace(newInfo[0]?.moreInfo.u_location);
+      setStackTime(newInfo[0]?.moreInfo.u_time);
+      console.log('유저정보', newInfo);
     });
+
     return unsubscribe;
   };
+
+  // TODO: 스크랩 정보 가져오기
+
+  // TODO: 내가 쓴 댓글 정보 가져오기
 
   // 유저 확인
   useEffect(() => {
@@ -135,6 +154,11 @@ const Profile = () => {
       setNewPhotoURL(imgUrl);
     };
     alert('프로필 이미지 수정 완료');
+  };
+
+  // 맞춤 정보 수장
+  const EditStackBtn = () => {
+    navigate('/onboarding');
   };
 
   return (
@@ -198,15 +222,17 @@ const Profile = () => {
           <MiddleBody>
             <ProfileStackBody>
               <StackbodyTitle>온/오프라인</StackbodyTitle>
-              <StackbodyText>오프라인</StackbodyText>
+              <StackbodyText>
+                {stackIsRemote ? '온라인' : '오프라인'}
+              </StackbodyText>
             </ProfileStackBody>
             <ProfileStackBody>
               <StackbodyTitle>모임 장소</StackbodyTitle>
-              <StackbodyText>서울시 영등포구</StackbodyText>
+              <StackbodyText>서울시 {stackPlace}</StackbodyText>
             </ProfileStackBody>
             <ProfileStackBody>
               <StackbodyTitle>모임 시간</StackbodyTitle>
-              <StackbodyText>평일 오후</StackbodyText>
+              <StackbodyText>{stackTime}</StackbodyText>
             </ProfileStackBody>
             <ProfileTechBody>
               <TechBodyTitle>기술 스택</TechBodyTitle>
@@ -223,7 +249,7 @@ const Profile = () => {
         </ProfileMiddleSection>
 
         <ProfileFooterBody>
-          <ProfileStackBtn>맞춤정보</ProfileStackBtn>
+          <ProfileStackBtn onClick={EditStackBtn}>맞춤정보</ProfileStackBtn>
         </ProfileFooterBody>
       </ProfileSection>
     </MyProfileBody>

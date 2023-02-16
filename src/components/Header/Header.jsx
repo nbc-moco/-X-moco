@@ -1,10 +1,8 @@
 import { collection, onSnapshot, query, where } from '@firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router';
 import { authService, db } from '../../common/firebase';
-import { clearUser, setUser } from '../../redux/config/user_action';
 import {
   HeaderBody,
   HeaderInfoBody,
@@ -16,6 +14,7 @@ import {
   MakeTeam,
   HeaderIcon,
   LoginRoute,
+  HeaderImage,
 } from './style';
 
 const Header = () => {
@@ -43,7 +42,6 @@ const Header = () => {
       }));
       setProfileUserInfo(newInfo);
     });
-    console.log('유저 정보', profileUserInfo);
     return unsubscribe;
   };
 
@@ -100,13 +98,12 @@ const Header = () => {
 
           <NavigateMypage>
             {headerMyPage ? (
-              <img
+              <HeaderImage
                 src={
                   profileUserInfo[0]?.profileImg
                     ? profileUserInfo[0].profileImg
                     : 'https://imhannah.me/common/img/default_profile.png'
                 }
-                style={{ width: 45, height: 45 }}
                 alt=""
               />
             ) : (
