@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import MemberSide from '../../components/teamPage/MemberSide';
-import MemberChat from '../../components/teamPage/MemberChat';
+import MemberChat from '../../components/teamPage/chat/MemberChat';
 import { collection, query, where, getDocs } from 'firebase/firestore';
 import { db } from '../../common/firebase';
 import { useParams } from 'react-router-dom';

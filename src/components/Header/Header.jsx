@@ -1,7 +1,8 @@
+import { collection, onSnapshot, query, where } from '@firebase/firestore';
 import { onAuthStateChanged } from 'firebase/auth';
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router';
-import { authService } from '../../common/firebase';
+import { authService, db } from '../../common/firebase';
 import {
   HeaderBody,
   HeaderInfoBody,
@@ -13,26 +14,50 @@ import {
   MakeTeam,
   HeaderIcon,
   LoginRoute,
+  HeaderImage,
 } from './style';
 
 const Header = () => {
   // 헤더 로그인 토글
   const [loginToggle, setLoginToggle] = useState(true);
 
-  // 헤더 닉네임 토글
+  // 헤더  토글
   const [headerMyPage, setHeaderMyPage] = useState(false);
+
+  // 헤더 프로필 이미지
+  const [headerProfile, setHeaderProfile] = useState('');
+
+  // 유저 정보 가져오기
+  const [profileUserInfo, setProfileUserInfo] = useState([]);
+
+  const getUserStackInfo = () => {
+    const q = query(
+      collection(db, 'user'),
+      where('uid', '==', authService.currentUser.uid),
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const newInfo = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setProfileUserInfo(newInfo);
+    });
+    return unsubscribe;
+  };
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {
         setLoginToggle(false);
         setHeaderMyPage(true);
+        setHeaderProfile(authService.currentUser.photoURL);
+        getUserStackInfo();
       } else if (!user) {
         setLoginToggle(true);
         setHeaderMyPage(false);
       }
     });
-  }, [setHeaderMyPage]);
+  }, []);
 
   const navigate = useNavigate();
 
@@ -68,32 +93,30 @@ const Header = () => {
           <MyCodingMate>내 코딩모임</MyCodingMate>
         </LogoAndMateBox>
         <TeamAndLoginBox>
-          <MakeTeam
-            onClick={() => {
-              navigate('/write');
-            }}
-          >
-            팀 개설하기
-          </MakeTeam>
+          <MakeTeam>팀 개설하기</MakeTeam>
           <HeaderIcon />
-          <HeaderIcon />
-          <LoginRoute onClick={navigateLoginPage}>
-            {loginToggle ? '로그인' : '로그아웃'}
-          </LoginRoute>
-        </TeamAndLoginBox>
-        {/* <HeaderLoute>
-          <MateLoute onClick={navigateMate}>메이트 찾기</MateLoute>
-          <NavigateMypage onClick={navigateMyPage}>
+
+          <NavigateMypage>
             {headerMyPage ? (
-              <>{authService.currentUser?.displayName ?? ''}</>
+              <HeaderImage
+                src={
+                  profileUserInfo[0]?.profileImg
+                    ? profileUserInfo[0].profileImg
+                    : 'https://imhannah.me/common/img/default_profile.png'
+                }
+                alt=""
+              />
             ) : (
               ''
             )}
           </NavigateMypage>
-          <LoginLoute onClick={navigateLoginPage}>
+
+          <LoginRoute onClick={navigateLoginPage}>
             {loginToggle ? '로그인' : '로그아웃'}
-          </LoginLoute>
-        </HeaderLoute> */}
+          </LoginRoute>
+        </TeamAndLoginBox>
+
+        {/* <MateLoute onClick={navigateMate}>메이트 찾기</MateLoute> */}
       </HeaderInfoBody>
     </HeaderBody>
   );
