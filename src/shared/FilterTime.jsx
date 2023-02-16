@@ -10,7 +10,6 @@ const FilterTime = () => {
     { value: '무관', label: '무관' },
   ];
   const [text, setText] = useState('');
-  console.log(text);
   const handleSelect = (e) => {
     setText(e);
   };

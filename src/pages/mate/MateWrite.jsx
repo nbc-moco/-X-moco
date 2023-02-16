@@ -23,41 +23,8 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { useQuery, useQueryClient } from 'react-query';
-import { useCollectionData } from 'react-firebase-hooks/firestore';
 
 const MateWrite = () => {
-  const getPostCollection = async () => {
-    const querySnapshot = await getDocs(collection(db, 'post'));
-    const data = querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    return data;
-  };
-
-  const { data, isLoading, isError } = useQuery(
-    'postCollection',
-    getPostCollection,
-  );
-
-  console.log(data);
-  console.log('로딩 중', isLoading);
-
-
-  // const postCollection = collection(db, 'post');
-  // const [myData] = useCollectionData(postCollection);
-  // console.log(myData);
-
-  // const { data, isLoading, error } = useQuery('myData', () => myData, {
-  //   cacheTime: 60 * 1000 * 2,
-  // });
-
-
-  // console.log('Qdata', data);
-  // console.log('Qloading', isLoading);
-
-
   // 파베 인증
   const currentUser = authService.currentUser;
   const quillRef = useRef(null);

@@ -8,7 +8,6 @@ const FilterTech = () => {
     { value: 'Next.js', label: 'Next.js' },
   ];
   const [text, setText] = useState('');
-  console.log(text);
   const handleSelect = (e) => {
     setText(e);
   };

@@ -10,7 +10,6 @@ const FilterNumOfMember = () => {
     { value: '3명', label: '3명' },
   ];
   const [text, setText] = useState('');
-  console.log(text);
   const handleSelect = (e) => {
     setText(e);
   };
