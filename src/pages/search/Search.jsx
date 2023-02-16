@@ -19,7 +19,9 @@ const Search = () => {
         ...doc.data(),
       }));
     setSearchData(newPost.filter((item) =>
-        item.partyLocation.toLowerCase().includes(params.word)
+        item.partyStack.includes(params.word) ||
+        item.partyLocation.includes(params.word) ||
+        item.partyTime.includes(params.word)
         ));
     });
     return getPost;

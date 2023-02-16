@@ -26,29 +26,27 @@ const SearchResultCard = ( searchdata ) => {
         <Location>
             {searchdata.partyLocation}
         </Location>
+        <Location>{searchdata.partyTime}</Location>
         <BsBookmarkHeart cursor="pointer" size="20px" />
       </BookmarkIconBox>
 
       <PostBox>
         <PostTitle>{searchdata.partyName}</PostTitle>
         <PostDesc>
-          야식은 치킨, 치킨은 황올임
-          sksksksksksksksksksksksksksksdfdfdfdfdfdfdfdfdfdfdfdfdfdfddd
+          {searchdata.partyDesc}
         </PostDesc>
         <TechStackIcon></TechStackIcon>
-        {/* {partyStack.forEach(element => {
-            document.write(element);
-        })} */}
+        {searchdata.partyStack.map((a) => a.toString())}
       </PostBox>
 
       <PartyStatusBox>
         <RecruitingBox>
           <BsPower color="green" size="15px" />
-          <Recruiting>모집 여부</Recruiting>
+          <Recruiting>{searchdata.partyIsOpen ? "모집중" : "마감"}</Recruiting>
         </RecruitingBox>
         <HeadCountBox>
           <BsPeopleFill size="15px" />
-          <HeadCount>3/4</HeadCount>
+          <HeadCount>{searchdata.partyNum}</HeadCount>
         </HeadCountBox>
       </PartyStatusBox>
 
@@ -56,7 +54,8 @@ const SearchResultCard = ( searchdata ) => {
 
       <PostInfo>
         <ProfileBox>
-          <ProfileImage></ProfileImage>
+          <ProfileImage src={searchdata.profileImg} />
+          {/* <img width="30" height="30" src={searchdata.profileImg} /> */}
           <NickName>{searchdata.nickName}</NickName>
         </ProfileBox>
         <InfoBox>
@@ -171,8 +170,7 @@ const ProfileBox = styled.div`
   align-items: center;
 `;
 
-const ProfileImage = styled.div`
-  background-color: grey;
+const ProfileImage = styled.img`
   border-radius: 50%;
   width: 30px;
   height: 30px;
