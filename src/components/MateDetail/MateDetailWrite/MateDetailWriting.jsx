@@ -1,6 +1,6 @@
-import { getDoc, where } from 'firebase/firestore';
+import { collection, query, onSnapshot, where } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
-import { storage } from '../../../common/firebase';
+import { db } from '../../../common/firebase';
 import {
   GroupWrap,
   GroupHeader,
@@ -13,29 +13,42 @@ import {
 } from './MateDetailWritingstyle';
 
 const MateDetailWriting = () => {
+  const [post, setpost] = useState([]);
+  useEffect(() => {
+    const q = query(collection(db, 'post'), 'post/docs');
+    const getPost = onSnapshot(q, (snapshot) => {
+      const postData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setpost(postData);
+    });
+    return getPost;
+  }, []);
+  console.log(post);
+
   return (
     <GroupWrap>
       <GroupHeader>
-        테스트
-        {/* {partyPostTitle} */}
+        실험중
+        {/* {post.partyPostTitile} */}
       </GroupHeader>
       <GroupUserInfo>
         <GroupImg />
         <GroupUserId>
           테스트
-          {/* {partyName} */}
+          {/* {post.nickName} */}
         </GroupUserId>
       </GroupUserInfo>
       <UserHr />
       <GroupBox>
         <GroupPerson>
           테스트
-          {/* {postId} */}
+          {/* {post.partyDesc} */}
         </GroupPerson>
       </GroupBox>
     </GroupWrap>
   );
-  console.log();
 };
 
 export default MateDetailWriting;

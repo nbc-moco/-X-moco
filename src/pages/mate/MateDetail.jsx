@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import MateDetailWriting from '../../components/mateDetail/mateDetailWrite/MateDetailWriting';
-import DetailRecruit from './../../components/mateDetail/DetailRecruit';
+import DetailRecruit from '../../components/mateDetail/mateDetailWrite/detailRecruit/DetailRecruit';
 import AddComment from '../../components/mateDetail/addComment/AddComment';
 import CommentList from '../../components/mateDetail/commentList/CommentList';
 
