@@ -23,8 +23,6 @@ const MateList = () => {
     .map((item) => item.value)
     .join(',');
 
-  console.log('selectedTech', selectedTech);
-  console.log('selectedTech', selectedTechText);
   // post 컬렉션 데이터 상태
   const [cardAll, setCardAll] = useState([]);
 
