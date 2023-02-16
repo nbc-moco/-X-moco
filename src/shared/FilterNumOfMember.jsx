@@ -17,6 +17,7 @@ const FilterNumOfMember = ({ onSelectedPeople }) => {
       placeholder="제한 인원"
       onChange={handleSelect}
       value={selectedNum}
+      isClearable={true}
     />
   );
 };

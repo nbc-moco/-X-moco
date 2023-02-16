@@ -3,7 +3,7 @@ import { useState } from 'react';
 
 const FilterTech = ({ onSelectedTech }) => {
   const options = [
-    { value: 'Javascript', label: 'Javascript' },
+    { value: 'JavsScript', label: 'JavsScript' },
     { value: 'React', label: 'React' },
     { value: 'Next.js', label: 'Next.js' },
     { value: 'Python', label: 'Python' },
@@ -17,20 +17,22 @@ const FilterTech = ({ onSelectedTech }) => {
     { value: 'Vue', label: 'Vue' },
   ];
 
-  const [selectedTech, setSlectedTech] = useState('');
+  const [selectedTech, setSelectedTech] = useState('');
   const handleSelect = (tech) => {
-    setSlectedTech(tech);
+    setSelectedTech(tech);
     onSelectedTech(tech);
   };
 
   return (
     <Select
       isMulti
+      isSearchable={false}
       options={options}
       closeMenuOnSelect={false}
       placeholder="기술 스택"
       onChange={handleSelect}
       value={selectedTech}
+      isClearable={true}
     />
   );
 };

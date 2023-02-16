@@ -16,6 +16,7 @@ const FilterLocation = ({ isDisabled, onSelectedLoaction }) => {
       onChange={handleSelect}
       value={selectedLocation}
       isDisabled={isDisabled}
+      isClearable={true}
     />
   );
 };

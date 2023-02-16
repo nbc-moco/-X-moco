@@ -15,6 +15,7 @@ const FilterTime = ({ onSelectedTime }) => {
       placeholder="시간대"
       onChange={handleSelect}
       value={selectedTime}
+      isClearable={true}
     />
   );
 };

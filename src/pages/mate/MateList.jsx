@@ -11,7 +11,7 @@ import { query, onSnapshot, collection } from 'firebase/firestore';
 
 const MateList = () => {
   // 필터 옵션 상태
-  const [selectedTech, setSlectedTech] = useState('');
+  const [selectedTech, setSelectedTech] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState('');
   const [selectedTime, setSelectedTime] = useState('');
   const [selectedNumOfMember, setSelectedNumOfMember] = useState('');
@@ -28,7 +28,7 @@ const MateList = () => {
 
   // 필터 옵션 선택 핸들러
   const handleSelectTech = (tech) => {
-    setSlectedTech(tech);
+    setSelectedTech(tech);
   };
 
   const handleSelectLocation = (location) => {
@@ -59,17 +59,10 @@ const MateList = () => {
   let DATA = [...cardAll];
 
   // 기술을 여러 개 선택했을 때는 필터가 작동을 안 함
-  if (selectedTech) {
+  if (selectedTech.length > 0) {
     DATA = DATA.filter((item) => item.partyStack.includes(selectedTechText));
   }
-
-  if (selectedTech) {
-    const techRegex = /(Javascript|Python|Next.js|Rust)/;
-    DATA = DATA.filter((item) =>
-      item.partyStack.some((tech) => techRegex.test(tech)),
-    );
-  }
-
+  
   if (selectedLocation) {
     DATA = DATA.filter((item) => item.partyLocation === selectedLocation.value);
   }
