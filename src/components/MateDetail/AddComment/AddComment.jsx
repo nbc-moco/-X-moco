@@ -86,13 +86,13 @@ const AddComment = () => {
     e.preventDefault();
     const newComment = {
       comment: commentText,
-      userName: currentUserName.displayName,
+      userName: currentUser.displayName,
       userId: currentUserUid,
       createdAt: new Date(),
       date: NewDate,
     };
 
-    console.log(currentUserName.displayName);
+    console.log(nickName.displayName);
 
     if (!authService.currentUser) {
       confirmAlert({
