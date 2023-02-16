@@ -1,13 +1,8 @@
 import { onAuthStateChanged, updateProfile } from 'firebase/auth';
-import {
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  uploadString,
-} from 'firebase/storage';
+
 import React, { useEffect, useRef, useState } from 'react';
 import { RiFolderUserFill } from 'react-icons/ri';
-import { authService, db, storage } from '../../../common/firebase';
+import { authService, db } from '../../../common/firebase';
 import {
   MyProfileBody,
   ProfileSection,
@@ -31,20 +26,17 @@ import {
   TechBodyTitle,
   TechBodyImage,
   ProfileFooterBody,
-  ProfileCompleteBtn,
   ProfileStackBtn,
 } from './ProfileStyle';
 import {
   collection,
   doc,
   onSnapshot,
-  orderBy,
   query,
   updateDoc,
   where,
 } from '@firebase/firestore';
 import { useNavigate } from 'react-router';
-import { useQuery } from 'react-query';
 
 const Profile = () => {
   // 네이게이트
@@ -89,7 +81,6 @@ const Profile = () => {
       setStaclIsRemote(newInfo[0]?.moreInfo.u_isRemote);
       setStackPlace(newInfo[0]?.moreInfo.u_location);
       setStackTime(newInfo[0]?.moreInfo.u_time);
-      console.log('유저정보', newInfo);
     });
 
     return unsubscribe;
@@ -248,7 +239,9 @@ const Profile = () => {
         </ProfileMiddleSection>
 
         <ProfileFooterBody>
-          <ProfileStackBtn onClick={EditStackBtn}>맞춤정보</ProfileStackBtn>
+          <ProfileStackBtn onClick={EditStackBtn}>
+            맞춤정보 수정
+          </ProfileStackBtn>
         </ProfileFooterBody>
       </ProfileSection>
     </MyProfileBody>
