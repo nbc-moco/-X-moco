@@ -49,22 +49,13 @@ const MateWrite = () => {
   const [postId, setPostId] = useState('5PCFPb2hSQt9Sq8nFL5c');
 
   // 유저 닉네임 - 프로필 가져오기 함수
-  const getUserInfo = async () => {
-    const q = await query(
-      collection(db, 'user'),
-      where('uid', '==', currentUser.uid),
-    );
-    getDocs(q).then((querySnapshot) => {
-      const user = [];
-      querySnapshot.forEach((doc) => {
-        user.push({
-          nickName: doc.data().nickname,
-          profileImg: doc.data().profileImg,
-        });
-      });
-      setNickName(user[0].nickName);
-      setGetProfileImg(user[0].profileImg);
-    });
+  const getUserInfo = () => {
+    if (currentUser !== null) {
+      const displayName = currentUser.displayName;
+      const photoURL = currentUser.photoURL;
+      setNickName(displayName);
+      setGetProfileImg(photoURL);
+    }
   };
 
   // 기술 스택 선택 핸들러 함수
