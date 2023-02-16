@@ -19,6 +19,7 @@
     "react-confirm-alert": "^3.0.6",
     "react-dom": "^18.2.0",
     "react-draft-wysiwyg": "^1.15.0",
+    "react-firebase-hooks": "^5.1.1",
     "react-icons": "^4.7.1",
     "react-query": "^3.39.3",
     "react-quill": "^2.0.0",
