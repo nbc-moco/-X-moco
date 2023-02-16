@@ -22,7 +22,7 @@ const HomeNewMeetingList = ({ testList }) => {
             <AiOutlineArrowLeft size="36" />
           </NewMeetingArrow>
         <NewMeetingCardBox>
-          {testList.map((a, index) => (
+          {testList.slice(0,4).map((a, index) => (
             <CardSection key={index} />
           ))}
         </NewMeetingCardBox>

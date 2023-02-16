@@ -10,12 +10,12 @@ const LocationMeeting = ({ testList }) => {
                 <LocationTitle>
                     지역이 맞는 모임
                 </LocationTitle>
-                <MeetingMoreBox>
+                {/* <MeetingMoreBox>
                     더보기 <MdExpandMore size="16" />
-                </MeetingMoreBox>
+                </MeetingMoreBox> */}
             </MeetingTitleBox>
             <LocationMeetingCardBox>
-            {testList.map((a, index) => (
+            {testList.slice(0,4).map((a, index) => (
                 <CardSection key={index} />
             ))}
             </LocationMeetingCardBox>

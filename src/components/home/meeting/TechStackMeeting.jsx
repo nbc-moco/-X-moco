@@ -9,12 +9,12 @@ const TechStackMeeting = ({ testList }) => {
                 <TechStackMeetingTitle>
                     기술 스택에 맞는 모임
                 </TechStackMeetingTitle>
-                <MeetingMoreBox>
+                {/* <MeetingMoreBox>
                     더보기 <MdExpandMore size="16" />
-                </MeetingMoreBox>
+                </MeetingMoreBox> */}
             </MeetingTitleBox>
             <MeetingCardBox>
-                {testList.map((a, index) => (
+                {testList.slice(0,4).map((a, index) => (
                     <CardSection key={index} />
                 ))}
             </MeetingCardBox>
