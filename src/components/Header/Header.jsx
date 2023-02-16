@@ -15,7 +15,14 @@ import {
   HeaderIcon,
   LoginRoute,
   HeaderImage,
+  HeaderDropDownListBox,
+  HeaderDropDownList,
+  HeaderImageBox,
+  HeaderImageText,
+  HeaderDropDownListSection,
+  DropDownListBody,
 } from './style';
+import { BsPersonFill } from 'react-icons/bs';
 
 const Header = () => {
   // 헤더 로그인 토글
@@ -26,6 +33,15 @@ const Header = () => {
 
   // 헤더 프로필 이미지
   const [headerProfile, setHeaderProfile] = useState('');
+
+  // 헤더 닉네임
+  const [headerNickName, setHeaderNickName] = useState('');
+
+  // 드랍다운
+  const [dropDownClick, setDropDownClick] = useState(false);
+
+  // 헤더 드랍다운 생성유뮤
+  const [isUserDropDown, setIsUserDropDown] = useState(false);
 
   // 유저 정보 가져오기
   const [profileUserInfo, setProfileUserInfo] = useState([]);
@@ -41,6 +57,7 @@ const Header = () => {
         ...doc.data(),
       }));
       setProfileUserInfo(newInfo);
+      console.log(newInfo);
     });
     return unsubscribe;
   };
@@ -48,13 +65,16 @@ const Header = () => {
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {
+        setIsUserDropDown(true);
         setLoginToggle(false);
         setHeaderMyPage(true);
         setHeaderProfile(authService.currentUser.photoURL);
+        setHeaderNickName(authService.currentUser.displayName);
         getUserStackInfo();
       } else if (!user) {
         setLoginToggle(true);
         setHeaderMyPage(false);
+        setIsUserDropDown(false);
       }
     });
   }, []);
@@ -69,13 +89,17 @@ const Header = () => {
     navigate('/mypage');
   };
 
+  // 헤더 로그인 페이지로 이동
   const navigateLoginPage = () => {
     if (loginToggle === true) {
       navigate('/login');
-    } else if (loginToggle === false) {
-      authService.signOut();
-      navigate('/');
     }
+  };
+
+  // 로그아웃
+  const HeaderLogOut = () => {
+    authService.signOut();
+    window.location.replace('/');
   };
 
   const navigateMate = () => [navigate('/mate')];
@@ -84,6 +108,14 @@ const Header = () => {
   const locationNow = useLocation();
   if (locationNow.pathname === '/login' || locationNow.pathname === '/signup')
     return null;
+
+  const dropDownHandler = () => {
+    if (dropDownClick === false) {
+      setDropDownClick(true);
+    } else {
+      setDropDownClick(false);
+    }
+  };
 
   return (
     <HeaderBody>
@@ -94,9 +126,53 @@ const Header = () => {
         </LogoAndMateBox>
         <TeamAndLoginBox>
           <MakeTeam>팀 개설하기</MakeTeam>
-          <HeaderIcon />
+          {/* <HeaderIcon /> */}
+          <div onClick={dropDownHandler}>
+            {dropDownClick ? (
+              <>
+                {isUserDropDown ? (
+                  <NavigateMypage>
+                    <BsPersonFill style={{ fontSize: '40px' }} />
+                  </NavigateMypage>
+                ) : (
+                  ''
+                )}
+                <HeaderDropDownListBox style={{ position: 'absolute' }}>
+                  <HeaderImageBox>
+                    <HeaderImage
+                      src={
+                        profileUserInfo[0]?.profileImg
+                          ? profileUserInfo[0].profileImg
+                          : 'https://imhannah.me/common/img/default_profile.png'
+                      }
+                      alt=""
+                    />
+                    <HeaderImageText>
+                      안녕하세요, {headerNickName}님!
+                    </HeaderImageText>
+                  </HeaderImageBox>
+                  <HeaderDropDownListSection>
+                    <DropDownListBody>
+                      <HeaderDropDownList>하고싶은거</HeaderDropDownList>
+                    </DropDownListBody>
 
-          <NavigateMypage>
+                    <DropDownListBody onClick={navigateMyPage}>
+                      <HeaderDropDownList>마이페이지</HeaderDropDownList>
+                    </DropDownListBody>
+                    <DropDownListBody onClick={HeaderLogOut}>
+                      <HeaderDropDownList>로그아웃</HeaderDropDownList>
+                    </DropDownListBody>
+                  </HeaderDropDownListSection>
+                </HeaderDropDownListBox>
+              </>
+            ) : (
+              <NavigateMypage>
+                <BsPersonFill style={{ fontSize: '40px' }} />
+              </NavigateMypage>
+            )}
+          </div>
+
+          {/* <NavigateMypage>
             {headerMyPage ? (
               <HeaderImage
                 src={
@@ -110,9 +186,15 @@ const Header = () => {
               ''
             )}
           </NavigateMypage>
-
+          <div>
+            <ui>
+              <li>1</li>
+              <li>2</li>
+              <li>3</li>
+            </ui>
+          </div> */}
           <LoginRoute onClick={navigateLoginPage}>
-            {loginToggle ? '로그인' : '로그아웃'}
+            {loginToggle ? '로그인' : ''}
           </LoginRoute>
         </TeamAndLoginBox>
 

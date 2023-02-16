@@ -1,13 +1,8 @@
 import { onAuthStateChanged, updateProfile } from 'firebase/auth';
-import {
-  getDownloadURL,
-  ref,
-  uploadBytes,
-  uploadString,
-} from 'firebase/storage';
+
 import React, { useEffect, useRef, useState } from 'react';
 import { RiFolderUserFill } from 'react-icons/ri';
-import { authService, db, storage } from '../../../common/firebase';
+import { authService, db } from '../../../common/firebase';
 import {
   MyProfileBody,
   ProfileSection,
@@ -86,7 +81,6 @@ const Profile = () => {
       setStaclIsRemote(newInfo[0]?.moreInfo.u_isRemote);
       setStackPlace(newInfo[0]?.moreInfo.u_location);
       setStackTime(newInfo[0]?.moreInfo.u_time);
-      console.log('유저정보', newInfo);
     });
 
     return unsubscribe;

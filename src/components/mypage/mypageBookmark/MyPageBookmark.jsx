@@ -10,9 +10,7 @@ const MyPageBookmark = () => {
   return (
     <MyBookmarkBody>
       <MyBookmarkTitle>스크랩</MyBookmarkTitle>
-      <MyBookmarkList>
-        <CardSection />
-      </MyBookmarkList>
+      <MyBookmarkList>{/* <CardSection /> */}</MyBookmarkList>
     </MyBookmarkBody>
   );
 };
