@@ -9,24 +9,24 @@ const CardSection = ({ item }) => {
   return (
     <PostCard>
       <BookmarkIconBox>
-        <Location>{item.partyLocation}</Location>
+        <Location>{/* {item.partyLocation} */}</Location>
         <BsBookmarkHeart cursor="pointer" size="20px" />
       </BookmarkIconBox>
 
       <PostBox>
-        <PostTitle>{item.partyPostTitile}</PostTitle>
-        <PostDesc>{item.partyDesc}</PostDesc>
+        <PostTitle>{/* {item.partyPostTitile} */}</PostTitle>
+        <PostDesc>{/* {item.partyDesc} */}</PostDesc>
         <TechStackIcon></TechStackIcon>
       </PostBox>
 
       <PartyStatusBox>
         <RecruitingBox>
           <BsPower color="green" size="15px" />
-          <Recruiting>{item.partyIsOpen}</Recruiting>
+          <Recruiting>{/* {item.partyIsOpen} */}</Recruiting>
         </RecruitingBox>
         <HeadCountBox>
           <BsPeopleFill size="15px" />
-          <HeadCount>{item.partyNum}</HeadCount>
+          <HeadCount>{/* {item.partyNum} */}</HeadCount>
         </HeadCountBox>
       </PartyStatusBox>
 
@@ -35,7 +35,7 @@ const CardSection = ({ item }) => {
       <PostInfo>
         <ProfileBox>
           <ProfileImage></ProfileImage>
-          <NickName>{item.nickName}</NickName>
+          <NickName>{/* {item.nickName} */}</NickName>
         </ProfileBox>
         <InfoBox>
           <GrFormView size="24px" />

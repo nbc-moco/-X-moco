@@ -53,6 +53,9 @@ const SignUp = () => {
 
   const navigate = useNavigate();
 
+  // 로딩중일때
+  const [loding, setLoding] = useState(false);
+
   //  유효성 검사
   const validateInputs = () => {
     if (!email) {
@@ -100,21 +103,20 @@ const SignUp = () => {
 
     createUserWithEmailAndPassword(authService, email, password)
       .then((res) => {
+        setLoding(true);
         if (authService.currentUser)
-          updateProfile(authService.currentUser, {
-            displayName: nickName,
+          setDoc(doc(db, 'user', res.user.uid), {
+            uid: res.user.uid,
+            email: email,
+            profileImg: 'https://imhannah.me/common/img/default_profile.png',
           });
 
-        setDoc(doc(db, 'user', res.user.uid), {
-          uid: res.user.uid,
-          email: email,
-          password: password,
-          nickname: nickName,
-          bookmarkId: [],
-          profileImg:
-            'https://hola-post-image.s3.ap-northeast-2.amazonaws.com/default.PNG',
+        updateProfile(authService.currentUser, {
+          displayName: nickName,
         });
+
         console.log('회원가입성공');
+        setLoding(false);
         setEmail('');
         setPassword('');
         setCheckPassword('');
@@ -122,7 +124,7 @@ const SignUp = () => {
         navigate('/');
       })
       .catch((err) => {
-        console.log('err.message:', err.message);
+        setLoding(false);
         if (err.message.includes('already-in-use')) {
           setWarningText('이미 사용중인 아이디입니다.');
         }
@@ -192,7 +194,9 @@ const SignUp = () => {
           <LouteSignUpPageBtn onClick={navigationLoginPage}>
             로그인 화면으로
           </LouteSignUpPageBtn>
-          <SignUpBtn onClick={handleSignUp}>회원가입</SignUpBtn>
+          <SignUpBtn onClick={handleSignUp} disabled={loding}>
+            회원가입
+          </SignUpBtn>
         </SignUpLouteBody>
       </SignUpForm>
     </SignUpBody>
