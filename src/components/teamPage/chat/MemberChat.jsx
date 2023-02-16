@@ -4,6 +4,7 @@ import MessageHeader from './MessageHeader';
 import MessageForm from './MessageForm';
 import { getDatabase, onValue, ref } from '@firebase/database';
 import MessageBox from './MessageBox';
+import { v4 } from 'uuid';
 
 export default function MemberChat() {
   // 스크롤
@@ -38,7 +39,7 @@ export default function MemberChat() {
       <SideWrapper>
         <ContentChatArea ref={scrollRef}>
           {AddMessage.map((team) => {
-            return <MessageBox key={team.teamId} team={team} />;
+            return <MessageBox key={v4()} team={team} />;
           })}
         </ContentChatArea>
         <hr />

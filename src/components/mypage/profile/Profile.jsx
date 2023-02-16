@@ -34,7 +34,6 @@ import {
   ProfileCompleteBtn,
   ProfileStackBtn,
 } from './ProfileStyle';
-import { v4 } from 'uuid';
 import {
   collection,
   doc,

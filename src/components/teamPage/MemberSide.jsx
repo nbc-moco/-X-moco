@@ -12,18 +12,38 @@ import {
   MembersInfoProfileTitle,
 } from './style';
 import { useEffect, useState } from 'react';
-import { authService } from '../../common/firebase';
+import { authService, db } from '../../common/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
 
 export default function MemberSide() {
   const [nickName, setNickName] = useState('');
   const [profileImg, setProfileImg] = useState('');
+
+  // 이미지 정보 가져오기
+  const [teamProfileUserInfo, setTeamProfileUserInfo] = useState([]);
+
+  const teamGetUserInfo = () => {
+    const q = query(
+      collection(db, 'user'),
+      where('uid', '==', authService.currentUser.uid),
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const newInfo = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setTeamProfileUserInfo(newInfo);
+    });
+    return unsubscribe;
+  };
 
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {
         setNickName(authService.currentUser.displayName);
         setProfileImg(authService.currentUser.photoURL);
+        teamGetUserInfo();
       } else if (!user) {
         return;
       }
@@ -38,7 +58,11 @@ export default function MemberSide() {
           <MemberInfoProfileTitle>프로필</MemberInfoProfileTitle>
           <MemberInfoProfile>
             <MemberInfoProfileImg
-              src={profileImg ? profileImg : '/assets/default_profile.png'}
+              src={
+                teamProfileUserInfo[0]?.profileImg
+                  ? teamProfileUserInfo[0].profileImg
+                  : 'https://imhannah.me/common/img/default_profile.png'
+              }
             />
             <MemberInfoProfileInfo>
               <MemberInfoProfileName>
@@ -50,7 +74,14 @@ export default function MemberSide() {
         </SideWrapper>
         <MembersInfoProfileTitle>팀원 (5)</MembersInfoProfileTitle>
         <MemberInfoProfile>
-          <MemberInfoProfileImg />
+          <MemberInfoProfileImg
+            src={
+              teamProfileUserInfo[0]?.profileImg
+                ? teamProfileUserInfo[0].profileImg
+                : 'https://imhannah.me/common/img/default_profile.png'
+            }
+          />
+
           <MemberInfoProfileInfo>
             <MemberInfoProfileName>정다인</MemberInfoProfileName>
             <MemberInfoProfilePosition>멤버 </MemberInfoProfilePosition>
