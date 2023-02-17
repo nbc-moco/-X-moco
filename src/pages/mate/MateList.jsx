@@ -8,6 +8,7 @@ import FilterTime from '../../shared/FilterTime';
 import FilterNumOfMember from '../../shared/FilterNumOfMember';
 import { db } from '../../common/firebase';
 import { query, onSnapshot, collection } from 'firebase/firestore';
+import { Link } from 'react-router-dom';
 
 const MateList = () => {
   const [cardAll, setCardAll] = useState([]);
@@ -52,7 +53,7 @@ const MateList = () => {
       <CardListContainer>
         <CardList>
           {cardAll.map((item) => (
-            <CardSection item={item} />
+            <CardSection key={item.id} item={item}></CardSection>
           ))}
         </CardList>
       </CardListContainer>

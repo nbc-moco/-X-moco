@@ -1,39 +1,45 @@
-import { collection, query, onSnapshot } from 'firebase/firestore';
+import { doc, getDoc } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { db } from './../../../../common/firebase';
+import { db } from './../../../common/firebase';
+import { useParams } from 'react-router-dom';
 
 const DetailRecruit = () => {
+  const { id } = useParams();
   const [post, setpost] = useState([]);
+
+  //useEffect에선 async사용할 수 없음
+  const getPost = async () => {
+    const q = doc(db, 'post', id);
+    const postData = await getDoc(q);
+    //비동기
+    setpost(postData.data());
+  };
+
   useEffect(() => {
-    const postCollectionRef = collection(db, 'post');
-    const q = query(postCollectionRef);
-    const getPost = onSnapshot(q, (snapshot) => {
-      const postData = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setpost(postData);
-    });
-    return getPost;
+    getPost();
   }, []);
+
   console.log(post);
+  console.log(id);
 
   return (
     <RecruitWrap>
       <RecruitArea>
         모임지역
-        <AreaDetail>서울시 마포구</AreaDetail>
+        <AreaDetail>{post.partyLocation}</AreaDetail>
       </RecruitArea>
       <RecruitDate>
         모임시간
-        <DateDetail>평일 오후</DateDetail>
+        <DateDetail>{post.partyTime}</DateDetail>
       </RecruitDate>
       <RecruitStack>
-        <StackDetail>기술 스택</StackDetail>
+        기술스택
+        <StackDetail>{post.Stack}</StackDetail>
       </RecruitStack>
       <RecruitCurrent>
-        <RecruitDetail>모집현황</RecruitDetail>
+        모집현황
+        <RecruitDetail>{post.partyNum}</RecruitDetail>
       </RecruitCurrent>
       <RecruitBtn>참여 신청</RecruitBtn>
     </RecruitWrap>
