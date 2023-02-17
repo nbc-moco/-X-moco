@@ -17,18 +17,24 @@ import {
   deleteDoc,
   setDoc,
   addDoc,
+  getDocs,
+  query,
+  where,
+  orderBy,
 } from 'firebase/firestore';
 import { authService, db } from '../../../common/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import { confirmAlert } from 'react-confirm-alert';
-// import AlertUI from '../../GlobalComponents/AlertUI/AlertUI';
+import AlertUI from './AlertUi';
 
-const AddComment = ({ user }) => {
+const AddComment = () => {
   const [commentText, setCommentText] = useState('');
-  const [createdDate, setcreatedDate] = useState('');
-  // const [changeColor, setChangeColor] = useState<string>(
-  //   'rgba(32, 82, 149, 0.6)',
-  // );
+  // 파베 인증
+  const currentUser = authService.currentUser;
+
+  // 유저 닉네임 - 프로필 가져오기 상태
+  const [nickName, setNickName] = useState('');
+  const [profileImg, setGetProfileImg] = useState('');
 
   const AddCommentTextChange = (e) => {
     setCommentText(e.target.value);
@@ -43,7 +49,7 @@ const AddComment = ({ user }) => {
         setCurrentUserName(authService.currentUser?.displayName);
         setCurrentUserUid(authService.currentUser?.uid);
       } else if (!user) {
-        console.log('로그인 안됨.');
+        console.log('로그인을 해주세요');
       }
     });
   }, [currentUserName, currentUserUid]);
@@ -51,29 +57,62 @@ const AddComment = ({ user }) => {
   // 데이터 올리기
   const NewDate = new Date().toLocaleDateString('kr');
 
+  // 유저 닉네임 - 프로필 가져오기 함수
+  const getUserInfo = async () => {
+    const q = query(
+      collection(db, 'user'),
+      where('uid', '==', currentUser.uid),
+      // 댓글 내림차순
+      orderBy('createdAt', 'desc'),
+    );
+    await getDocs(q).then((querySnapshot) => {
+      const user = [];
+      querySnapshot.forEach((doc) => {
+        user.push({
+          nickName: doc.data().nickname,
+          profileImg: doc.data().profileImg,
+        });
+      });
+      setNickName(user[0].nickName);
+      setGetProfileImg(user[0].profileImg);
+    });
+  };
+
+  // 모집
+
+  useEffect(() => {
+    if (!currentUser) return;
+    getUserInfo();
+    console.log(currentUser);
+  }, [currentUser]);
+
   const AddCommentButton = async (e) => {
     e.preventDefault();
     const newComment = {
       comment: commentText,
-      userName: user.nickname,
-      userId: user.uid,
+      userName: currentUser.displayName,
+      userId: currentUserUid,
       createdAt: new Date(),
       date: NewDate,
+      mateDetailId: '',
     };
+
+    console.log(nickName.displayName);
+
     if (!authService.currentUser) {
       confirmAlert({
         customUI: ({ onClose }) => {
-          //  return <AlertUI title={'로그인을 해주세요.'} onClose={onClose} />;
+          return <AlertUI title={'로그인을 해주세요.'} onClose={onClose} />;
         },
       });
       setCommentText('');
     } else if (commentText !== '') {
-      await addDoc(collection(db, 'comments'), newComment);
+      await addDoc(collection(db, 'comment'), newComment);
       setCommentText('');
     } else if (commentText === '') {
       confirmAlert({
         customUI: ({ onClose }) => {
-          //  return <AlertUI title={'댓글을 입력해주세요.'} onClose={onClose} />;
+          return <AlertUI title={'댓글을 입력해주세요.'} onClose={onClose} />;
         },
       });
     }
