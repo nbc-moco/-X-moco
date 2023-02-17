@@ -95,7 +95,6 @@ const Header = () => {
     }
   };
 
-<<<<<<< HEAD
   // 검색 기능
   const [word, setWord] = useState('');
   const onChangeSearch = (e) => {
@@ -106,7 +105,6 @@ const Header = () => {
   };
   
   // const navigateMate = () => [navigate('/mate')];
-=======
   // 로그아웃
   const HeaderLogOut = () => {
     authService.signOut();
@@ -115,7 +113,6 @@ const Header = () => {
 
   const navigateMate = () => [navigate('/mate')];
 
->>>>>>> d621669f0f9da5fe6afc9e0ee99b205f08d0d05c
   // 헤더 유무
   const locationNow = useLocation();
   if (locationNow.pathname === '/login' || locationNow.pathname === '/signup')
@@ -133,13 +130,8 @@ const Header = () => {
     <HeaderBody>
       <HeaderInfoBody>
         <LogoAndMateBox>
-<<<<<<< HEAD
-        <HeaderLogo onClick={navigateHome}>MOCO</HeaderLogo>
-        <MyCodingMate onClick={navigateMyPage}>내 코딩모임</MyCodingMate>
-=======
           <HeaderLogo onClick={navigateHome}>MOCO</HeaderLogo>
           <MyCodingMate>내 코딩모임</MyCodingMate>
->>>>>>> d621669f0f9da5fe6afc9e0ee99b205f08d0d05c
         </LogoAndMateBox>
         <div>
         <input onChange={onChangeSearch}/>
