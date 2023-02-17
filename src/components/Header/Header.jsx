@@ -143,7 +143,7 @@ const Header = () => {
         </button>
         </div>
         <TeamAndLoginBox>
-          <MakeTeam>팀 개설하기</MakeTeam>
+          <MakeTeam onClick={() => navigate('/write')}>팀 개설하기</MakeTeam>
           {/* <HeaderIcon /> */}
           <div onClick={dropDownHandler}>
             {dropDownClick ? (

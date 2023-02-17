@@ -14,8 +14,14 @@ import { times } from '../../data/times';
 import { opens } from '../../data/opens';
 import { db, authService } from '../../common/firebase';
 import { addDoc, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { useParams } from 'react-router-dom';
+// 이메일로 가입 시, 글 작성이 안 된다는 이슈가 있었음. 확인 요망.
 
-const MateWrite = () => {
+const MateEdit = () => {
+  const { id } = useParams();
+  const [postData, setPostData] = useState([]);
+  console.log(postData);
+
   // 파베 인증
   const currentUser = authService.currentUser;
   const quillRef = useRef(null);
@@ -49,6 +55,23 @@ const MateWrite = () => {
     }
   };
 
+  const getPostData = async () => {
+    const postRef = await doc(db, 'post', id);
+    getDoc(postRef)
+      .then((doc) => {
+        if (doc.exists()) {
+          console.log('Document data:', doc.data());
+          setPostData(doc.data());
+        } else {
+          // doc.data() will be undefined in this case
+          console.log('No such document!');
+        }
+      })
+      .catch((error) => {
+        console.log('Error getting document:', error);
+      });
+  };
+
   // 기술 스택 선택 핸들러 함수
   const handlePartyStack = (stack) => {
     if (partyStack.includes(stack)) {
@@ -64,66 +87,60 @@ const MateWrite = () => {
     setIsDisabled(!isDisabled);
   };
 
-  // 모집글 게시 함수
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      await addDoc(collection(db, 'post'), {
-        partyName,
-        partyStack,
-        partyTime,
-        partyNum,
-        partyLocation,
-        partyIsOpen,
-        isRemote,
-        partyPostTitile,
-        partyDesc,
-        nickName,
-        profileImg,
-        createdDate: now(),
-        postId: uuidv4(),
-        uid: currentUser.uid,
-        isDeleted: false,
-        createdAt: Date.now(),
-      });
-      console.log('업로드 성공');
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  console.log(postData.partyName);
+
+  // ! 모집글 수정 함수
+  // const handleEditPost = async () => {
+  //   try {
+  //     await updateDoc(doc(db, 'post', id), {
+  //       partyName: 'a',
+  //       partyStack: ['b', 'c', 'd'],
+  //       partyTime: 'c',
+  //       partyNum: 'd',
+  //       partyLocation: 'e',
+  //       partyIsOpen: 'f',
+  //       isRemote: 'g',
+  //       partyPostTitile: 'h',
+  //       partyDesc: 'i',
+  //     });
+  //     console.log('수정 성공');
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   useEffect(() => {
     if (!currentUser) return;
     getUserInfo();
+    getPostData();
     console.log(currentUser);
-  }, [currentUser]);
+  }, []);
 
   return (
     <WritePageContainer>
       <GuideTextsBox>
         <PageTitle>
-          <h2>모각코 모임 개설</h2>
+          <h2>모임 글 수정하기</h2>
         </PageTitle>
-        <PageInfo>
-          모임 개설을 위해 정보와 상세한 설명을 입력해주세요 🙌
-        </PageInfo>
       </GuideTextsBox>
-      <EditingBox onSubmit={handleSubmit}>
+      <EditingBox>
         <PartyInfoBox>
           <PartyTitleBox>
             <h3>모임명</h3>
             <PartyTitle
               type="text"
-              value={partyName}
+              // value={partyName}
               onChange={(e) => setPartyname(e.target.value)}
               maxLength={10}
-              placeholder="12자 이내로 작성해주세요"
+              placeholder={postData.partyName}
+              // defaultValue={postData.partyName}
             />
           </PartyTitleBox>
 
           <TechStackBox>
             <h3>기술스택</h3>
             <TechStacks>
+              {/* 기존 선택 기술을 어떻게 보여주지? */}
               {stacks.map((stack, idx) => (
                 <Tech
                   style={{
@@ -145,7 +162,7 @@ const MateWrite = () => {
               <h3 style={{ marginBottom: 20 }}>모임 시간대</h3>
               <Select
                 options={times}
-                placeholder={!partyTime ? '모임 시간대' : partyTime}
+                placeholder={!partyTime ? postData.partyTime : partyTime}
                 onChange={(time) => setPartyTime(time.value)}
                 value={partyTime}
               />
@@ -154,7 +171,7 @@ const MateWrite = () => {
               <h3 style={{ marginBottom: 20 }}>모집 인원</h3>
               <Select
                 options={people}
-                placeholder={!partyNum ? '모집 인원' : partyNum}
+                placeholder={!partyNum ? postData.partyNum : partyNum}
                 onChange={(num) => setPartyNum(num.value)}
                 value={partyNum}
               />
@@ -166,6 +183,7 @@ const MateWrite = () => {
               <h3 style={{ marginBottom: 20 }}>모집 여부</h3>
               <Select
                 options={opens}
+                // 모집 중 다시 보기
                 placeholder={partyIsOpen === true ? '모집 중' : '모집 완료'}
                 onChange={(open) => setPartyIsOpen(open.value)}
                 value={partyIsOpen}
@@ -176,12 +194,15 @@ const MateWrite = () => {
               <Checkbox
                 style={{ marginBottom: 20, marginLeft: 10 }}
                 onChange={handleisRemote}
+                defaultChecked={postData.isRemote}
               >
                 비대면을 원해요
               </Checkbox>
               <Select
                 options={locations}
-                placeholder={!partyLocation ? '모집 지역' : partyLocation}
+                placeholder={
+                  !partyLocation ? postData.partyLocation : partyLocation
+                }
                 onChange={(loc) => setPartyLocation(loc.value)}
                 value={partyLocation}
                 isDisabled={isDisabled}
@@ -195,14 +216,16 @@ const MateWrite = () => {
             <h3 style={{ marginBottom: 20 }}>모집글 제목</h3>
             <PostTitle
               type="text"
-              value={partyPostTitile}
+              // value={partyPostTitile}
               onChange={(e) => setPartyPostTitle(e.target.value)}
               placeholder="글 제목을 작성하세요"
+              defaultValue={postData.partyPostTitile}
             ></PostTitle>
           </PostTitleBox>
           <h3 style={{ marginBottom: 20 }}>모임 설명</h3>
           <ReactQuill
-            value={partyDesc}
+            defaultValue={postData.partyDesc}
+            // value={partyDesc}
             onChange={setPartyDesc}
             ref={quillRef}
             modules={{
@@ -230,7 +253,7 @@ const MateWrite = () => {
             }}
             type="submit"
           >
-            모집글 올리기
+            수정 완료하기
           </WriteButton>
         </WriteButtonBox>
       </EditingBox>
@@ -238,7 +261,7 @@ const MateWrite = () => {
   );
 };
 
-export default MateWrite;
+export default MateEdit;
 
 const WritePageContainer = styled.div`
   max-width: 977px;
