@@ -14,7 +14,7 @@ const CardSection = ({ item }) => {
       </BookmarkIconBox>
 
       <PostBox>
-        <PostTitle>{item.partyTitile}</PostTitle>
+        <PostTitle>{item.partyPostTitile}</PostTitle>
         <PostDesc>{item.partyDesc}</PostDesc>
         <TechStackIcon></TechStackIcon>
       </PostBox>

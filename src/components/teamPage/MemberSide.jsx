@@ -12,28 +12,43 @@ import {
   MembersInfoProfileTitle,
 } from './style';
 import { useEffect, useState } from 'react';
-// 파이어베이서 파일에서 import 해온 db
-import { db } from '../../common/firebase';
-// db에 접근해서 데이터를 꺼내게 도와줄 친구들
-import { collection, getDocs } from 'firebase/firestore';
+import { authService, db } from '../../common/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import { collection, onSnapshot, query, where } from 'firebase/firestore';
 
 export default function MemberSide() {
-  // 이따가 users 추가하고 삭제하는거 진행을 도와줄 state
-  const [users, setUsers] = useState([]);
-  // db의 users 컬렉션을 가져옴
-  const usersCollectionRef = collection(db, 'users');
+  const [nickName, setNickName] = useState('');
+  const [profileImg, setProfileImg] = useState('');
+
+  // 이미지 정보 가져오기
+  const [teamProfileUserInfo, setTeamProfileUserInfo] = useState([]);
+
+  const teamGetUserInfo = () => {
+    const q = query(
+      collection(db, 'user'),
+      where('uid', '==', authService.currentUser.uid),
+    );
+    const unsubscribe = onSnapshot(q, (snapshot) => {
+      const newInfo = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setTeamProfileUserInfo(newInfo);
+    });
+    return unsubscribe;
+  };
 
   useEffect(() => {
-    // 비동기로 데이터 받을준비
-    const getUsers = async () => {
-      // getDocs로 컬렉션안에 데이터 가져오기
-      const data = await getDocs(usersCollectionRef);
-      // users에 data안의 자료 추가. 객체에 id 덮어씌우는거
-      setUsers(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-
-    getUsers();
-  }, []);
+    onAuthStateChanged(authService, (user) => {
+      if (user) {
+        setNickName(authService.currentUser.displayName);
+        setProfileImg(authService.currentUser.photoURL);
+        teamGetUserInfo();
+      } else if (!user) {
+        return;
+      }
+    });
+  }, [nickName, profileImg]);
 
   return (
     <>
@@ -42,24 +57,31 @@ export default function MemberSide() {
         <SideWrapper>
           <MemberInfoProfileTitle>프로필</MemberInfoProfileTitle>
           <MemberInfoProfile>
-            {users.map((value) => {
-              return (
-                <>
-                  <MemberInfoProfileImg src={value.profileImg} />
-                  <MemberInfoProfileInfo>
-                    <MemberInfoProfileName>{value.name}</MemberInfoProfileName>
-                    <MemberInfoProfilePosition>
-                      {value.role}
-                    </MemberInfoProfilePosition>
-                  </MemberInfoProfileInfo>
-                </>
-              );
-            })}
+            <MemberInfoProfileImg
+              src={
+                teamProfileUserInfo[0]?.profileImg
+                  ? teamProfileUserInfo[0].profileImg
+                  : 'https://imhannah.me/common/img/default_profile.png'
+              }
+            />
+            <MemberInfoProfileInfo>
+              <MemberInfoProfileName>
+                {nickName ?? '익명'}
+              </MemberInfoProfileName>
+              <MemberInfoProfilePosition>팀장</MemberInfoProfilePosition>
+            </MemberInfoProfileInfo>
           </MemberInfoProfile>
         </SideWrapper>
         <MembersInfoProfileTitle>팀원 (5)</MembersInfoProfileTitle>
         <MemberInfoProfile>
-          <MemberInfoProfileImg />
+          <MemberInfoProfileImg
+            src={
+              teamProfileUserInfo[0]?.profileImg
+                ? teamProfileUserInfo[0].profileImg
+                : 'https://imhannah.me/common/img/default_profile.png'
+            }
+          />
+
           <MemberInfoProfileInfo>
             <MemberInfoProfileName>정다인</MemberInfoProfileName>
             <MemberInfoProfilePosition>멤버 </MemberInfoProfilePosition>

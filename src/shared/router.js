@@ -10,6 +10,7 @@ import MateDetail from './../pages/mate/MateDetail';
 import MateWrite from '../pages/mate/MateWrite';
 import OnboardingPage from '../pages/onboarding/OnboardingPage';
 import Search from '../pages/search/Search';
+import TeamPage from '../pages/teampage/TeamPage';
 
 const Router = () => {
   // path 이름은 보통 소문자로 하니, 저희도 소문자로 통일하겠습니다
@@ -22,7 +23,10 @@ const Router = () => {
         <Route path="/signup" element={<SignUp />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/matedetail" element={<MateDetail />} />
+        <Route path="/matedetail/:id" element={<MateDetail />} />
         <Route path="/onboarding" element={<OnboardingPage />} />
+        <Route path="/teampage" element={<TeamPage />} />
+        <Route path="/teampage/:id" element={<TeamPage />} />
         <Route path="/mate" element={<MateList />} />
         <Route path="/write" element={<MateWrite />} />
         <Route path="/search/:word" element={<Search />} />

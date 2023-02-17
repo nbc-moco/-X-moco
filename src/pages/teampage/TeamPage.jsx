@@ -1,57 +1,88 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import MemberSide from '../../components/teamPage/MemberSide';
+import MemberChat from '../../components/teamPage/chat/MemberChat';
+import { collection, query, onSnapshot } from 'firebase/firestore';
+import { authService, db } from '../../common/firebase';
+import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import ContentRule from './ContentRule';
+import ContentBoard from './ContentBoard';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function TeamPage() {
+  const { id } = useParams();
+  const [postList, setPostList] = useState([]);
+
+  useEffect(() => {
+    onAuthStateChanged(authService, (user) => {
+      if (user) {
+        const postCollectionRef = collection(db, 'post');
+        const q = query(postCollectionRef);
+        const getPost = onSnapshot(q, (snapshot) => {
+          const testPost = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setPostList(testPost);
+        });
+        return getPost;
+      }
+    });
+  }, []);
+
   return (
     <>
       <JustContainer>
         <WholeContainer>
           <MemberSide />
           <DashBoardContainer>
-            <DashboardHeaderWrap>
-              <DashboardTitle>논현동 불주먹 모임(파이썬 부신다)</DashboardTitle>
-              <ProjectBasicStatus>
-                <ProjectPlace>
-                  <ProjectPlaceTitlte>모임 장소</ProjectPlaceTitlte>
-                  <ProjectPlaceName>서울 논현동</ProjectPlaceName>
-                </ProjectPlace>
-                <ProjectPlace>
-                  <ProjectPlaceTitlte>모임 시간</ProjectPlaceTitlte>
-                  <ProjectPlaceName>월, 수 / PM 19:00~21:00</ProjectPlaceName>
-                </ProjectPlace>
-              </ProjectBasicStatus>
-            </DashboardHeaderWrap>
-            <ContentContainerR>
-              <ContentContainer>
-                <ContenRuleAndPlace>
-                  <ContentTitle>안녕</ContentTitle>
-                  <ContentRule></ContentRule>
-                  <ContentTitle>안녕</ContentTitle>
-                  <ContentPlace>
-                    <ContentPlaceCard>
-                      <PlaceCardTitle>좋은 장소</PlaceCardTitle>
-                      <PlaceCardText>개쩜</PlaceCardText>
-                    </ContentPlaceCard>
-                    <ContentPlaceCard>
-                      <PlaceCardTitle>좋은 장소</PlaceCardTitle>
-                      <PlaceCardText>개쩜</PlaceCardText>
-                    </ContentPlaceCard>
-                    <ContentPlaceCard>
-                      <PlaceCardTitle>좋은 장소</PlaceCardTitle>
-                      <PlaceCardText>개쩜</PlaceCardText>
-                    </ContentPlaceCard>
-                  </ContentPlace>
-                </ContenRuleAndPlace>
-              </ContentContainer>
-              <ContentChatContainer>
-                <ContentChat>
-                  <ContentTitle>안녕</ContentTitle>
-                  <ContentChatArea></ContentChatArea>
-                </ContentChat>
-              </ContentChatContainer>
-            </ContentContainerR>
+            {postList
+              .filter((item) => item.id === id)
+              .map((item) => {
+                return (
+                  <>
+                    <DashboardHeaderWrap>
+                      <DashboardTitle>{item.partyName}</DashboardTitle>
+                      <ProjectBasicStatus>
+                        <ProjectPlace>
+                          <ProjectPlaceTitlte>모임 장소</ProjectPlaceTitlte>
+                          <ProjectPlaceName>
+                            {item.partyLocation ? item.partyLocation : '비대면'}
+                          </ProjectPlaceName>
+                        </ProjectPlace>
+                        <ProjectPlace>
+                          <ProjectPlaceTitlte>모임 시간</ProjectPlaceTitlte>
+                          <ProjectPlaceName>
+                            {item.partyTime ? item.partyTime : '무관'}
+                          </ProjectPlaceName>
+                        </ProjectPlace>
+                      </ProjectBasicStatus>
+                    </DashboardHeaderWrap>
+                    <ContentContainerR>
+                      <ContentContainer>
+                        <ContenRuleAndPlace>
+                          <ContentTitle>📍 모임 장소</ContentTitle>
+                          <ContentCard>
+                            <PlaceCardTitle>좋은 장소</PlaceCardTitle>
+                            <PlaceCardText>개쩜</PlaceCardText>
+                          </ContentCard>
+                          <ContentTitle>📌 모임 공지</ContentTitle>
+                          <ContentRule />
+                        </ContenRuleAndPlace>
+                      </ContentContainer>
+                      <ContentChatContainer>
+                        <ContentChat>
+                          <ContentTitle>안녕</ContentTitle>
+                          <ContentBoard />
+                        </ContentChat>
+                      </ContentChatContainer>
+                    </ContentContainerR>
+                  </>
+                );
+              })}
           </DashBoardContainer>
+          <MemberChat />
         </WholeContainer>
       </JustContainer>
     </>
@@ -138,7 +169,7 @@ const ProjectPlaceName = styled.span`
 `;
 
 const ContentContainer = styled.div`
-  flex: 3;
+  flex: 2.5;
   margin: 10px;
 `;
 
@@ -147,17 +178,22 @@ const ContenRuleAndPlace = styled.div`
   flex-direction: column;
 `;
 
-const ContentRule = styled.div`
-  background-color: #31abbd;
+const ContentRuleee = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 250px;
+  height: 200px;
   padding: 30px;
   border-radius: 20px;
   align-self: stretch;
   overflow: hidden;
   position: relative;
+  padding-left: 8px;
+  font-size: 15px;
+  border: 1px solid rgb(150, 150, 150);
+  :focus-visible {
+    outline: none;
+  }
 `;
 
 const ContentTitle = styled.a`
@@ -167,21 +203,13 @@ const ContentTitle = styled.a`
   margin-top: 20px;
 `;
 
-const ContentPlace = styled.div`
-  display: grid;
-  width: 100%;
-  grid-template-columns: repeat(3, 1fr);
-  grid-column-gap: 20px;
-  grid-row-gap: 20px;
-`;
-
-const ContentPlaceCard = styled.div`
+const ContentCard = styled.div`
   position: relative;
   background-color: var(--video-bg);
   border-radius: 20px;
   overflow: hidden;
   transition: 0.4s;
-  height: 250px;
+  height: 200px;
   background-color: black;
 `;
 
@@ -203,17 +231,17 @@ const PlaceCardText = styled.p`
   position: relative;
 `;
 
-const ContentChat = styled.div`
-  margin-left: 10px;
-  display: flex;
-  flex-direction: column;
-`;
-
 const ContentContainerR = styled.div`
   display: flex;
   width: 100%;
   position: relative;
   overflow-x: hidden;
+`;
+
+const ContentChat = styled.div`
+  margin-left: 10px;
+  display: flex;
+  flex-direction: column;
 `;
 
 const ContentChatContainer = styled.div`
@@ -223,7 +251,7 @@ const ContentChatContainer = styled.div`
 
 const ContentChatArea = styled.div`
   width: 100%;
-  height: 560px;
+  height: 63vh;
   background-color: black;
   border-radius: 20px;
 `;
