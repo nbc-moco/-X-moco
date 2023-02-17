@@ -3,14 +3,14 @@ import LocationMeeting from "./LocationMeeting";
 import TechStackMeeting from "./TechStackMeeting";
 import TimeMeeting from "./TimeMeeting";
 
-const HomeMeetingList = ({ testList }) => {
+const HomeMeetingList = ({ recommendTechList, recommendTimeList, recommendLocationList }) => {
     return (
        <MeetingArea>
        <TechAndTimeMeetingArea>
-        <TechStackMeeting testList={testList} />
-        <TimeMeeting testList={testList} />
+        <TechStackMeeting recommendTechList={recommendTechList} />
+        <TimeMeeting recommendTimeList={recommendTimeList} />
        </TechAndTimeMeetingArea>
-       <LocationMeeting testList={testList} />
+       <LocationMeeting recommendLocationList={recommendLocationList} />
        </MeetingArea>
     );
 };
