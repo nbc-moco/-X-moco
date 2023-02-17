@@ -4,10 +4,16 @@ import { GrFormView } from 'react-icons/gr';
 import { FaRegCommentDots } from 'react-icons/fa';
 import { BsPeopleFill } from 'react-icons/bs';
 import { BsPower } from 'react-icons/bs';
+import { useNavigate } from 'react-router-dom';
 
 const CardSection = ({ item }) => {
+  const navigate = useNavigate();
+  const detailNavigate = () => {
+    navigate(`matedetail/${item.id}`);
+  };
+
   return (
-    <PostCard>
+    <PostCard onClick={detailNavigate}>
       <BookmarkIconBox>
         <Location>{item.partyLocation}</Location>
         <BsBookmarkHeart cursor="pointer" size="20px" />

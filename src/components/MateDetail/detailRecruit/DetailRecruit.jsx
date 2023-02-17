@@ -20,9 +20,6 @@ const DetailRecruit = () => {
     getPost();
   }, []);
 
-  console.log(post);
-  console.log(id);
-
   return (
     <RecruitWrap>
       <RecruitArea>

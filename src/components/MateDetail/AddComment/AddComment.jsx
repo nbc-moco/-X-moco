@@ -83,7 +83,6 @@ const AddComment = () => {
   useEffect(() => {
     if (!currentUser) return;
     getUserInfo();
-    console.log(currentUser);
   }, [currentUser]);
 
   const AddCommentButton = async (e) => {

@@ -8,7 +8,6 @@ import FilterTime from '../../shared/FilterTime';
 import FilterNumOfMember from '../../shared/FilterNumOfMember';
 import { db } from '../../common/firebase';
 import { query, onSnapshot, collection } from 'firebase/firestore';
-import { Link } from 'react-router-dom';
 
 const MateList = () => {
   const [cardAll, setCardAll] = useState([]);
@@ -60,7 +59,7 @@ const MateList = () => {
 
       {/* 페이지 */}
       <PaginationContainer>
-        <Pagination defaultCurrent={6} total={500} />
+        <Pagination defaultCurrent={1} total={30} />
       </PaginationContainer>
     </>
   );
