@@ -6,7 +6,7 @@ import HomeMeetingList from '../../components/home/meeting/HomeMeetingList';
 import HomeNewMeetingList from '../../components/home/meeting/newmeeting/HomeNewMeetingList';
 import { useQueries } from 'react-query';
 import { authService, db } from '../../common/firebase';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 
 const Home = () => {
   // user정보와 post정보 비교하여 추천(맞춤형) 리스트 구현
@@ -35,24 +35,30 @@ const Home = () => {
   const [userList, setUserList] = useState([]);
   // const [recommendList, setRecommendList] = useState([]);
   // const [currentUserData, setCurrentUserData] = useState([]);
-  const currentUserData = userList.filter((item) => item.uid === currentUser.uid)
+  const currentUserData = userList.filter((item) => item.uid === currentUser?.uid)
   const recommendTechList = postList.filter((item) =>
-    item.partyStack.includes(currentUserData[0].moreInfo.u_stack.toString())
+    !item.isDeleted &&
+    item.partyStack.includes(currentUserData[0]?.moreInfo?.u_stack.toString())
   );
   const recommendTimeList = postList.filter((item) =>
-    item.partyTime.includes(currentUserData[0].moreInfo.u_time)
+    !item.isDeleted &&
+    item.partyTime.includes(currentUserData[0]?.moreInfo?.u_time)
   );
   const recommendLocationList = postList.filter((item) =>
-    item.partyLocation.includes(currentUserData[0].moreInfo.u_location)
+    !item.isDeleted &&
+    item.partyLocation.includes(currentUserData[0]?.moreInfo?.u_location)
   );
+  
   console.log(recommendTechList);
-  // console.log(currentUserData[0].moreInfo.u_stack.toString())
   console.log(recommendTimeList);
   console.log(recommendLocationList);
   
   useEffect(() => {
     const postCollectionRef = collection(db, 'post');
-    const q = query(postCollectionRef);
+    const q = query(
+      postCollectionRef,
+      orderBy('createdAt', 'desc')
+      );
     const getPost = onSnapshot(q, (snapshot) => {
       const postData = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -63,6 +69,7 @@ const Home = () => {
     return getPost;
   },[])
   
+  //postList -> 로그인 안 됐을 시 안보이게
   useEffect(() => {
     const userCollectionRef = collection(db, 'user');
     const q = query(userCollectionRef);
@@ -75,8 +82,8 @@ const Home = () => {
     })
     return getUser;
   },[])
-  // console.log(postList)
-  // console.log(userList)
+  console.log(postList)
+  console.log(userList)
   
 
   
