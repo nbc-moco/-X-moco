@@ -95,6 +95,16 @@ const Header = () => {
     }
   };
 
+  // 검색 기능
+  const [word, setWord] = useState('');
+  const onChangeSearch = (e) => {
+    setWord(e.target.value);
+  }
+  const onSubmit = () => {
+    navigate(`/search/${word}`);
+  };
+  
+  // const navigateMate = () => [navigate('/mate')];
   // 로그아웃
   const HeaderLogOut = () => {
     authService.signOut();
@@ -106,7 +116,7 @@ const Header = () => {
   // 헤더 유무
   const locationNow = useLocation();
   if (locationNow.pathname === '/login' || locationNow.pathname === '/signup')
-    return null;
+    return null; 
 
   const dropDownHandler = () => {
     if (dropDownClick === false) {
@@ -123,6 +133,15 @@ const Header = () => {
           <HeaderLogo onClick={navigateHome}>MOCO</HeaderLogo>
           <MyCodingMate>내 코딩모임</MyCodingMate>
         </LogoAndMateBox>
+        <div>
+        <input onChange={onChangeSearch}/>
+        <button 
+          type='button'
+          onClick={onSubmit}
+        >
+          검색
+        </button>
+        </div>
         <TeamAndLoginBox>
           <MakeTeam>팀 개설하기</MakeTeam>
           {/* <HeaderIcon /> */}

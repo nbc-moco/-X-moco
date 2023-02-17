@@ -9,8 +9,27 @@ import {
   NewMeetingTitleBox,
 } from '../../../homestyle/homenewmeeting';
 import { AiOutlineArrowLeft, AiOutlineArrowRight } from "react-icons/ai";
+import { useQueries } from 'react-query';
+import { getPost, getUser } from '../../../../common/utils/getApi';
+import { useEffect } from 'react';
 
-const HomeNewMeetingList = ({ testList }) => {
+const HomeNewMeetingList = ({ postList }) => {
+  // const result = useQueries([
+  //   {
+  //     queryKey: ['user'],
+  //     queryFn: getUser
+  //   },
+  //   {
+  //     queryKey: ['post'],
+  //     queryFn: getPost
+  //   }
+  // ]);
+  // useEffect(() => {
+  //   console.log(result); // [{rune 정보, data: [], isSucces: true ...}, {spell 정보, data: [], isSucces: true ...}]
+  // const loadingFinishAll = result.some(result => result.isLoading);
+  // console.log(loadingFinishAll); // loadingFinishAll이 false이면 최종 완료
+  // }, [result])
+
   return (
     <NewMeetingArea>
       <NewMeetingListBox>
@@ -22,8 +41,11 @@ const HomeNewMeetingList = ({ testList }) => {
             <AiOutlineArrowLeft size="36" />
           </NewMeetingArrow>
         <NewMeetingCardBox>
-          {testList.map((a, index) => (
-            <CardSection key={index} />
+          {postList.slice(0,4).map((item) => (
+            <CardSection 
+              key={item.id} 
+              item={item}
+              />
           ))}
         </NewMeetingCardBox>
         <NewMeetingArrow>

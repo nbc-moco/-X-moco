@@ -1,11 +1,21 @@
 import styled from "@emotion/styled";
 
 /* HomeAllBtn */
-const AllBtnBox = styled.div`
-    width: 300px;
-    height: 50px;
-    border: 1px solid;
-    margin: 180px auto 0;
+export const AllBtnContainer = styled.div`
+    width: 100%;
+    height: 394px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 `
-
-export { AllBtnBox }
+export const AllBtnTitle = styled.div`
+    width: 152px;
+    height: 24px;
+    font-size: 20px;
+    font-weight: 600;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background-color: #f2f2f2;
+`
