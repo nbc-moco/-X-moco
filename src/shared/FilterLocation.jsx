@@ -1,25 +1,22 @@
 import Select from 'react-select';
 import { useState } from 'react';
+import { locations } from '../data/locations';
 
-const FilterLocation = ({isDisabled}) => {
-  const options = [
-    { value: '마포구', label: '마포구' },
-    { value: '용산구', label: '용산구' },
-    { value: '종로구', label: '종로구' },
-  ];
-  const [text, setText] = useState('');
-  console.log(text);
-  const handleSelect = (e) => {
-    setText(e);
+const FilterLocation = ({ isDisabled, onSelectedLoaction }) => {
+  const [selectedLocation, setSelectedLoaction] = useState('');
+  const handleSelect = (location) => {
+    setSelectedLoaction(location);
+    onSelectedLoaction(location);
   };
 
   return (
     <Select
-      options={options}
+      options={locations}
       placeholder="지역"
       onChange={handleSelect}
-      value={text}
+      value={selectedLocation}
       isDisabled={isDisabled}
+      isClearable={true}
     />
   );
 };

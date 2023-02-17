@@ -2,25 +2,22 @@
 
 import Select from 'react-select';
 import { useState } from 'react';
+import { people } from '../data/people';
 
-const FilterNumOfMember = () => {
-  const options = [
-    { value: '1명', label: '1명' },
-    { value: '2명', label: '2명' },
-    { value: '3명', label: '3명' },
-  ];
-  const [text, setText] = useState('');
-  console.log(text);
-  const handleSelect = (e) => {
-    setText(e);
+const FilterNumOfMember = ({ onSelectedPeople }) => {
+  const [selectedNum, setSelectedNum] = useState('');
+  const handleSelect = (numOfMember) => {
+    setSelectedNum(numOfMember);
+    onSelectedPeople(numOfMember);
   };
 
   return (
     <Select
-      options={options}
+      options={people}
       placeholder="제한 인원"
       onChange={handleSelect}
-      value={text}
+      value={selectedNum}
+      isClearable={true}
     />
   );
 };

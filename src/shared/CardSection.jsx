@@ -4,35 +4,50 @@ import { GrFormView } from 'react-icons/gr';
 import { FaRegCommentDots } from 'react-icons/fa';
 import { BsPeopleFill } from 'react-icons/bs';
 import { BsPower } from 'react-icons/bs';
-import { useNavigate } from 'react-router-dom';
+import { Tag } from 'antd';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { css } from '@emotion/react';
 
 const CardSection = ({ item }) => {
   const navigate = useNavigate();
-  const detailNavigate = () => {
-    navigate(`matedetail/${item.id}`);
+  const handeMoveToDetail = () => {
+    navigate(`/matedetail/${item.id}`);
   };
-
   return (
     <PostCard onClick={detailNavigate}>
       <BookmarkIconBox>
         <Location>{item.partyLocation}</Location>
+        <span>{item.bookmark}</span>
         <BsBookmarkHeart cursor="pointer" size="20px" />
       </BookmarkIconBox>
 
       <PostBox>
-        <PostTitle>{item.partyPostTitile}</PostTitle>
+        <PostTitle onClick={handeMoveToDetail}>
+          {item.partyPostTitile}
+        </PostTitle>
         <PostDesc>{item.partyDesc}</PostDesc>
-        <TechStackIcon></TechStackIcon>
+        <TechStackIcon>
+          {item.partyStack.map((item, idx) => (
+            <Tag key={idx} style={{ fontSize: 12 }} color="purple">
+              {item}
+            </Tag>
+          ))}
+        </TechStackIcon>
       </PostBox>
 
       <PartyStatusBox>
         <RecruitingBox>
-          <BsPower color="green" size="15px" />
-          <Recruiting>{item.partyIsOpen}</Recruiting>
+          <Recruiting>
+            {item.partyIsOpen === true ? (
+              <span style={{ color: 'green' }}>모집 중</span>
+            ) : (
+              <span style={{ color: 'red' }}>모집완료</span>
+            )}
+          </Recruiting>
         </RecruitingBox>
         <HeadCountBox>
           <BsPeopleFill size="15px" />
-          <HeadCount>{item.partyNum}</HeadCount>
+          <HeadCount>{`: 1 / ${item.partyNum}`}</HeadCount>
         </HeadCountBox>
       </PartyStatusBox>
 
@@ -93,6 +108,9 @@ const PostTitle = styled.div`
   height: 24px;
   cursor: pointer;
   font-size: 17px;
+  &:hover {
+    color: #531cab;
+  }
 `;
 
 const PostDesc = styled.div`
@@ -130,11 +148,11 @@ const Recruiting = styled.div`
 `;
 
 const TechStackIcon = styled.div`
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  background-image: url('https://images.velog.io/images/hang_kem_0531/post/05903636-878d-4e75-bf8b-aaddfcecbcce/js-logo.png');
-  background-size: cover;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 240px;
+  margin: 43px 0;
 `;
 
 const HorizontalLine = styled.div`

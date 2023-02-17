@@ -3,7 +3,7 @@
 
 import dayjs from 'dayjs';
 
-const DATE_FORMAT = 'YY.MM.DD';
+const DATE_FORMAT = 'YYYY.MM.DD';
 
 export const now = () => {
   const now = dayjs();
