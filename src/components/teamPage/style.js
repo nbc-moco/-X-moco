@@ -1,90 +1,122 @@
 import styled from '@emotion/styled';
 
 export const MemberSidebar = styled.div`
-  width: 220px;
+  width: 25%;
   height: 100%;
-  padding: 30px;
-  display: flex;
-  flex-direction: column;
-  flex-shrink: 0;
-  transition-duration: 0.2s;
-  overflow-y: auto;
-  overflow-x: hidden;
+
+  margin-top: 100px;
 `;
-
-export const MemberInfoTitle = styled.a`
-  text-decoration: none;
-  color: #fff;
-  font-size: 19px;
-  font-weight: 600;
-  line-height: 34px;
-  position: sticky;
-  top: 0;
-
-  &::after {
-    content: '';
-    position: absolute;
-    top: -30px;
-    left: 0;
-    background: var(--theme-bg);
-    width: 150px;
-    height: 270px;
-    z-index: -1;
-    background-color: black;
-  }
-`;
-
 export const SideWrapper = styled.div`
-  border-bottom: 1px solid var(--border-color);
-  padding: 36px 0;
-  width: 145px;
-  position: sticky;
-  top: 40px;
+  width: 100%;
+  height: 180px;
+`;
+
+export const MemberInfoTitle = styled.div`
+  font-size: 1.3rem;
+  font-weight: 600;
+
+  color: white;
+
+  text-align: center;
+  margin-top: 20px;
 `;
 
 export const MemberInfoProfileTitle = styled.div`
-  font-size: 12px;
-  letter-spacing: 0.07em;
-  margin-bottom: 24px;
+  width: 100%;
+
   color: white;
+
+  font-size: 1.2rem;
+  font-weight: 550;
+
+  margin-top: 30px;
+  margin-left: 20px;
+`;
+export const MemberInfoProfile = styled.div`
+  width: 100%;
+
+  margin-top: 20px;
+  margin-left: 20px;
+
+  display: flex;
+  align-items: center;
+`;
+
+export const MemberInfoProfileName = styled.div`
+  color: white;
+
+  font-size: 1.2rem;
+  font-weight: 550;
+
+  margin-left: 22px;
 `;
 
 export const MembersInfoProfileTitle = styled.div`
-  font-size: 12px;
-  letter-spacing: 0.07em;
-  margin-bottom: 24px;
+  width: 100%;
+
   color: white;
-  position: sticky;
-  top: 205px;
+
+  font-size: 1.2rem;
+  font-weight: 550;
+
+  margin-top: 30px;
+  margin-left: 20px;
 `;
 
-export const MemberInfoProfile = styled.div`
-  align-items: center;
+export const LeaderInfoProfile = styled.div`
+  width: 100%;
+
+  margin-top: 20px;
+  margin-left: 20px;
+`;
+
+export const HostBox = styled.div`
+  width: 100%;
+  height: 20px;
+`;
+
+export const MemberInfoHost = styled.img`
+  width: 20px;
+  height: 20px;
+
+  margin-left: 40px;
+`;
+
+export const LeaderBox = styled.div`
+  width: 100%;
+  height: 50px;
+
   display: flex;
-  min-width: 0;
-  margin-bottom: 20px;
+`;
+
+export const LeaderImgBox = styled.div`
+  height: 70px;
 `;
 
 export const MemberInfoProfileImg = styled.img`
-  height: 40px;
-  width: 40px;
-  border-radius: 100px;
-  border: 1px solid black;
-  object-fit: cover;
+  width: 50px;
+  height: 50px;
+
+  border-radius: 25px;
 `;
 
-export const MemberInfoProfileInfo = styled.div`
-  margin-left: 15px;
-  overflow: hidden;
-  color: #fff;
+export const LeaderProfileInfo = styled.div`
+  width: 100%;
+
+  margin-left: 22px;
+  margin-top: auto;
 `;
 
-export const MemberInfoProfileName = styled.p`
-  font-size: 13px;
+export const LeaderName = styled.div`
+  color: white;
+
+  font-size: 1.3rem;
+  font-weight: 600;
 `;
 
-export const MemberInfoProfilePosition = styled.p`
-  font-size: 13px;
-  display: flex;
-  margin-top: 2px;
+export const LeaderPosition = styled.div`
+  color: gray;
+
+  font-size: 1rem;
+  font-weight: 500;
 `;

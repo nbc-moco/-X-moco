@@ -14,19 +14,42 @@ export default function TeamPage() {
   const { id } = useParams();
   const [postList, setPostList] = useState([]);
 
+  //팀정보
+  const [testTeamList, setTestTeamList] = useState([]);
+
+  // 개인 정보 가져오기
+  const getMyInformation = () => {
+    const postCollectionRef = collection(db, 'post');
+    const q = query(postCollectionRef);
+    const getPost = onSnapshot(q, (snapshot) => {
+      const testPost = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setPostList(testPost);
+    });
+    return getPost;
+  };
+
+  // 팀 정보 가져오기
+  const getTeamInformation = () => {
+    const postCollectionRef = collection(db, 'testTeam');
+    const q = query(postCollectionRef);
+    const getPost = onSnapshot(q, (snapshot) => {
+      const testTeam = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setTestTeamList(testTeam[0]?.partyStack);
+    });
+    return getPost;
+  };
+
   useEffect(() => {
     onAuthStateChanged(authService, (user) => {
       if (user) {
-        const postCollectionRef = collection(db, 'post');
-        const q = query(postCollectionRef);
-        const getPost = onSnapshot(q, (snapshot) => {
-          const testPost = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          setPostList(testPost);
-        });
-        return getPost;
+        getMyInformation();
+        getTeamInformation();
       }
     });
   }, []);
@@ -37,50 +60,52 @@ export default function TeamPage() {
         <WholeContainer>
           <MemberSide />
           <DashBoardContainer>
-            {postList
+            {/* {postList
               .filter((item) => item.id === id)
               .map((item) => {
-                return (
-                  <>
-                    <DashboardHeaderWrap>
-                      <DashboardTitle>{item.partyName}</DashboardTitle>
-                      <ProjectBasicStatus>
-                        <ProjectPlace>
-                          <ProjectPlaceTitlte>모임 장소</ProjectPlaceTitlte>
-                          <ProjectPlaceName>
-                            {item.partyLocation ? item.partyLocation : '비대면'}
-                          </ProjectPlaceName>
-                        </ProjectPlace>
-                        <ProjectPlace>
-                          <ProjectPlaceTitlte>모임 시간</ProjectPlaceTitlte>
-                          <ProjectPlaceName>
-                            {item.partyTime ? item.partyTime : '무관'}
-                          </ProjectPlaceName>
-                        </ProjectPlace>
-                      </ProjectBasicStatus>
-                    </DashboardHeaderWrap>
-                    <ContentContainerR>
-                      <ContentContainer>
-                        <ContenRuleAndPlace>
-                          <ContentTitle>📍 모임 장소</ContentTitle>
-                          <ContentCard>
-                            <PlaceCardTitle>좋은 장소</PlaceCardTitle>
-                            <PlaceCardText>개쩜</PlaceCardText>
-                          </ContentCard>
-                          <ContentTitle>📌 모임 공지</ContentTitle>
-                          <ContentRule />
-                        </ContenRuleAndPlace>
-                      </ContentContainer>
-                      <ContentChatContainer>
-                        <ContentChat>
-                          <ContentTitle>안녕</ContentTitle>
-                          <ContentBoard />
-                        </ContentChat>
-                      </ContentChatContainer>
-                    </ContentContainerR>
-                  </>
-                );
-              })}
+            return ( */}
+            <>
+              <DashboardHeaderWrap>
+                <DashboardTitle>{testTeamList.partyName}</DashboardTitle>
+                <ProjectBasicStatus>
+                  <ProjectPlace>
+                    <ProjectPlaceTitlte>모임 장소</ProjectPlaceTitlte>
+                    <ProjectPlaceName>
+                      {testTeamList.partyLocation
+                        ? testTeamList.partyLocation
+                        : '비대면'}
+                    </ProjectPlaceName>
+                  </ProjectPlace>
+                  <ProjectPlace>
+                    <ProjectPlaceTitlte>모임 시간</ProjectPlaceTitlte>
+                    <ProjectPlaceName>
+                      {testTeamList.partyTime ? testTeamList.partyTime : '무관'}
+                    </ProjectPlaceName>
+                  </ProjectPlace>
+                </ProjectBasicStatus>
+              </DashboardHeaderWrap>
+              <ContentContainerR>
+                <ContentContainer>
+                  <ContenRuleAndPlace>
+                    <ContentTitle>📍 모임 장소</ContentTitle>
+                    <ContentCard>
+                      <PlaceCardTitle>좋은 장소</PlaceCardTitle>
+                      <PlaceCardText>개쩜</PlaceCardText>
+                    </ContentCard>
+                    <ContentTitle>📌 모임 공지</ContentTitle>
+                    <ContentRule />
+                  </ContenRuleAndPlace>
+                </ContentContainer>
+                <ContentChatContainer>
+                  <ContentChat>
+                    <ContentTitle>안녕</ContentTitle>
+                    <ContentBoard />
+                  </ContentChat>
+                </ContentChatContainer>
+              </ContentContainerR>
+            </>
+            {/* );
+            })} */}
           </DashBoardContainer>
           <MemberChat />
         </WholeContainer>

@@ -38,6 +38,7 @@ export default function ContentRule() {
     }
     convertChange();
   };
+
   return (
     <div>
       <TextAreaWrapper>

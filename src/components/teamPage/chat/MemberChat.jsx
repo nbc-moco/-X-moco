@@ -54,6 +54,8 @@ const ContentChatContainer = styled.div`
   height: 100%;
 
   padding: 30px;
+
+  margin-top: 100px;
 `;
 
 const ContentTitle = styled.div`
