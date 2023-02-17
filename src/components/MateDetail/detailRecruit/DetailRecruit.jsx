@@ -26,19 +26,19 @@ const DetailRecruit = () => {
   return (
     <RecruitWrap>
       <RecruitArea>
-        모임지역
+        <RecruitFont>모임지역</RecruitFont>
         <AreaDetail>{post.partyLocation}</AreaDetail>
       </RecruitArea>
       <RecruitDate>
-        모임시간
+        <RecruitFont>모임시간</RecruitFont>
         <DateDetail>{post.partyTime}</DateDetail>
       </RecruitDate>
       <RecruitStack>
-        기술스택
+        <RecruitFont>기술스택</RecruitFont>
         <StackDetail>{post.Stack}</StackDetail>
       </RecruitStack>
       <RecruitCurrent>
-        모집현황
+        <RecruitFont>모집현황</RecruitFont>
         <RecruitDetail>{post.partyNum}</RecruitDetail>
       </RecruitCurrent>
       <RecruitBtn>참여 신청</RecruitBtn>
@@ -62,14 +62,12 @@ const RecruitWrap = styled.div`
   top: 150px;
   right: 50px;
 `;
-const RecruitArea = styled.div`
-  width: 40%;
+const RecruitFont = styled.p`
   font-size: 12px;
   font-weight: 400;
 `;
+const RecruitArea = styled.div``;
 const AreaDetail = styled.p`
-  width: 60%;
-  padding: 20px;
   font-size: 16px;
   font-weight: 500;
 `;
