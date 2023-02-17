@@ -5,8 +5,14 @@ import { FaRegCommentDots } from 'react-icons/fa';
 import { BsPeopleFill } from 'react-icons/bs';
 import { BsPower } from 'react-icons/bs';
 import { Tag } from 'antd';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { css } from '@emotion/react';
 
 const CardSection = ({ item }) => {
+  const navigate = useNavigate();
+  const handeMoveToDetail = () => {
+    navigate(`/matedetail/${item.id}`);
+  };
   return (
     <PostCard>
       <BookmarkIconBox>
@@ -16,11 +22,13 @@ const CardSection = ({ item }) => {
       </BookmarkIconBox>
 
       <PostBox>
-        <PostTitle>{item.partyPostTitile}</PostTitle>
+        <PostTitle onClick={handeMoveToDetail}>
+          {item.partyPostTitile}
+        </PostTitle>
         <PostDesc>{item.partyDesc}</PostDesc>
         <TechStackIcon>
-          {item.partyStack.map((item) => (
-            <Tag style={{ fontSize: 12 }} color="purple">
+          {item.partyStack.map((item, idx) => (
+            <Tag key={idx} style={{ fontSize: 12 }} color="purple">
               {item}
             </Tag>
           ))}
@@ -100,6 +108,9 @@ const PostTitle = styled.div`
   height: 24px;
   cursor: pointer;
   font-size: 17px;
+  &:hover {
+    color: #531cab;
+  }
 `;
 
 const PostDesc = styled.div`

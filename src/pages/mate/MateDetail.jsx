@@ -4,8 +4,16 @@ import MateDetailWriting from '../../components/mateDetail/mateDetailWrite/MateD
 import DetailRecruit from '../../components/mateDetail/mateDetailWrite/detailRecruit/DetailRecruit';
 import AddComment from '../../components/mateDetail/addComment/AddComment';
 import CommentList from '../../components/mateDetail/commentList/CommentList';
+import { useParams } from 'react-router-dom';
 
 const MateDetail = () => {
+
+  
+
+
+
+
+
   return (
     <MateDetailWrap>
       <MateDetailContainer>

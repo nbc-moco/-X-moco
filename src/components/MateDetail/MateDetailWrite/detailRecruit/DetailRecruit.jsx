@@ -1,7 +1,7 @@
 import { collection, query, onSnapshot } from 'firebase/firestore';
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { db } from './../../../../common/firebase';
+import { db } from '../../../../common/firebase';
 
 const DetailRecruit = () => {
   const [post, setpost] = useState([]);

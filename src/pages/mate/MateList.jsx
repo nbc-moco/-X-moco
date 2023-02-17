@@ -83,6 +83,8 @@ const MateList = () => {
     DATA = DATA.sort((a, b) => b.createdAt - a.createdAt);
   }
 
+  console.log(DATA);
+
   useEffect(() => {
     getPostData();
   }, []);
@@ -118,8 +120,8 @@ const MateList = () => {
       {/* 카드 리스트 */}
       <CardListContainer>
         <CardList>
-          {DATA.map((item, idx) => (
-            <CardSection key={idx} item={item} />
+          {DATA.map((item) => (
+            <CardSection key={item.id} item={item} />
           ))}
         </CardList>
       </CardListContainer>
