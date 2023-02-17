@@ -3,28 +3,32 @@ import styled from '@emotion/styled';
 import MemberSide from '../../components/teamPage/MemberSide';
 import MemberChat from '../../components/teamPage/chat/MemberChat';
 import { collection, query, onSnapshot } from 'firebase/firestore';
-import { db } from '../../common/firebase';
+import { authService, db } from '../../common/firebase';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import ContentRule from './ContentRule';
 import ContentBoard from './ContentBoard';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function TeamPage() {
   const { id } = useParams();
   const [postList, setPostList] = useState([]);
 
   useEffect(() => {
-    const postCollectionRef = collection(db, 'post');
-    const q = query(postCollectionRef);
-    const getPost = onSnapshot(q, (snapshot) => {
-      const testPost = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
-      setPostList(testPost);
-      console.log('test', testPost);
+    onAuthStateChanged(authService, (user) => {
+      if (user) {
+        const postCollectionRef = collection(db, 'post');
+        const q = query(postCollectionRef);
+        const getPost = onSnapshot(q, (snapshot) => {
+          const testPost = snapshot.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+          }));
+          setPostList(testPost);
+        });
+        return getPost;
+      }
     });
-    return getPost;
   }, []);
 
   return (

@@ -9,6 +9,7 @@ import Home from './../pages/home/Home';
 import MateDetail from './../pages/mate/MateDetail';
 import MateWrite from '../pages/mate/MateWrite';
 import OnboardingPage from '../pages/onboarding/OnboardingPage';
+import Search from '../pages/search/Search';
 import TeamPage from '../pages/teampage/TeamPage';
 
 const Router = () => {
@@ -28,6 +29,7 @@ const Router = () => {
         <Route path="/teampage/:id" element={<TeamPage />} />
         <Route path="/mate" element={<MateList />} />
         <Route path="/write" element={<MateWrite />} />
+        <Route path="/search/:word" element={<Search />} />
       </Routes>
     </BrowserRouter>
   );
