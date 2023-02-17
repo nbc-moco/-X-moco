@@ -12,7 +12,6 @@ import {
   CommentIconBody,
   CommentUserName,
   CommentUserInput,
-  CommentPoliceBtn,
   CommentText,
   CommentTextIcon,
   CommentUpdateBtn,
@@ -60,7 +59,7 @@ const Comment = ({ user }) => {
   // 댓글 수정완료
   const completeHandler = async (user, comment) => {
     setEditBox(false);
-    await updateDoc(doc(db, 'comments', user.id), { comment: comment });
+    await updateDoc(doc(db, 'comment', user.id), { comment: comment });
     setToggleBtn(false);
   };
 
@@ -121,6 +120,7 @@ const Comment = ({ user }) => {
                       onClick={() => {
                         deleteHandler(user.id);
                       }}
+                      user={user}
                     >
                       삭제
                     </CommentDeleteBtn>

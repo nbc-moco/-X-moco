@@ -1,26 +1,26 @@
 import React from 'react';
 import styled from '@emotion/styled';
-// import MateDetailWriting from '../../components/mateDetail/MateDetailWrite/MateDetailWriting';
-import DetailRecruit from './../../components/MateDetail/DetailRecruit';
-// import Comment from './../../components/mateDetail/Comment/Comment';
-import AddComment from '../../components/MateDetail/AddComment/AddComment';
-import CommentList from '../../components/MateDetail/CommentList/CommentList';
+import MateDetailWriting from '../../components/mateDetail/mateDetailWrite/MateDetailWriting';
+import DetailRecruit from '../../components/mateDetail/mateDetailWrite/detailRecruit/DetailRecruit';
+import AddComment from '../../components/mateDetail/addComment/AddComment';
+import CommentList from '../../components/mateDetail/commentList/CommentList';
 
 const MateDetail = () => {
   return (
     <MateDetailWrap>
-      <MateDetailContainer>{/* <MateDetailWriting /> */}</MateDetailContainer>
+      <MateDetailContainer>
+        <MateDetailWriting />
+      </MateDetailContainer>
       <CommentWrap>
-        {/* 더미데이터 */}
         <CommentList />
         <AddComment />
-        {/* Editor 값 가져오기 */}
       </CommentWrap>
       <DetailRecruit />
     </MateDetailWrap>
   );
 };
 export default MateDetail;
+
 const MateDetailWrap = styled.section`
   display: flex;
   justify-content: center;
