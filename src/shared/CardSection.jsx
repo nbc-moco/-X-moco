@@ -14,7 +14,7 @@ const CardSection = ({ item }) => {
     navigate(`/matedetail/${item.id}`);
   };
   return (
-    <PostCard onClick={detailNavigate}>
+    <PostCard>
       <BookmarkIconBox>
         <Location>{item.partyLocation}</Location>
         <span>{item.bookmark}</span>
