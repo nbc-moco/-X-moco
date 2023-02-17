@@ -3,32 +3,30 @@ import styled from '@emotion/styled';
 import MemberSide from '../../components/teamPage/MemberSide';
 import MemberChat from '../../components/teamPage/chat/MemberChat';
 import { collection, query, onSnapshot } from 'firebase/firestore';
-import { authService, db } from '../../common/firebase';
+import { db } from '../../common/firebase';
 import { useParams } from 'react-router-dom';
 import { useEffect } from 'react';
 import ContentRule from './ContentRule';
 import ContentBoard from './ContentBoard';
-import { onAuthStateChanged } from 'firebase/auth';
+import TeamManage from '../../components/teamPage/TeamManage';
+import TeamPlace from './TeamPlace';
 
 export default function TeamPage() {
   const { id } = useParams();
   const [postList, setPostList] = useState([]);
 
   useEffect(() => {
-    onAuthStateChanged(authService, (user) => {
-      if (user) {
-        const postCollectionRef = collection(db, 'post');
-        const q = query(postCollectionRef);
-        const getPost = onSnapshot(q, (snapshot) => {
-          const testPost = snapshot.docs.map((doc) => ({
-            id: doc.id,
-            ...doc.data(),
-          }));
-          setPostList(testPost);
-        });
-        return getPost;
-      }
+    const postCollectionRef = collection(db, 'post');
+    const q = query(postCollectionRef);
+    const getPost = onSnapshot(q, (snapshot) => {
+      const testPost = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setPostList(testPost);
+      console.log('test', testPost);
     });
+    return getPost;
   }, []);
 
   return (
@@ -43,7 +41,12 @@ export default function TeamPage() {
                 return (
                   <>
                     <DashboardHeaderWrap>
-                      <DashboardTitle>{item.partyName}</DashboardTitle>
+                      <TitleManageWrap>
+                        <DashboardTitle>{item.partyName}</DashboardTitle>
+                        <JustWrap>
+                          <TeamManage />
+                        </JustWrap>
+                      </TitleManageWrap>
                       <ProjectBasicStatus>
                         <ProjectPlace>
                           <ProjectPlaceTitlte>모임 장소</ProjectPlaceTitlte>
@@ -62,18 +65,12 @@ export default function TeamPage() {
                     <ContentContainerR>
                       <ContentContainer>
                         <ContenRuleAndPlace>
-                          <ContentTitle>📍 모임 장소</ContentTitle>
-                          <ContentCard>
-                            <PlaceCardTitle>좋은 장소</PlaceCardTitle>
-                            <PlaceCardText>개쩜</PlaceCardText>
-                          </ContentCard>
-                          <ContentTitle>📌 모임 공지</ContentTitle>
+                          <TeamPlace />
                           <ContentRule />
                         </ContenRuleAndPlace>
                       </ContentContainer>
                       <ContentChatContainer>
                         <ContentChat>
-                          <ContentTitle>안녕</ContentTitle>
                           <ContentBoard />
                         </ContentChat>
                       </ContentChatContainer>
@@ -88,6 +85,17 @@ export default function TeamPage() {
     </>
   );
 }
+
+const TitleManageWrap = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const JustWrap = styled.div`
+  display: flex;
+  margin-left: auto;
+  justify-content: flex-end;
+`;
 
 const JustContainer = styled.div`
   font-family: var(--body-font);
@@ -128,7 +136,6 @@ const DashBoardContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 100vh;
 `;
 
 const DashboardHeaderWrap = styled.div`
@@ -178,24 +185,6 @@ const ContenRuleAndPlace = styled.div`
   flex-direction: column;
 `;
 
-const ContentRuleee = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 200px;
-  padding: 30px;
-  border-radius: 20px;
-  align-self: stretch;
-  overflow: hidden;
-  position: relative;
-  padding-left: 8px;
-  font-size: 15px;
-  border: 1px solid rgb(150, 150, 150);
-  :focus-visible {
-    outline: none;
-  }
-`;
-
 const ContentTitle = styled.a`
   font-size: 18px;
   font-weight: 700;
@@ -209,7 +198,7 @@ const ContentCard = styled.div`
   border-radius: 20px;
   overflow: hidden;
   transition: 0.4s;
-  height: 200px;
+  height: 25vh;
   background-color: black;
 `;
 
