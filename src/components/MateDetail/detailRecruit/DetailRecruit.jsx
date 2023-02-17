@@ -59,6 +59,7 @@ const RecruitWrap = styled.div`
   align-items: center;
   justify-content: space-between;
   position: fixed;
+  top: 150px;
   right: 50px;
 `;
 const RecruitArea = styled.div`
