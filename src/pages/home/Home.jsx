@@ -6,7 +6,7 @@ import HomeMeetingList from '../../components/home/meeting/HomeMeetingList';
 import HomeNewMeetingList from '../../components/home/meeting/newmeeting/HomeNewMeetingList';
 import { useQueries } from 'react-query';
 import { authService, db } from '../../common/firebase';
-import { collection, onSnapshot, query, where } from 'firebase/firestore';
+import { collection, onSnapshot, orderBy, query, where } from 'firebase/firestore';
 
 const Home = () => {
   // user정보와 post정보 비교하여 추천(맞춤형) 리스트 구현
@@ -55,7 +55,10 @@ const Home = () => {
   
   useEffect(() => {
     const postCollectionRef = collection(db, 'post');
-    const q = query(postCollectionRef);
+    const q = query(
+      postCollectionRef,
+      orderBy('createdAt', 'desc')
+      );
     const getPost = onSnapshot(q, (snapshot) => {
       const postData = snapshot.docs.map((doc) => ({
         id: doc.id,
