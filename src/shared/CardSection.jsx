@@ -4,7 +4,7 @@ import { GrFormView } from 'react-icons/gr';
 import { FaRegCommentDots } from 'react-icons/fa';
 import { BsPeopleFill } from 'react-icons/bs';
 import { BsPower } from 'react-icons/bs';
-import { Divider, Space, Tag } from 'antd';
+import { Tag } from 'antd';
 
 const CardSection = ({ item }) => {
   return (

@@ -62,7 +62,7 @@ const MateList = () => {
   if (selectedTech.length > 0) {
     DATA = DATA.filter((item) => item.partyStack.includes(selectedTechText));
   }
-  
+
   if (selectedLocation) {
     DATA = DATA.filter((item) => item.partyLocation === selectedLocation.value);
   }
