@@ -52,7 +52,7 @@ const MateList = () => {
         id: doc.id,
         ...doc.data(),
       }));
-      setCardAll(data);
+      setCardAll(data.filter((item) => item.isDeleted === false));
     });
   };
 
