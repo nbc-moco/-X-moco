@@ -32,8 +32,6 @@ const MateDetail = () => {
     }
   };
 
-  
-
   return (
     <MateDetailWrap>
       <MateDetailContainer>
