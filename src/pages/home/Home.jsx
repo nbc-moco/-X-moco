@@ -35,18 +35,21 @@ const Home = () => {
   const [userList, setUserList] = useState([]);
   // const [recommendList, setRecommendList] = useState([]);
   // const [currentUserData, setCurrentUserData] = useState([]);
-  const currentUserData = userList.filter((item) => item.uid === currentUser.uid)
+  const currentUserData = userList.filter((item) => item.uid === currentUser?.uid)
   const recommendTechList = postList.filter((item) =>
-    item.partyStack.includes(currentUserData[0].moreInfo.u_stack.toString())
+    !item.isDeleted &&
+    item.partyStack.includes(currentUserData[0]?.moreInfo?.u_stack.toString())
   );
   const recommendTimeList = postList.filter((item) =>
-    item.partyTime.includes(currentUserData[0].moreInfo.u_time)
+    !item.isDeleted &&
+    item.partyTime.includes(currentUserData[0]?.moreInfo?.u_time)
   );
   const recommendLocationList = postList.filter((item) =>
-    item.partyLocation.includes(currentUserData[0].moreInfo.u_location)
+    !item.isDeleted &&
+    item.partyLocation.includes(currentUserData[0]?.moreInfo?.u_location)
   );
+  
   console.log(recommendTechList);
-  // console.log(currentUserData[0].moreInfo.u_stack.toString())
   console.log(recommendTimeList);
   console.log(recommendLocationList);
   
@@ -63,6 +66,7 @@ const Home = () => {
     return getPost;
   },[])
   
+  //postList -> 로그인 안 됐을 시 안보이게
   useEffect(() => {
     const userCollectionRef = collection(db, 'user');
     const q = query(userCollectionRef);
@@ -75,8 +79,8 @@ const Home = () => {
     })
     return getUser;
   },[])
-  // console.log(postList)
-  // console.log(userList)
+  console.log(postList)
+  console.log(userList)
   
 
   
