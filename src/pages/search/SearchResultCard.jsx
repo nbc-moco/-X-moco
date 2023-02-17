@@ -26,7 +26,7 @@ const SearchResultCard = ( searchdata ) => {
         <Location>
             {searchdata.partyLocation}
         </Location>
-        <Location>{searchdata.partyTime}</Location>
+        {/* <Location>{searchdata.partyTime}</Location> */}
         <BsBookmarkHeart cursor="pointer" size="20px" />
       </BookmarkIconBox>
 
@@ -36,7 +36,7 @@ const SearchResultCard = ( searchdata ) => {
           {searchdata.partyDesc}
         </PostDesc>
         <TechStackIcon></TechStackIcon>
-        {searchdata.partyStack.map((a) => a.toString())}
+        {searchdata.partyStack.map((a)=>a)}
       </PostBox>
 
       <PartyStatusBox>

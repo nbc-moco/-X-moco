@@ -5,31 +5,28 @@ import { FaRegCommentDots } from 'react-icons/fa';
 import { BsPeopleFill } from 'react-icons/bs';
 import { BsPower } from 'react-icons/bs';
 
-const CardSection = () => {
+const CardSection = ({ item }) => {
   return (
     <PostCard>
       <BookmarkIconBox>
-        <Location>서울 중구</Location>
+        <Location>{item.partyLocation}</Location>
         <BsBookmarkHeart cursor="pointer" size="20px" />
       </BookmarkIconBox>
 
       <PostBox>
-        <PostTitle>모각코 하실 분 찾습니당</PostTitle>
-        <PostDesc>
-          야식은 치킨, 치킨은 황올임
-          sksksksksksksksksksksksksksksdfdfdfdfdfdfdfdfdfdfdfdfdfdfddd
-        </PostDesc>
+        <PostTitle>{item.partyTitile}</PostTitle>
+        <PostDesc>{item.partyDesc}</PostDesc>
         <TechStackIcon></TechStackIcon>
       </PostBox>
 
       <PartyStatusBox>
         <RecruitingBox>
           <BsPower color="green" size="15px" />
-          <Recruiting>모집 여부</Recruiting>
+          <Recruiting>{item.partyIsOpen}</Recruiting>
         </RecruitingBox>
         <HeadCountBox>
           <BsPeopleFill size="15px" />
-          <HeadCount>3/4</HeadCount>
+          <HeadCount>{item.partyNum}</HeadCount>
         </HeadCountBox>
       </PartyStatusBox>
 
@@ -38,7 +35,7 @@ const CardSection = () => {
       <PostInfo>
         <ProfileBox>
           <ProfileImage></ProfileImage>
-          <NickName>스티븐머큐</NickName>
+          <NickName>{item.nickName}</NickName>
         </ProfileBox>
         <InfoBox>
           <GrFormView size="24px" />

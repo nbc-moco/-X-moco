@@ -5,26 +5,26 @@ import { useQueries } from "react-query";
 import { getPost, getUser } from "../../../common/utils/getApi";
 import { useEffect } from "react";
 
-const LocationMeeting = () => {
-    const result = useQueries([
-        {
-          queryKey: ['user'],
-          queryFn: getUser
-        },
-        {
-          queryKey: ['post'],
-          queryFn: getPost
-        }
-      ]);
-      const recommendLocationList = result[1].data.filter((item) =>
-      item.partyLocation.includes(result[0].data[0].moreInfo.u_location)
-      );
-      console.log('추천장소', recommendLocationList)
-      useEffect(() => {
-        console.log(result); // [{rune 정보, data: [], isSucces: true ...}, {spell 정보, data: [], isSucces: true ...}]
-      const loadingFinishAll = result.some(result => result.isLoading);
-      console.log(loadingFinishAll); // loadingFinishAll이 false이면 최종 완료
-      }, [result])
+const LocationMeeting = ({ recommendLocationList }) => {
+    // const result = useQueries([
+    //     {
+    //       queryKey: ['user'],
+    //       queryFn: getUser
+    //     },
+    //     {
+    //       queryKey: ['post'],
+    //       queryFn: getPost
+    //     }
+    //   ]);
+    //   const recommendLocationList = result[1].data.filter((item) =>
+    //   item.partyLocation.includes(result[0].data[0].moreInfo.u_location)
+    //   );
+    //   console.log('추천장소', recommendLocationList)
+    //   useEffect(() => {
+    //     console.log(result); // [{rune 정보, data: [], isSucces: true ...}, {spell 정보, data: [], isSucces: true ...}]
+    //   const loadingFinishAll = result.some(result => result.isLoading);
+    //   console.log(loadingFinishAll); // loadingFinishAll이 false이면 최종 완료
+    //   }, [result])
     
 
     return (
@@ -39,8 +39,11 @@ const LocationMeeting = () => {
                 </MeetingMoreBox> */}
             </MeetingTitleBox>
             <LocationMeetingCardBox>
-            {recommendLocationList.slice(0,4).map((a, index) => (
-                <CardSection key={index} />
+            {recommendLocationList.slice(0,4).map((item) => (
+                <CardSection 
+                    key={item.id}
+                    item={item}
+                />
             ))}
             </LocationMeetingCardBox>
             </LocationMeetingArea>

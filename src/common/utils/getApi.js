@@ -33,8 +33,32 @@ export const getPost = async () => {
     })
     return postInfo;
 };
+// useEffect(()=>{
+  //   getPost();
+  // },[])
+  // useEffect(() => {
+  //   const postCollectionRef = collection(db, 'post');
+  //   const q = query(postCollectionRef);
+  //   const getPost = onSnapshot(q, (snapshot) => {
+  //     const postData = snapshot.docs.map((doc) => ({
+  //       id: doc.id,
+  //       ...doc.data(),
+  //     }));
+  //     setTestList(postData.filter((item) =>
+  //       // item.partyStack.some(i => i === "React") ||
+  //       // item.partyLocation.includes("용산구") ||
+  //       item.partyStack.includes("Python")
+  //     ))
+  //   })
+  //   return getPost;
+  // },[])
+
 
 // const { data, isLoading, isError, error} = useQuery('post', getUser)
+// const postData = useQuery('post', getPost)
+// const userData = useQuery('user', getUser)
+// console.log('작성글 데이터', postData.data)
+// console.log('유저 데이터', userData.data)
 
   // if (isLoading) {            // //return문 바로 위에 써주기
   //   return <div>로딩중</div>;
