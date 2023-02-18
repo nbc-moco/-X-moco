@@ -154,6 +154,8 @@ const DashBoardContainer = styled.div`
   flex-direction: column;
   width: 100%;
   height: 100vh;
+
+  margin-top: 100px;
 `;
 
 const DashboardHeaderWrap = styled.div`
