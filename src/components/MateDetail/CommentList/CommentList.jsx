@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { db } from '../../../common/firebase';
 import { collection, onSnapshot, query } from 'firebase/firestore';
-import Comment from '../comment/Comment';
+import Comment from '../Comment/Comment';
 import styled from '@emotion/styled';
 
 const CommentList = () => {
