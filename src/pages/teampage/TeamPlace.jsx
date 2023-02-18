@@ -5,6 +5,7 @@ import { getAuth } from 'firebase/auth';
 import { db } from '../../common/firebase';
 import { doc, updateDoc, getDoc } from 'firebase/firestore';
 import styled from '@emotion/styled';
+import TeamPlaceModal from '../../components/teamPage/TeamPlaceModal';
 
 export default function TeamPlace() {
   const { id } = useParams();
@@ -49,38 +50,41 @@ export default function TeamPlace() {
       }
     }
     convertChange();
+    // window.location.reload();
   };
 
-  const [address, setAddress] = useState(''); // 주소
+  const [modal, setModal] = useState(false);
+
+  // const [address, setAddress] = useState(''); // 주소
   const [addressDetail, setAddressDetail] = useState(''); // 상세주소
 
-  const currentUrl = window.location.href;
+  // const currentUrl = window.location.href;
 
-  const open = useDaumPostcodePopup(currentUrl);
+  // const open = useDaumPostcodePopup(currentUrl);
 
-  const handleComplete = (data) => {
-    let fullAddress = data.address;
-    let extraAddress = '';
+  // const handleComplete = (data) => {
+  //   let fullAddress = data.address;
+  //   let extraAddress = '';
 
-    if (data.addressType === 'R') {
-      if (data.bname !== '') {
-        extraAddress += data.bname;
-      }
-      if (data.buildingName !== '') {
-        extraAddress +=
-          extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
-      }
-      fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
-    }
+  //   if (data.addressType === 'R') {
+  //     if (data.bname !== '') {
+  //       extraAddress += data.bname;
+  //     }
+  //     if (data.buildingName !== '') {
+  //       extraAddress +=
+  //         extraAddress !== '' ? `, ${data.buildingName}` : data.buildingName;
+  //     }
+  //     fullAddress += extraAddress !== '' ? ` (${extraAddress})` : '';
+  //   }
 
-    setAddressDetail(fullAddress);
+  //   setAddressDetail(fullAddress);
 
-    // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
-  };
+  //   // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+  // };
 
-  const handleClick = () => {
-    open({ onComplete: handleComplete });
-  };
+  // const handleClick = () => {
+  //   open({ onComplete: handleComplete });
+  // };
 
   return (
     <>
@@ -98,10 +102,21 @@ export default function TeamPlace() {
         {convert ? (
           <>
             <ContentCard>
-              <PlaceBtn type="button" onClick={handleClick}>
+              <PlaceBtn
+                onClick={() => {
+                  setModal(!modal);
+                }}
+              >
                 주소를 등록해주세요!
               </PlaceBtn>
-              <p>{addressDetail}</p>
+              {modal == true ? (
+                <TeamPlaceModal
+                  modal={modal}
+                  onClose={() => {
+                    setModal(false);
+                  }}
+                />
+              ) : null}
             </ContentCard>
           </>
         ) : (
