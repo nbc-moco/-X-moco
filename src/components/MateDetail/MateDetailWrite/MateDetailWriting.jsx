@@ -30,8 +30,6 @@ const MateDetailWriting = () => {
     getPost();
   }, []);
 
-  console.log(post);
-  console.log(id);
   return (
     <>
       <GroupWrap>

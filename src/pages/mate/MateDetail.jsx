@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import MateDetailWriting from '../../components/mateDetail/MateDetailWrite/MateDetailWriting';
-import DetailRecruit from '../../components/mateDetail/MateDetailWrite/detailRecruit/DetailRecruit';
-import AddComment from '../../components/mateDetail/AddComment/AddComment';
-import CommentList from '../../components/mateDetail/CommentList/CommentList';
+import MateDetailWriting from '../../components/mateDetail/mateDetailWrite/MateDetailWriting';
+import DetailRecruit from './../../components/mateDetail/detailRecruit/DetailRecruit';
+import AddComment from '../../components/mateDetail/addComment/AddComment';
+import CommentList from '../../components/mateDetail/commentList/CommentList';
 import { db } from '../../common/firebase';
 import { doc, updateDoc } from 'firebase/firestore';
 import { useNavigate, useParams } from 'react-router-dom';

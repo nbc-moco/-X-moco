@@ -14,7 +14,7 @@ const CardSection = ({ item }) => {
     navigate(`/matedetail/${item.id}`);
   };
   return (
-    <PostCard>
+    <PostCard onClick={handeMoveToDetail}>
       <BookmarkIconBox>
         <Location>{item.partyLocation}</Location>
         <span>{item.bookmark}</span>
@@ -22,9 +22,7 @@ const CardSection = ({ item }) => {
       </BookmarkIconBox>
 
       <PostBox>
-        <PostTitle onClick={handeMoveToDetail}>
-          {item.partyPostTitile}
-        </PostTitle>
+        <PostTitle>{item.partyPostTitile}</PostTitle>
         <PostDesc>{item.partyDesc}</PostDesc>
         <TechStackIcon>
           {item.partyStack.map((item, idx) => (
